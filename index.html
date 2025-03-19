@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaMi Bags - Оформление заказа</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="app">
+            <!-- Шапка приложения -->
+            <header class="header">
+                <h1>VaMi Bags</h1>
+            </header>
+
+            <!-- Основной контент -->
+            <main>
+                <!-- Выбор продукта -->
+                <section id="product-selection" class="section">
+                    <h2>Выберите продукт</h2>
+                    <div class="product-grid">
+                        <div class="product-card" data-product="Сумка">
+                            <img src="images/bag.jpg" alt="Сумка">
+                            <h3>Сумка</h3>
+                        </div>
+                        <div class="product-card" data-product="Подстаканник">
+                            <img src="images/cup-holder.jpg" alt="Подстаканник">
+                            <h3>Подстаканник</h3>
+                        </div>
+                        <div class="product-card" data-product="Нестандартный заказ">
+                            <img src="images/custom.jpg" alt="Нестандартный заказ">
+                            <h3>Нестандартный заказ</h3>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Выбор размера (для сумки) -->
+                <section id="size-selection" class="section hidden">
+                    <h2>Выберите размер</h2>
+                    <div class="size-grid">
+                        <div class="size-card" data-size="S">S (микросумка)</div>
+                        <div class="size-card" data-size="M">M (влезает телефон и картхолдер)</div>
+                        <div class="size-card" data-size="L">L (на 5 см больше размера M)</div>
+                    </div>
+                </section>
+
+                <!-- Выбор формы (для сумки) -->
+                <section id="shape-selection" class="section hidden">
+                    <h2>Выберите форму</h2>
+                    <div class="shape-grid">
+                        <div class="shape-card" data-shape="Круглая">
+                            <img src="images/shapes/round.jpg" alt="Круглая">
+                            <h3>Круглая</h3>
+                        </div>
+                        <div class="shape-card" data-shape="Прямоугольная">
+                            <img src="images/shapes/rect.jpg" alt="Прямоугольная">
+                            <h3>Прямоугольная</h3>
+                        </div>
+                        <!-- Добавьте остальные формы -->
+                    </div>
+                </section>
+
+                <!-- Выбор материала -->
+                <section id="material-selection" class="section hidden">
+                    <h2>Выберите материал</h2>
+                    <div class="material-grid">
+                        <div class="material-card" data-material="Акрил">
+                            <img src="images/materials/acryl.jpg" alt="Акрил">
+                            <h3>Акрил</h3>
+                        </div>
+                        <div class="material-card" data-material="Хрусталь">
+                            <img src="images/materials/crystal.jpg" alt="Хрусталь">
+                            <h3>Хрусталь</h3>
+                        </div>
+                        <div class="material-card" data-material="Swarovski">
+                            <img src="images/materials/swarovski.jpg" alt="Swarovski">
+                            <h3>Swarovski</h3>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Выбор цвета -->
+                <section id="color-selection" class="section hidden">
+                    <h2>Выберите цвет</h2>
+                    <div class="color-grid">
+                        <div class="color-card" data-color="Белый" style="background-color: white;"></div>
+                        <div class="color-card" data-color="Чёрный" style="background-color: black;"></div>
+                        <div class="color-card" data-color="Синий" style="background-color: blue;"></div>
+                        <div class="color-card" data-color="Зелёный" style="background-color: green;"></div>
+                    </div>
+                </section>
+
+                <!-- Дополнительные опции -->
+                <section id="options-selection" class="section hidden">
+                    <h2>Дополнительные опции</h2>
+                    <div class="options-grid">
+                        <div class="option-card" data-option="Застёжка">
+                            <h3>Застёжка</h3>
+                        </div>
+                        <div class="option-card" data-option="Подклад">
+                            <h3>Подклад</h3>
+                        </div>
+                        <div class="option-card" data-option="Ручка-цепочка">
+                            <h3>Ручка-цепочка</h3>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Нестандартный заказ -->
+                <section id="custom-order" class="section hidden">
+                    <h2>Опишите ваш заказ</h2>
+                    <textarea id="custom-description" class="form-control" rows="4" placeholder="Опишите ваш заказ..."></textarea>
+                    <div class="photo-upload">
+                        <input type="file" id="photo-input" accept="image/*" multiple>
+                        <button class="btn btn-primary" onclick="document.getElementById('photo-input').click()">
+                            Добавить фото
+                        </button>
+                    </div>
+                    <div id="photo-preview" class="photo-preview"></div>
+                </section>
+
+                <!-- Предпросмотр заказа -->
+                <section id="order-preview" class="section hidden">
+                    <h2>Предпросмотр заказа</h2>
+                    <div id="preview-content"></div>
+                    <button class="btn btn-success" onclick="confirmOrder()">Подтвердить заказ</button>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 
