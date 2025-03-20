@@ -344,8 +344,14 @@ body {
 
 /* Анимации */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Индикатор прогресса */
@@ -367,35 +373,34 @@ body {
     animation: fadeIn 0.5s ease-out;
     position: relative;
     overflow: hidden;
+    opacity: 0;
+    transform: translateX(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .section.slide-left {
-    animation: slideLeft 0.5s ease-out;
+    opacity: 0;
+    transform: translateX(100%);
 }
 
 .section.slide-right {
-    animation: slideRight 0.5s ease-out;
+    opacity: 0;
+    transform: translateX(-100%);
 }
 
-@keyframes slideLeft {
+@keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideRight {
-    from {
-        opacity: 0;
-        transform: translateX(-100%);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
     }
 }
 
@@ -483,6 +488,13 @@ body {
     
     .btn {
         -webkit-tap-highlight-color: transparent;
+    }
+    
+    .section {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
     }
 }
 
@@ -839,4 +851,10 @@ button.loading::after {
         border-color: var(--primary-color-dark);
         box-shadow: 0 0 0 2px rgba(193, 154, 107, 0.2);
     }
+}
+
+/* Улучшения для производительности */
+.section {
+    will-change: transform, opacity;
+    transform: translateZ(0);
 } 

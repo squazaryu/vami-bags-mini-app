@@ -77,20 +77,30 @@ function showSection(sectionId, direction = 'right') {
     }
     
     // Удаляем классы анимации
-    currentSection.classList.remove('slide-left', 'slide-right');
-    nextSection.classList.remove('slide-left', 'slide-right');
+    currentSection.classList.remove('slide-left', 'slide-right', 'visible');
+    nextSection.classList.remove('slide-left', 'slide-right', 'visible');
     
     // Добавляем классы анимации
     currentSection.classList.add(direction === 'right' ? 'slide-left' : 'slide-right');
     nextSection.classList.add(direction === 'right' ? 'slide-right' : 'slide-left');
     
-    // Скрываем текущую секцию и показываем следующую
-    setTimeout(() => {
-        currentSection.classList.add('hidden');
-        nextSection.classList.remove('hidden');
-        state.currentSection = sectionId;
-        updateProgress();
-    }, 500);
+    // Показываем следующую секцию
+    nextSection.classList.remove('hidden');
+    
+    // Запускаем анимацию
+    requestAnimationFrame(() => {
+        currentSection.classList.add(direction === 'right' ? 'slide-left' : 'slide-right');
+        nextSection.classList.add(direction === 'right' ? 'slide-right' : 'slide-left');
+        
+        // После завершения анимации
+        setTimeout(() => {
+            currentSection.classList.add('hidden');
+            nextSection.classList.remove('slide-left', 'slide-right');
+            nextSection.classList.add('visible');
+            state.currentSection = sectionId;
+            updateProgress();
+        }, 300);
+    });
 }
 
 // Обновление предпросмотра заказа
