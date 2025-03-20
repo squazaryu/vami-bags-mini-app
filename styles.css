@@ -502,12 +502,21 @@ body {
 /* Позиционирование кнопок */
 .section {
     position: relative;
-    padding-bottom: 4rem;
+    padding-bottom: 5rem; /* Увеличиваем отступ для кнопок */
+    min-height: calc(100vh - 4rem); /* Учитываем высоту шапки */
 }
 
 .section button {
-    position: absolute;
+    position: fixed;
     bottom: 1rem;
+    z-index: 100;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
 }
 
 .back-button {
@@ -517,6 +526,20 @@ body {
 .next-button,
 .confirm-button {
     right: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+}
+
+/* Улучшения для iOS */
+@supports (-webkit-touch-callout: none) {
+    .section {
+        padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+    }
+    
+    .section button {
+        bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
 }
 
 /* Анимации для кнопок */
@@ -797,30 +820,4 @@ button.loading::after {
     to {
         transform: translate(-50%, -50%) rotate(360deg);
     }
-}
-
-/* Улучшения для кнопок навигации */
-.section {
-    position: relative;
-    padding-bottom: 5rem; /* Увеличиваем отступ для кнопок */
-}
-
-.section button {
-    position: fixed;
-    bottom: 1rem;
-    z-index: 100;
-    padding: 0.8rem 1.5rem;
-    border-radius: var(--border-radius);
-    font-weight: 500;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
-}
-
-.back-button {
-    left: 1rem;
-}
-
-.next-button,
-.confirm-button {
-    right: 1rem;
 } 

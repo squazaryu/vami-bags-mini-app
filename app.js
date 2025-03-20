@@ -1,6 +1,11 @@
 // Инициализация Telegram Web App
 let tg = window.Telegram.WebApp;
-tg.expand();
+try {
+    tg.expand();
+} catch (error) {
+    console.error('Error initializing Telegram Web App:', error);
+    handleError(new Error('Ошибка инициализации приложения'));
+}
 
 // Состояние приложения
 let state = {
