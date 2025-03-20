@@ -479,29 +479,25 @@ body {
     background-color: var(--secondary-color);
     color: var(--text-color);
     border: 1px solid var(--border-color);
+    font-weight: 500;
 }
 
 .back-button:hover {
     background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
-.next-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-}
-
-.next-button:hover {
-    opacity: 0.9;
-}
-
+.next-button,
 .confirm-button {
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-    width: 100%;
+    color: var(--text-color);
+    font-weight: 500;
 }
 
+.next-button:hover,
 .confirm-button:hover {
     opacity: 0.9;
+    color: var(--text-color);
 }
 
 /* Позиционирование кнопок */

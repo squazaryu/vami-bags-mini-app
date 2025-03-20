@@ -378,7 +378,12 @@ function handleImageUpload(event) {
 document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext);
 
 // Обработчик кнопки подтверждения заказа
-document.querySelector('#order-preview .confirm-button').addEventListener('click', submitOrder);
+document.addEventListener('DOMContentLoaded', function() {
+    const confirmButton = document.querySelector('#order-preview .confirm-button');
+    if (confirmButton) {
+        confirmButton.addEventListener('click', submitOrder);
+    }
+});
 
 // Обработчик кнопки "Далее" в секции контактных данных
 function handleContactInfoNext() {
