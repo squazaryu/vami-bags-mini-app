@@ -217,7 +217,15 @@ function confirmOrder() {
     
     // Формируем данные для отправки
     const orderData = {
-        ...state.order,
+        product: state.order.product,
+        size: state.order.size,
+        shape: state.order.shape,
+        material: state.order.material,
+        color: state.order.color,
+        options: state.order.options,
+        customDescription: state.order.customDescription,
+        photos: state.order.photos,
+        totalPrice: state.order.totalPrice,
         user_id: tg.initDataUnsafe.user?.id,
         username: tg.initDataUnsafe.user?.username,
         first_name: tg.initDataUnsafe.user?.first_name,
