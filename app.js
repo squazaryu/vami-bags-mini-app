@@ -231,17 +231,7 @@ document.querySelectorAll('.option-card').forEach(card => {
 });
 
 // Обработка загрузки фотографий
-document.getElementById('photo-input').addEventListener('change', (e) => {
-    const files = e.target.files;
-    for (let file of files) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            state.order.photos.push(e.target.result);
-            updatePreview();
-        };
-        reader.readAsDataURL(file);
-    }
-});
+document.getElementById('photo-input').addEventListener('change', handleImageUpload);
 
 // Обработка текстового описания
 document.getElementById('custom-description').addEventListener('input', (e) => {
@@ -256,6 +246,23 @@ async function confirmOrder() {
     try {
         setLoading(true);
         
+        // Валидация данных
+        if (!state.order.product) {
+            throw new Error('Пожалуйста, выберите продукт');
+        }
+        
+        if (state.order.product === 'Сумка') {
+            if (!state.order.size) throw new Error('Пожалуйста, выберите размер');
+            if (!state.order.shape) throw new Error('Пожалуйста, выберите форму');
+        }
+        
+        if (!state.order.material) throw new Error('Пожалуйста, выберите материал');
+        if (!state.order.color) throw new Error('Пожалуйста, выберите цвет');
+        
+        if (state.order.product === 'Нестандартный заказ' && !state.order.customDescription) {
+            throw new Error('Пожалуйста, опишите ваш заказ');
+        }
+        
         // Сначала показываем предпросмотр
         showSection('order-preview');
         
@@ -269,7 +276,7 @@ async function confirmOrder() {
             shape: state.order.shape,
             material: state.order.material,
             color: state.order.color,
-            options: state.order.options,
+            options: state.order.options || [],
             customDescription: state.order.customDescription,
             photos: state.order.photos,
             totalPrice: state.order.totalPrice,
@@ -289,6 +296,35 @@ async function confirmOrder() {
     } finally {
         setLoading(false);
     }
+}
+
+// Обработка загрузки изображений
+function handleImageUpload(event) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    
+    setLoading(true);
+    
+    const promises = Array.from(files).map(file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    });
+    
+    Promise.all(promises)
+        .then(results => {
+            state.order.photos = results;
+            updatePreview();
+        })
+        .catch(error => {
+            handleError(new Error('Ошибка при загрузке изображений'));
+        })
+        .finally(() => {
+            setLoading(false);
+        });
 }
 
 // Обработчик кнопки "Далее" в секции опций

@@ -545,7 +545,7 @@ body {
     box-shadow: none;
 }
 
-/* Улучшения для тёмной темы */
+/* Улучшения для темной темы */
 @media (prefers-color-scheme: dark) {
     :root {
         --primary-color: #FF69B4;
@@ -555,6 +555,7 @@ body {
         --background-color: #1A1A1A;
         --card-background: #2D2D2D;
         --border-color: #404040;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
     
     .header {
@@ -568,6 +569,7 @@ body {
     .option-card {
         background: var(--card-background);
         border-color: var(--border-color);
+        box-shadow: var(--shadow);
     }
 
     .product-card h3,
@@ -591,6 +593,56 @@ body {
     .color-card:hover,
     .option-card:hover {
         background: #363636;
+        border-color: var(--primary-color);
+    }
+
+    .section h2 {
+        color: var(--text-color);
+    }
+
+    .form-control {
+        background-color: var(--card-background);
+        color: var(--text-color);
+        border-color: var(--border-color);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+    }
+
+    .back-button {
+        background-color: var(--card-background);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+
+    .back-button:hover {
+        background-color: #363636;
+    }
+
+    .next-button,
+    .confirm-button {
+        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        color: white;
+    }
+
+    .next-button:hover,
+    .confirm-button:hover {
+        opacity: 0.9;
+    }
+
+    .preview-item {
+        background: rgba(255, 105, 180, 0.1);
+        border: 1px solid var(--border-color);
+    }
+
+    .preview-item i {
+        color: var(--primary-color);
+    }
+
+    .preview-item .price {
+        color: var(--accent-color);
     }
 }
 
@@ -646,7 +698,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 9999;
     display: flex;
     align-items: center;
@@ -661,7 +713,7 @@ body {
     transform: translate(-50%, -50%);
     width: 40px;
     height: 40px;
-    border: 4px solid var(--primary-color);
+    border: 4px solid white;
     border-top-color: transparent;
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -682,10 +734,10 @@ body {
     transform: translateX(-50%);
     background: #ff4444;
     color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10000;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
     animation: slideDown 0.3s ease-out;
     max-width: 90%;
     text-align: center;
@@ -745,4 +797,30 @@ button.loading::after {
     to {
         transform: translate(-50%, -50%) rotate(360deg);
     }
+}
+
+/* Улучшения для кнопок навигации */
+.section {
+    position: relative;
+    padding-bottom: 5rem; /* Увеличиваем отступ для кнопок */
+}
+
+.section button {
+    position: fixed;
+    bottom: 1rem;
+    z-index: 100;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.back-button {
+    left: 1rem;
+}
+
+.next-button,
+.confirm-button {
+    right: 1rem;
 } 
