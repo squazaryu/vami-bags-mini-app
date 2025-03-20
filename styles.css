@@ -9,6 +9,7 @@
     --border-radius: 16px;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
+    --focus-ring: 0 0 0 3px rgba(255, 105, 180, 0.3);
 }
 
 body {
@@ -271,18 +272,20 @@ body {
 
 /* Поле ввода */
 .form-control {
-    border: 2px solid #eee;
+    font-size: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--card-background);
+    border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: 1rem;
-    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    width: 100%;
     transition: var(--transition);
-    margin: 1rem;
 }
 
 .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2);
-    outline: none;
+    box-shadow: var(--focus-ring);
 }
 
 /* Загрузка фото */
@@ -530,4 +533,180 @@ body {
 .next-button:hover i,
 .confirm-button:hover i {
     transform: translateX(3px);
+}
+
+/* Улучшения для доступности */
+:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+:focus:not(:focus-visible) {
+    box-shadow: none;
+}
+
+/* Улучшения для тёмной темы */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #E0E0E0;
+        --background-color: #1A1A1A;
+        --card-background: #2D2D2D;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #FF1493, #FF69B4);
+    }
+}
+
+/* Улучшения для тач-устройств */
+@media (hover: none) {
+    .product-card,
+    .shape-card,
+    .material-card,
+    .color-card,
+    .option-card {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .btn,
+    .back-button,
+    .next-button,
+    .confirm-button {
+        padding: 1rem 2rem;
+    }
+}
+
+/* Улучшения для скринридеров */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Улучшения для анимаций */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Состояния загрузки */
+.loading {
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--primary-color);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10000;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    animation: slideDown 0.3s ease-out;
+    max-width: 90%;
+    text-align: center;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+    }
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Состояния загрузки изображений */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+}
+
+/* Улучшения для состояний загрузки в формах */
+.form-control:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Индикатор загрузки для кнопок */
+button.loading {
+    position: relative;
+    color: transparent;
+}
+
+button.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+}
+
+@keyframes buttonSpin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 } 

@@ -15,8 +15,35 @@ let state = {
         customDescription: '',
         photos: [],
         totalPrice: 0
-    }
+    },
+    loading: false,
+    error: null
 };
+
+// Обработка ошибок
+function handleError(error) {
+    console.error('Error:', error);
+    state.error = error.message;
+    showError(error.message);
+}
+
+// Показ ошибки пользователю
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
+
+// Установка состояния загрузки
+function setLoading(isLoading) {
+    state.loading = isLoading;
+    document.body.classList.toggle('loading', isLoading);
+}
 
 // Обновление индикатора прогресса
 function updateProgress() {
@@ -30,10 +57,15 @@ function updateProgress() {
 
 // Анимация перехода между секциями
 function showSection(sectionId, direction = 'right') {
+    if (state.loading) return;
+    
     const currentSection = document.getElementById(state.currentSection);
     const nextSection = document.getElementById(sectionId);
     
-    if (!currentSection || !nextSection) return;
+    if (!currentSection || !nextSection) {
+        handleError(new Error('Section not found'));
+        return;
+    }
     
     // Удаляем классы анимации
     currentSection.classList.remove('slide-left', 'slide-right');
@@ -54,82 +86,92 @@ function showSection(sectionId, direction = 'right') {
 
 // Обновление предпросмотра заказа
 function updatePreview() {
-    const order = state.order;
-    
-    // Обновляем основные поля
-    document.getElementById('preview-product').textContent = order.product || 'Не выбрано';
-    document.getElementById('preview-size').textContent = order.size || 'Не выбрано';
-    document.getElementById('preview-shape').textContent = order.shape || 'Не выбрано';
-    document.getElementById('preview-material').textContent = order.material || 'Не выбрано';
-    document.getElementById('preview-color').textContent = order.color || 'Не выбрано';
-    document.getElementById('preview-options').textContent = order.options.length > 0 ? order.options.join(', ') : 'Нет';
-    document.getElementById('preview-custom').textContent = order.customDescription || 'Нет';
-    
-    // Обновляем фотографии
-    const previewPhotos = document.getElementById('preview-photos');
-    previewPhotos.innerHTML = '';
-    order.photos.forEach(photo => {
-        const img = document.createElement('img');
-        img.src = photo;
-        img.alt = 'Фото заказа';
-        previewPhotos.appendChild(img);
-    });
-    
-    // Показываем/скрываем контейнеры в зависимости от типа продукта
-    const containers = {
-        'preview-size-container': order.product === 'Сумка',
-        'preview-shape-container': order.product === 'Сумка',
-        'preview-material-container': true,
-        'preview-color-container': true,
-        'preview-options-container': order.product === 'Сумка',
-        'preview-custom-container': order.product === 'Нестандартный заказ'
-    };
-    
-    Object.entries(containers).forEach(([id, show]) => {
-        const container = document.getElementById(id);
-        if (container) {
-            container.style.display = show ? 'flex' : 'none';
-        }
-    });
-    
-    // Обновляем итоговую стоимость
-    calculateTotalPrice();
+    try {
+        const order = state.order;
+        
+        // Обновляем основные поля
+        document.getElementById('preview-product').textContent = order.product || 'Не выбрано';
+        document.getElementById('preview-size').textContent = order.size || 'Не выбрано';
+        document.getElementById('preview-shape').textContent = order.shape || 'Не выбрано';
+        document.getElementById('preview-material').textContent = order.material || 'Не выбрано';
+        document.getElementById('preview-color').textContent = order.color || 'Не выбрано';
+        document.getElementById('preview-options').textContent = order.options.length > 0 ? order.options.join(', ') : 'Нет';
+        document.getElementById('preview-custom').textContent = order.customDescription || 'Нет';
+        
+        // Обновляем фотографии
+        const previewPhotos = document.getElementById('preview-photos');
+        previewPhotos.innerHTML = '';
+        order.photos.forEach(photo => {
+            const img = document.createElement('img');
+            img.src = photo;
+            img.alt = 'Фото заказа';
+            img.className = 'lazy-image';
+            img.onload = () => img.classList.add('loaded');
+            previewPhotos.appendChild(img);
+        });
+        
+        // Показываем/скрываем контейнеры в зависимости от типа продукта
+        const containers = {
+            'preview-size-container': order.product === 'Сумка',
+            'preview-shape-container': order.product === 'Сумка',
+            'preview-material-container': true,
+            'preview-color-container': true,
+            'preview-options-container': order.product === 'Сумка',
+            'preview-custom-container': order.product === 'Нестандартный заказ'
+        };
+        
+        Object.entries(containers).forEach(([id, show]) => {
+            const container = document.getElementById(id);
+            if (container) {
+                container.style.display = show ? 'flex' : 'none';
+            }
+        });
+        
+        // Обновляем итоговую стоимость
+        calculateTotalPrice();
+    } catch (error) {
+        handleError(error);
+    }
 }
 
 // Расчет итоговой стоимости
 function calculateTotalPrice() {
-    let total = 0;
-    const order = state.order;
-    
-    // Базовые цены
-    const basePrices = {
-        'Сумка': {
-            'S': 2000,
-            'M': 2500,
-            'L': 3000
-        },
-        'Подстаканник': 1500,
-        'Нестандартный заказ': 3000
-    };
-    
-    // Добавляем базовую цену
-    if (order.product === 'Сумка' && order.size) {
-        total += basePrices['Сумка'][order.size];
-    } else {
-        total += basePrices[order.product];
+    try {
+        let total = 0;
+        const order = state.order;
+        
+        // Базовые цены
+        const basePrices = {
+            'Сумка': {
+                'S': 2000,
+                'M': 2500,
+                'L': 3000
+            },
+            'Подстаканник': 1500,
+            'Нестандартный заказ': 3000
+        };
+        
+        // Добавляем базовую цену
+        if (order.product === 'Сумка' && order.size) {
+            total += basePrices['Сумка'][order.size];
+        } else {
+            total += basePrices[order.product];
+        }
+        
+        // Дополнительные опции
+        if (order.options.includes('Застёжка')) total += 500;
+        if (order.options.includes('Подклад')) total += 800;
+        if (order.options.includes('Ручка-цепочка')) total += 1000;
+        
+        // Обновляем отображение
+        const totalElement = document.getElementById('preview-total');
+        if (totalElement) {
+            totalElement.textContent = `${total} ₽`;
+        }
+        state.order.totalPrice = total;
+    } catch (error) {
+        handleError(error);
     }
-    
-    // Дополнительные опции
-    if (order.options.includes('Застёжка')) total += 500;
-    if (order.options.includes('Подклад')) total += 800;
-    if (order.options.includes('Ручка-цепочка')) total += 1000;
-    
-    // Обновляем отображение
-    const totalElement = document.getElementById('preview-total');
-    if (totalElement) {
-        totalElement.textContent = `${total} ₽`;
-    }
-    state.order.totalPrice = total;
 }
 
 // Обработчики событий
@@ -208,35 +250,45 @@ document.getElementById('custom-description').addEventListener('input', (e) => {
 });
 
 // Подтверждение заказа
-function confirmOrder() {
-    // Сначала показываем предпросмотр
-    showSection('order-preview');
+async function confirmOrder() {
+    if (state.loading) return;
     
-    // Обновляем предпросмотр
-    updatePreview();
-    
-    // Формируем данные для отправки
-    const orderData = {
-        product: state.order.product,
-        size: state.order.size,
-        shape: state.order.shape,
-        material: state.order.material,
-        color: state.order.color,
-        options: state.order.options,
-        customDescription: state.order.customDescription,
-        photos: state.order.photos,
-        totalPrice: state.order.totalPrice,
-        user_id: tg.initDataUnsafe.user?.id,
-        username: tg.initDataUnsafe.user?.username,
-        first_name: tg.initDataUnsafe.user?.first_name,
-        last_name: tg.initDataUnsafe.user?.last_name,
-        language_code: tg.initDataUnsafe.user?.language_code,
-        start_param: tg.initDataUnsafe.start_param,
-        hash: tg.initDataUnsafe.hash
-    };
-    
-    // Отправляем данные в Telegram
-    tg.sendData(JSON.stringify(orderData));
+    try {
+        setLoading(true);
+        
+        // Сначала показываем предпросмотр
+        showSection('order-preview');
+        
+        // Обновляем предпросмотр
+        updatePreview();
+        
+        // Формируем данные для отправки
+        const orderData = {
+            product: state.order.product,
+            size: state.order.size,
+            shape: state.order.shape,
+            material: state.order.material,
+            color: state.order.color,
+            options: state.order.options,
+            customDescription: state.order.customDescription,
+            photos: state.order.photos,
+            totalPrice: state.order.totalPrice,
+            user_id: tg.initDataUnsafe.user?.id,
+            username: tg.initDataUnsafe.user?.username,
+            first_name: tg.initDataUnsafe.user?.first_name,
+            last_name: tg.initDataUnsafe.user?.last_name,
+            language_code: tg.initDataUnsafe.user?.language_code,
+            start_param: tg.initDataUnsafe.start_param,
+            hash: tg.initDataUnsafe.hash
+        };
+        
+        // Отправляем данные в Telegram
+        tg.sendData(JSON.stringify(orderData));
+    } catch (error) {
+        handleError(error);
+    } finally {
+        setLoading(false);
+    }
 }
 
 // Обработчик кнопки "Далее" в секции опций
