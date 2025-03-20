@@ -91,52 +91,87 @@ function showSection(sectionId, direction = 'right') {
 
 // Обновление предпросмотра заказа
 function updatePreview() {
-    try {
-        const order = state.order;
-        
-        // Обновляем основные поля
-        document.getElementById('preview-product').textContent = order.product || 'Не выбрано';
-        document.getElementById('preview-size').textContent = order.size || 'Не выбрано';
-        document.getElementById('preview-shape').textContent = order.shape || 'Не выбрано';
-        document.getElementById('preview-material').textContent = order.material || 'Не выбрано';
-        document.getElementById('preview-color').textContent = order.color || 'Не выбрано';
-        document.getElementById('preview-options').textContent = order.options.length > 0 ? order.options.join(', ') : 'Нет';
-        document.getElementById('preview-custom').textContent = order.customDescription || 'Нет';
-        
-        // Обновляем фотографии
-        const previewPhotos = document.getElementById('preview-photos');
-        previewPhotos.innerHTML = '';
-        order.photos.forEach(photo => {
-            const img = document.createElement('img');
-            img.src = photo;
-            img.alt = 'Фото заказа';
-            img.className = 'lazy-image';
-            img.onload = () => img.classList.add('loaded');
-            previewPhotos.appendChild(img);
-        });
-        
-        // Показываем/скрываем контейнеры в зависимости от типа продукта
-        const containers = {
-            'preview-size-container': order.product === 'Сумка',
-            'preview-shape-container': order.product === 'Сумка',
-            'preview-material-container': true,
-            'preview-color-container': true,
-            'preview-options-container': order.product === 'Сумка',
-            'preview-custom-container': order.product === 'Нестандартный заказ'
-        };
-        
-        Object.entries(containers).forEach(([id, show]) => {
-            const container = document.getElementById(id);
-            if (container) {
-                container.style.display = show ? 'flex' : 'none';
-            }
-        });
-        
-        // Обновляем итоговую стоимость
-        calculateTotalPrice();
-    } catch (error) {
-        handleError(error);
+    const previewContainer = document.getElementById('order-preview');
+    if (!previewContainer) return;
+
+    let previewHTML = '<div class="preview-content">';
+    
+    // Основная информация о заказе
+    previewHTML += `
+        <div class="preview-section">
+            <h3>Информация о заказе</h3>
+            <div class="preview-item">
+                <span class="preview-label">Продукт:</span>
+                <span class="preview-value">${state.order.product}</span>
+            </div>`;
+
+    if (state.order.product === 'Сумка') {
+        previewHTML += `
+            <div class="preview-item">
+                <span class="preview-label">Размер:</span>
+                <span class="preview-value">${state.order.size}</span>
+            </div>
+            <div class="preview-item">
+                <span class="preview-label">Форма:</span>
+                <span class="preview-value">${state.order.shape}</span>
+            </div>`;
     }
+
+    previewHTML += `
+            <div class="preview-item">
+                <span class="preview-label">Материал:</span>
+                <span class="preview-value">${state.order.material}</span>
+            </div>
+            <div class="preview-item">
+                <span class="preview-label">Цвет:</span>
+                <span class="preview-value">${state.order.color}</span>
+            </div>`;
+
+    if (state.order.product === 'Сумка' && state.order.options.length > 0) {
+        previewHTML += `
+            <div class="preview-item">
+                <span class="preview-label">Дополнительные опции:</span>
+                <span class="preview-value">${state.order.options.join(', ')}</span>
+            </div>`;
+    }
+
+    if (state.order.product === 'Нестандартный заказ') {
+        previewHTML += `
+            <div class="preview-item">
+                <span class="preview-label">Описание:</span>
+                <span class="preview-value">${state.order.customDescription}</span>
+            </div>`;
+    }
+
+    // Фотографии
+    if (state.order.photos.length > 0) {
+        previewHTML += `
+            <div class="preview-section">
+                <h3>Фотографии</h3>
+                <div class="preview-photos">`;
+        
+        state.order.photos.forEach(photo => {
+            previewHTML += `
+                <div class="preview-photo">
+                    <img src="${photo}" alt="Фото заказа">
+                </div>`;
+        });
+        
+        previewHTML += '</div></div>';
+    }
+
+    // Итоговая стоимость
+    previewHTML += `
+        <div class="preview-section">
+            <h3>Итоговая стоимость</h3>
+            <div class="preview-total">
+                <span class="preview-label">Сумма к оплате:</span>
+                <span class="preview-value">${state.order.totalPrice} ₽</span>
+            </div>
+        </div>`;
+
+    previewHTML += '</div>';
+    previewContainer.innerHTML = previewHTML;
 }
 
 // Расчет итоговой стоимости
@@ -266,56 +301,11 @@ async function confirmOrder() {
             throw new Error('Пожалуйста, опишите ваш заказ');
         }
         
-        // Формируем данные для отправки
-        const orderData = {
-            product: state.order.product,
-            size: state.order.size,
-            shape: state.order.shape,
-            material: state.order.material,
-            color: state.order.color,
-            options: state.order.options || [],
-            customDescription: state.order.customDescription,
-            photos: state.order.photos,
-            totalPrice: state.order.totalPrice,
-            user_id: tg.initDataUnsafe.user?.id,
-            username: tg.initDataUnsafe.user?.username,
-            first_name: tg.initDataUnsafe.user?.first_name,
-            last_name: tg.initDataUnsafe.user?.last_name,
-        };
-
-        // Отправляем данные в Telegram
-        try {
-            // Отправляем данные в Telegram
-            await tg.sendData(JSON.stringify(orderData));
-            
-            // Генерируем номер заказа (временное решение)
-            const orderNumber = Math.floor(Math.random() * 10000);
-            
-            // Показываем сообщение об успехе с номером заказа
-            showSuccessMessage(`Заказ #${orderNumber} успешно отправлен! Мы свяжемся с вами в ближайшее время.`);
-            
-            // Очищаем состояние заказа
-            state.order = {
-                product: null,
-                size: null,
-                shape: null,
-                material: null,
-                color: null,
-                options: [],
-                customDescription: '',
-                photos: [],
-                totalPrice: 0
-            };
-            
-            // Возвращаемся на главную
-            setTimeout(() => {
-                showSection('product-selection');
-            }, 2000);
-            
-        } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
-            showErrorMessage('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.');
-        }
+        // Сначала показываем предпросмотр
+        showSection('order-preview');
+        
+        // Обновляем предпросмотр
+        updatePreview();
         
     } catch (error) {
         console.error('Ошибка при подтверждении заказа:', error);
@@ -375,4 +365,67 @@ function handleOptionsNext() {
 updateProgress();
 
 // Добавляем обработчик для кнопки "Далее" в секции опций
-document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext); 
+document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext);
+
+// Функция отправки заказа
+async function submitOrder() {
+    try {
+        setLoading(true);
+        
+        // Формируем данные для отправки
+        const orderData = {
+            product: state.order.product,
+            size: state.order.size,
+            shape: state.order.shape,
+            material: state.order.material,
+            color: state.order.color,
+            options: state.order.options || [],
+            customDescription: state.order.customDescription,
+            photos: state.order.photos,
+            totalPrice: state.order.totalPrice,
+            user_id: tg.initDataUnsafe.user?.id,
+            username: tg.initDataUnsafe.user?.username,
+            first_name: tg.initDataUnsafe.user?.first_name,
+            last_name: tg.initDataUnsafe.user?.last_name,
+        };
+
+        // Отправляем данные в Telegram
+        try {
+            await tg.sendData(JSON.stringify(orderData));
+            
+            // Генерируем номер заказа
+            const orderNumber = Math.floor(Math.random() * 10000);
+            
+            // Показываем сообщение об успехе с номером заказа
+            showSuccessMessage(`Заказ #${orderNumber} успешно отправлен! Мы свяжемся с вами в ближайшее время.`);
+            
+            // Очищаем состояние заказа
+            state.order = {
+                product: null,
+                size: null,
+                shape: null,
+                material: null,
+                color: null,
+                options: [],
+                customDescription: '',
+                photos: [],
+                totalPrice: 0
+            };
+            
+            // Возвращаемся на главную
+            setTimeout(() => {
+                showSection('product-selection');
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+            showErrorMessage('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.');
+        }
+        
+    } catch (error) {
+        console.error('Ошибка при отправке заказа:', error);
+        showErrorMessage(error.message);
+    } finally {
+        setLoading(false);
+    }
+} 
