@@ -9,8 +9,10 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-precomposed.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#FF69B4">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,7 +20,7 @@
         <div id="app">
             <!-- Шапка приложения -->
             <header class="header">
-                <h1>VaMi Bags</h1>
+                <h1><i class="fas fa-shopping-bag"></i> VaMi Bags</h1>
             </header>
 
             <!-- Основной контент -->
@@ -28,16 +30,19 @@
                     <h2>Выберите продукт</h2>
                     <div class="product-grid">
                         <div class="product-card" data-product="Сумка">
-                            <img src="images/bag.jpeg" alt="Сумка">
+                            <img src="images/bag.jpeg" alt="Сумка" loading="lazy">
                             <h3>Сумка</h3>
+                            <p class="description">Элегантные сумки ручной работы</p>
                         </div>
                         <div class="product-card" data-product="Подстаканник">
-                            <img src="images/cup-holder.jpeg" alt="Подстаканник">
+                            <img src="images/cup-holder.jpeg" alt="Подстаканник" loading="lazy">
                             <h3>Подстаканник</h3>
+                            <p class="description">Стильные подстаканники для автомобиля</p>
                         </div>
                         <div class="product-card" data-product="Нестандартный заказ">
-                            <img src="images/custom.jpeg" alt="Нестандартный заказ">
+                            <img src="images/custom.jpeg" alt="Нестандартный заказ" loading="lazy">
                             <h3>Нестандартный заказ</h3>
+                            <p class="description">Индивидуальный дизайн по вашим пожеланиям</p>
                         </div>
                     </div>
                 </section>
@@ -46,9 +51,21 @@
                 <section id="size-selection" class="section hidden">
                     <h2>Выберите размер</h2>
                     <div class="size-grid">
-                        <div class="size-card" data-size="S">S (микросумка)</div>
-                        <div class="size-card" data-size="M">M (влезает телефон и картхолдер)</div>
-                        <div class="size-card" data-size="L">L (на 5 см больше размера M)</div>
+                        <div class="size-card" data-size="S">
+                            <i class="fas fa-bag"></i>
+                            <h3>S</h3>
+                            <p>Микросумка</p>
+                        </div>
+                        <div class="size-card" data-size="M">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>M</h3>
+                            <p>Влезает телефон и картхолдер</p>
+                        </div>
+                        <div class="size-card" data-size="L">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>L</h3>
+                            <p>На 5 см больше размера M</p>
+                        </div>
                     </div>
                 </section>
 
@@ -57,27 +74,27 @@
                     <h2>Выберите форму</h2>
                     <div class="shape-grid">
                         <div class="shape-card" data-shape="Круглая">
-                            <img src="images/krug.jpeg" alt="Круглая">
+                            <img src="images/krug.jpeg" alt="Круглая" loading="lazy">
                             <h3>Круглая</h3>
                         </div>
                         <div class="shape-card" data-shape="Прямоугольная">
-                            <img src="images/pramougolnaya.jpeg" alt="Прямоугольная">
+                            <img src="images/pramougolnaya.jpeg" alt="Прямоугольная" loading="lazy">
                             <h3>Прямоугольная</h3>
                         </div>
                         <div class="shape-card" data-shape="Квадратная">
-                            <img src="images/kvadrat.jpeg" alt="Квадратная">
+                            <img src="images/kvadrat.jpeg" alt="Квадратная" loading="lazy">
                             <h3>Квадратная</h3>
                         </div>
                         <div class="shape-card" data-shape="Сердце">
-                            <img src="images/serdce.jpeg" alt="Сердце">
+                            <img src="images/serdce.jpeg" alt="Сердце" loading="lazy">
                             <h3>Сердце</h3>
                         </div>
                         <div class="shape-card" data-shape="Месяц">
-                            <img src="images/mesyac.jpeg" alt="Месяц">
+                            <img src="images/mesyac.jpeg" alt="Месяц" loading="lazy">
                             <h3>Месяц</h3>
                         </div>
                         <div class="shape-card" data-shape="Трапеция">
-                            <img src="images/trapeciya.jpeg" alt="Трапеция">
+                            <img src="images/trapeciya.jpeg" alt="Трапеция" loading="lazy">
                             <h3>Трапеция</h3>
                         </div>
                     </div>
@@ -88,16 +105,19 @@
                     <h2>Выберите материал</h2>
                     <div class="material-grid">
                         <div class="material-card" data-material="Акрил">
-                            <img src="images/akril.jpeg" alt="Акрил">
+                            <img src="images/akril.jpeg" alt="Акрил" loading="lazy">
                             <h3>Акрил</h3>
+                            <p class="description">Прочный и долговечный материал</p>
                         </div>
                         <div class="material-card" data-material="Хрусталь">
-                            <img src="images/hrust.jpeg" alt="Хрусталь">
+                            <img src="images/hrust.jpeg" alt="Хрусталь" loading="lazy">
                             <h3>Хрусталь</h3>
+                            <p class="description">Элегантный блеск и прозрачность</p>
                         </div>
                         <div class="material-card" data-material="Swarovski">
-                            <img src="images/swarovski.jpeg" alt="Swarovski">
+                            <img src="images/swarovski.jpeg" alt="Swarovski" loading="lazy">
                             <h3>Swarovski</h3>
+                            <p class="description">Премиальные кристаллы</p>
                         </div>
                     </div>
                 </section>
@@ -106,10 +126,10 @@
                 <section id="color-selection" class="section hidden">
                     <h2>Выберите цвет</h2>
                     <div class="color-grid">
-                        <div class="color-card" data-color="Белый" style="background-color: white;"></div>
-                        <div class="color-card" data-color="Чёрный" style="background-color: black;"></div>
-                        <div class="color-card" data-color="Синий" style="background-color: blue;"></div>
-                        <div class="color-card" data-color="Зелёный" style="background-color: green;"></div>
+                        <div class="color-card" data-color="Белый" style="background-color: white;" title="Белый"></div>
+                        <div class="color-card" data-color="Чёрный" style="background-color: black;" title="Чёрный"></div>
+                        <div class="color-card" data-color="Синий" style="background-color: blue;" title="Синий"></div>
+                        <div class="color-card" data-color="Зелёный" style="background-color: green;" title="Зелёный"></div>
                     </div>
                 </section>
 
@@ -118,12 +138,15 @@
                     <h2>Дополнительные опции</h2>
                     <div class="options-grid">
                         <div class="option-card" data-option="Застёжка">
+                            <i class="fas fa-lock"></i>
                             <h3>Застёжка</h3>
                         </div>
                         <div class="option-card" data-option="Подклад">
+                            <i class="fas fa-layer-group"></i>
                             <h3>Подклад</h3>
                         </div>
                         <div class="option-card" data-option="Ручка-цепочка">
+                            <i class="fas fa-link"></i>
                             <h3>Ручка-цепочка</h3>
                         </div>
                     </div>
@@ -135,8 +158,8 @@
                     <textarea id="custom-description" class="form-control" rows="4" placeholder="Опишите ваш заказ..."></textarea>
                     <div class="photo-upload">
                         <input type="file" id="photo-input" accept="image/*" multiple>
-                        <button class="btn btn-primary" onclick="document.getElementById('photo-input').click()">
-                            Добавить фото
+                        <button class="btn" onclick="document.getElementById('photo-input').click()">
+                            <i class="fas fa-camera"></i> Добавить фото
                         </button>
                     </div>
                     <div id="photo-preview" class="photo-preview"></div>
@@ -146,7 +169,9 @@
                 <section id="order-preview" class="section hidden">
                     <h2>Предпросмотр заказа</h2>
                     <div id="preview-content"></div>
-                    <button class="btn btn-success" onclick="confirmOrder()">Подтвердить заказ</button>
+                    <button class="btn" onclick="confirmOrder()">
+                        <i class="fas fa-check"></i> Подтвердить заказ
+                    </button>
                 </section>
             </main>
         </div>
