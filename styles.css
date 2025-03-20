@@ -65,6 +65,11 @@ body {
     transition: var(--transition);
     cursor: pointer;
     border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
 }
 
 .product-card:hover,
@@ -77,6 +82,27 @@ body {
     border-color: var(--primary-color);
 }
 
+.product-card h3,
+.shape-card h3,
+.material-card h3,
+.option-card h3 {
+    margin: 0.8rem 0 0.5rem;
+    font-size: 1.1rem;
+    text-align: center;
+    width: 100%;
+}
+
+.product-card .description,
+.shape-card .description,
+.material-card .description,
+.option-card .description {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    width: 100%;
+}
+
 .product-card img,
 .shape-card img,
 .material-card img {
@@ -85,6 +111,34 @@ body {
     object-fit: cover;
     border-radius: calc(var(--border-radius) - 4px);
     margin-bottom: 0.8rem;
+}
+
+/* Размерные карточки */
+.size-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    padding: 1.5rem;
+}
+
+.size-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
+}
+
+.size-card h3 {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.size-card p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
 }
 
 /* Заголовки секций */
@@ -104,6 +158,18 @@ body {
     border-radius: 50%;
     border: 2px solid #ddd;
     transition: var(--transition);
+    position: relative;
+}
+
+.color-card::after {
+    content: attr(data-color);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    color: var(--text-color);
+    white-space: nowrap;
 }
 
 .color-card:hover {
