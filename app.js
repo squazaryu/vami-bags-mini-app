@@ -19,7 +19,11 @@ let state = {
         options: [],
         customDescription: '',
         photos: [],
-        totalPrice: 0
+        totalPrice: 0,
+        contactInfo: {
+            phone: '',
+            telegramUsername: ''
+        }
     },
     loading: false,
     error: null
@@ -159,6 +163,20 @@ function updatePreview() {
         
         previewHTML += '</div></div>';
     }
+
+    // Добавляем контактные данные
+    previewHTML += `
+        <div class="preview-section">
+            <h3>Контактные данные</h3>
+            <div class="preview-item">
+                <span class="preview-label">Телефон:</span>
+                <span class="preview-value">${state.order.contactInfo.phone}</span>
+            </div>
+            <div class="preview-item">
+                <span class="preview-label">Telegram:</span>
+                <span class="preview-value">${state.order.contactInfo.telegramUsername}</span>
+            </div>
+        </div>`;
 
     // Итоговая стоимость
     previewHTML += `
@@ -357,22 +375,57 @@ function handleImageUpload(event) {
 }
 
 // Обработчик кнопки "Далее" в секции опций
-function handleOptionsNext() {
-    showSection('custom-order');
-}
-
-// Инициализация
-updateProgress();
-
-// Добавляем обработчик для кнопки "Далее" в секции опций
 document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext);
+
+// Обработчик кнопки подтверждения заказа
+document.querySelector('#order-preview .confirm-button').addEventListener('click', submitOrder);
+
+// Обработчик кнопки "Далее" в секции контактных данных
+function handleContactInfoNext() {
+    const phone = document.getElementById('phone').value;
+    const telegramUsername = document.getElementById('telegram-username').value;
+
+    // Валидация данных
+    if (!phone || !telegramUsername) {
+        showError('Пожалуйста, заполните все поля');
+        return;
+    }
+
+    // Сохраняем контактные данные
+    state.order.contactInfo = {
+        phone: phone,
+        telegramUsername: telegramUsername
+    };
+
+    // Показываем предпросмотр заказа
+    showSection('order-preview');
+    updatePreview();
+}
 
 // Функция отправки заказа
 async function submitOrder() {
     try {
-        setLoading(true);
-        
-        // Формируем данные для отправки
+        if (!state.order.product || !state.order.size || !state.order.shape || !state.order.material || !state.order.color) {
+            showError('Пожалуйста, заполните все обязательные поля');
+            return;
+        }
+
+        // Собираем данные о пользователе
+        const userData = {
+            id: tg.initDataUnsafe.user.id,
+            first_name: tg.initDataUnsafe.user.first_name,
+            last_name: tg.initDataUnsafe.user.last_name,
+            username: tg.initDataUnsafe.user.username,
+            language_code: tg.initDataUnsafe.user.language_code,
+            platform: tg.platform,
+            colorScheme: tg.colorScheme,
+            isExpanded: tg.isExpanded,
+            viewportHeight: tg.viewportHeight,
+            viewportStableHeight: tg.viewportStableHeight,
+            contact_phone: state.order.contactInfo.phone,
+            contact_telegram: state.order.contactInfo.telegramUsername
+        };
+
         const orderData = {
             product: state.order.product,
             size: state.order.size,
@@ -382,50 +435,69 @@ async function submitOrder() {
             options: state.order.options || [],
             customDescription: state.order.customDescription,
             photos: state.order.photos,
-            totalPrice: state.order.totalPrice,
-            user_id: tg.initDataUnsafe.user?.id,
-            username: tg.initDataUnsafe.user?.username,
-            first_name: tg.initDataUnsafe.user?.first_name,
-            last_name: tg.initDataUnsafe.user?.last_name,
+            totalPrice: calculateTotalPrice(),
+            user: userData,
+            timestamp: new Date().toISOString()
         };
 
         // Отправляем данные в Telegram
-        try {
-            await tg.sendData(JSON.stringify(orderData));
-            
-            // Генерируем номер заказа
-            const orderNumber = Math.floor(Math.random() * 10000);
-            
-            // Показываем сообщение об успехе с номером заказа
-            showSuccessMessage(`Заказ #${orderNumber} успешно отправлен! Мы свяжемся с вами в ближайшее время.`);
-            
-            // Очищаем состояние заказа
-            state.order = {
-                product: null,
-                size: null,
-                shape: null,
-                material: null,
-                color: null,
-                options: [],
-                customDescription: '',
-                photos: [],
-                totalPrice: 0
-            };
-            
-            // Возвращаемся на главную
-            setTimeout(() => {
-                showSection('product-selection');
-            }, 2000);
-            
-        } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
-            showErrorMessage('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.');
-        }
-        
+        await tg.sendData(JSON.stringify(orderData));
+
+        // Показываем сообщение об успехе
+        showSuccessMessage('Заказ успешно отправлен!');
+
+        // Очищаем состояние заказа
+        state.order = {
+            product: null,
+            size: null,
+            shape: null,
+            material: null,
+            color: null,
+            options: [],
+            customDescription: '',
+            photos: [],
+            totalPrice: 0,
+            contactInfo: {
+                phone: '',
+                telegramUsername: ''
+            }
+        };
+
+        // Возвращаемся на главную страницу
+        setTimeout(() => {
+            showSection('product-selection');
+        }, 2000);
+
     } catch (error) {
-        console.error('Ошибка при отправке заказа:', error);
-        showErrorMessage(error.message);
-    } finally {
-        setLoading(false);
+        console.error('Error submitting order:', error);
+        showError('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.');
     }
+}
+
+// Инициализация
+updateProgress();
+
+// Добавляем обработчик для кнопки "Далее" в секции опций
+document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext);
+
+// Обработчик кнопки "Далее" в секции контактных данных
+function handleContactInfoNext() {
+    const phone = document.getElementById('phone').value;
+    const telegramUsername = document.getElementById('telegram-username').value;
+
+    // Валидация данных
+    if (!phone || !telegramUsername) {
+        showError('Пожалуйста, заполните все поля');
+        return;
+    }
+
+    // Сохраняем контактные данные
+    state.order.contactInfo = {
+        phone: phone,
+        telegramUsername: telegramUsername
+    };
+
+    // Показываем предпросмотр заказа
+    showSection('order-preview');
+    updatePreview();
 } 

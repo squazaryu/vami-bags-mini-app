@@ -230,6 +230,29 @@
                     </button>
                 </section>
 
+                <!-- Секция контактных данных -->
+                <section id="contact-info" class="section" style="display: none;">
+                    <h2>Контактные данные</h2>
+                    <div class="contact-form">
+                        <div class="form-group">
+                            <label for="phone">Номер телефона</label>
+                            <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telegram-username">Ваш Telegram</label>
+                            <input type="text" id="telegram-username" placeholder="@username" required>
+                        </div>
+                        <div class="button-group">
+                            <button class="back-button" onclick="showSection('custom-order')">
+                                <i class="fas fa-arrow-left"></i> Назад
+                            </button>
+                            <button class="next-button" onclick="handleContactInfoNext()">
+                                Далее <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Предпросмотр заказа -->
                 <section id="order-preview" class="section" style="display: none;">
                     <h2>Предпросмотр заказа</h2>

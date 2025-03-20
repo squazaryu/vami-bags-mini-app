@@ -70,8 +70,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 120px;
+    justify-content: flex-start;
+    min-height: 140px;
 }
 
 .product-card:hover,
@@ -82,6 +82,17 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-color: var(--accent-color);
+    background-color: var(--secondary-color);
+}
+
+.product-card img,
+.shape-card img,
+.material-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) - 4px);
+    margin-bottom: 0.5rem;
 }
 
 .product-card h3,
@@ -103,16 +114,7 @@ body {
     color: #666;
     text-align: center;
     width: 100%;
-}
-
-.product-card img,
-.shape-card img,
-.material-card img {
-    width: 100%;
-    height: 80px;
-    object-fit: cover;
-    border-radius: calc(var(--border-radius) - 4px);
-    margin-bottom: 0.3rem;
+    padding: 0 0.3rem;
 }
 
 /* Размерные карточки */
@@ -286,7 +288,7 @@ body {
 }
 
 .form-control:focus {
-    border-color: var(--primary-color);
+    border-color: var(--accent-color);
     box-shadow: var(--focus-ring);
 }
 
@@ -411,7 +413,7 @@ body {
 
 .preview-photos img {
     width: 100%;
-    height: 80px;
+    aspect-ratio: 1;
     object-fit: cover;
     border-radius: calc(var(--border-radius) - 4px);
     box-shadow: var(--shadow);
@@ -474,31 +476,32 @@ body {
 }
 
 .back-button {
-    background-color: #f0f0f0;
+    background-color: var(--secondary-color);
     color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
 .back-button:hover {
-    background-color: #e0e0e0;
+    background-color: var(--primary-color);
 }
 
 .next-button {
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
 }
 
 .next-button:hover {
-    background-color: var(--primary-color-dark);
+    opacity: 0.9;
 }
 
 .confirm-button {
-    background-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     color: white;
     width: 100%;
 }
 
 .confirm-button:hover {
-    background-color: var(--accent-color-dark);
+    opacity: 0.9;
 }
 
 /* Позиционирование кнопок */
@@ -573,103 +576,7 @@ body {
 
 /* Улучшения для темной темы */
 @media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #D4B08C;
-        --secondary-color: #C19A6B;
-        --accent-color: #E6D5C7;
-        --text-color: #FFFFFF;
-        --background-color: #2A2A2A;
-        --card-background: #363636;
-        --border-color: #404040;
-        --shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
-    
-    .header {
-        background: linear-gradient(135deg, #C19A6B, #D4B08C);
-    }
-
-    .product-card,
-    .shape-card,
-    .material-card,
-    .color-card,
-    .option-card {
-        background: var(--card-background);
-        border-color: var(--border-color);
-        box-shadow: var(--shadow);
-    }
-
-    .product-card h3,
-    .shape-card h3,
-    .material-card h3,
-    .option-card h3 {
-        color: var(--text-color);
-    }
-
-    .product-card .description,
-    .shape-card .description,
-    .material-card .description,
-    .option-card .description {
-        color: var(--text-color);
-        opacity: 0.8;
-    }
-
-    .product-card:hover,
-    .shape-card:hover,
-    .material-card:hover,
-    .color-card:hover,
-    .option-card:hover {
-        background: #404040;
-        border-color: var(--primary-color);
-    }
-
-    .section h2 {
-        color: var(--text-color);
-    }
-
-    .form-control {
-        background-color: var(--card-background);
-        color: var(--text-color);
-        border-color: var(--border-color);
-    }
-
-    .form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 2px rgba(193, 154, 107, 0.3);
-    }
-
-    .back-button {
-        background-color: var(--card-background);
-        color: var(--text-color);
-        border: 1px solid var(--border-color);
-    }
-
-    .back-button:hover {
-        background-color: #404040;
-    }
-
-    .next-button,
-    .confirm-button {
-        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-        color: white;
-    }
-
-    .next-button:hover,
-    .confirm-button:hover {
-        opacity: 0.9;
-    }
-
-    .preview-item {
-        background: rgba(255, 105, 180, 0.1);
-        border: 1px solid var(--border-color);
-    }
-
-    .preview-item i {
-        color: var(--primary-color);
-    }
-
-    .preview-item .price {
-        color: var(--accent-color);
-    }
+    /* Удаляем все стили */
 }
 
 /* Улучшения для тач-устройств */
@@ -939,26 +846,75 @@ button.loading::after {
     border-top: 1px solid var(--border-color);
 }
 
-/* Улучшения для темной темы */
+/* Стили для формы контактных данных */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: var(--transition);
+    background-color: var(--card-background);
+    color: var(--text-color);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: var(--focus-ring);
+}
+
+.form-group input::placeholder {
+    color: #999;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .contact-form {
+        padding: 15px;
+    }
+    
+    .form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Темная тема */
 @media (prefers-color-scheme: dark) {
-    .preview-section {
-        background: var(--card-background);
-        border: 1px solid var(--border-color);
+    .form-group label {
+        color: var(--text-color-dark);
     }
-
-    .preview-section h3 {
-        border-bottom-color: var(--border-color);
+    
+    .form-group input {
+        background-color: var(--card-background-dark);
+        border-color: var(--border-color-dark);
+        color: var(--text-color-dark);
     }
-
-    .preview-label {
-        color: #999;
+    
+    .form-group input::placeholder {
+        color: #666;
     }
-
-    .preview-value {
-        color: var(--text-color);
-    }
-
-    .preview-total {
-        border-top-color: var(--border-color);
+    
+    .form-group input:focus {
+        border-color: var(--primary-color-dark);
+        box-shadow: 0 0 0 2px rgba(193, 154, 107, 0.2);
     }
 } 
