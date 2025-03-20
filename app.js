@@ -244,10 +244,8 @@ document.getElementById('custom-description').addEventListener('input', (e) => {
     updatePreview();
 });
 
-// Подтверждение заказа
+// Функция подтверждения заказа
 async function confirmOrder() {
-    if (state.loading) return;
-    
     try {
         setLoading(true);
         
@@ -289,18 +287,56 @@ async function confirmOrder() {
             username: tg.initDataUnsafe.user?.username,
             first_name: tg.initDataUnsafe.user?.first_name,
             last_name: tg.initDataUnsafe.user?.last_name,
-            language_code: tg.initDataUnsafe.user?.language_code,
-            start_param: tg.initDataUnsafe.start_param,
-            hash: tg.initDataUnsafe.hash
         };
-        
+
         // Отправляем данные в Telegram
-        tg.sendData(JSON.stringify(orderData));
+        try {
+            await tg.sendData(JSON.stringify(orderData));
+            
+            // Показываем сообщение об успехе
+            showSuccessMessage('Заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+            
+            // Очищаем состояние заказа
+            state.order = {
+                product: null,
+                size: null,
+                shape: null,
+                material: null,
+                color: null,
+                options: [],
+                customDescription: '',
+                photos: [],
+                totalPrice: 0
+            };
+            
+            // Возвращаемся на главную
+            setTimeout(() => {
+                showSection('product-selection');
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+            showErrorMessage('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте позже.');
+        }
+        
     } catch (error) {
-        handleError(error);
+        console.error('Ошибка при подтверждении заказа:', error);
+        showErrorMessage(error.message);
     } finally {
         setLoading(false);
     }
+}
+
+// Функция для отображения сообщения об успехе
+function showSuccessMessage(message) {
+    const successMessage = document.createElement('div');
+    successMessage.className = 'success-message';
+    successMessage.textContent = message;
+    document.body.appendChild(successMessage);
+    
+    setTimeout(() => {
+        successMessage.remove();
+    }, 3000);
 }
 
 // Обработка загрузки изображений
