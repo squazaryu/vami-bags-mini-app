@@ -32,7 +32,9 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
     box-sizing: border-box;
 }
 
@@ -863,4 +865,61 @@ button.loading::after {
 .section {
     will-change: transform, opacity;
     transform: translateZ(0);
+}
+
+/* Карточки продуктов */
+.product-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 4px;
+    background-color: var(--background-color);
+    padding: 0.5rem;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent-color);
+}
+
+.product-card h3 {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.product-card .description {
+    font-size: 0.75rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    text-align: center;
+    margin-top: 0.2rem;
+}
+
+/* Темная тема */
+[data-theme="dark"] .product-card {
+    background: var(--card-background);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .product-card img {
+    background-color: var(--card-background);
 } 
