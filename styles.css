@@ -256,22 +256,51 @@ body {
 }
 
 /* Кнопки */
-.btn {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 12px;
-    font-weight: 500;
-    transition: var(--transition);
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    font-size: 0.8rem;
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
-.btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.back-button,
+.next-button,
+.confirm-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.back-button {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+}
+
+.back-button:hover {
+    background-color: var(--primary-color);
+}
+
+.next-button,
+.confirm-button {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: var(--text-color);
+}
+
+.next-button:hover,
+.confirm-button:hover {
+    opacity: 0.9;
+}
+
+.confirm-button {
+    width: 100%;
+    justify-content: center;
 }
 
 /* Поле ввода */
@@ -455,109 +484,6 @@ body {
     .btn {
         -webkit-tap-highlight-color: transparent;
     }
-}
-
-/* Кнопки навигации */
-.back-button,
-.next-button,
-.confirm-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.4rem 0.8rem;
-    border-radius: var(--border-radius);
-    border: none;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    margin: 0.4rem 0;
-    gap: 0.4rem;
-}
-
-.back-button {
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    font-weight: 500;
-}
-
-.back-button:hover {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-}
-
-.next-button,
-.confirm-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: var(--text-color);
-    font-weight: 500;
-}
-
-.next-button:hover,
-.confirm-button:hover {
-    opacity: 0.9;
-    color: var(--text-color);
-}
-
-/* Позиционирование кнопок */
-.section {
-    position: relative;
-    padding-bottom: 3rem;
-    min-height: calc(100vh - 2.5rem);
-}
-
-.section button {
-    position: fixed;
-    bottom: 0.5rem;
-    z-index: 100;
-    padding: 0.4rem 0.8rem;
-    border-radius: var(--border-radius);
-    font-weight: 500;
-    transition: var(--transition);
-    box-shadow: var(--shadow);
-    background: var(--card-background);
-    border: 1px solid var(--border-color);
-    font-size: 0.8rem;
-}
-
-.back-button {
-    left: 1rem;
-}
-
-.next-button,
-.confirm-button {
-    right: 1rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    color: white;
-    border: none;
-}
-
-/* Улучшения для iOS */
-@supports (-webkit-touch-callout: none) {
-    .section {
-        padding-bottom: calc(3rem + env(safe-area-inset-bottom));
-    }
-    
-    .section button {
-        bottom: calc(0.5rem + env(safe-area-inset-bottom));
-    }
-}
-
-/* Анимации для кнопок */
-.back-button i,
-.next-button i,
-.confirm-button i {
-    transition: transform 0.2s ease;
-}
-
-.back-button:hover i {
-    transform: translateX(-3px);
-}
-
-.next-button:hover i,
-.confirm-button:hover i {
-    transform: translateX(3px);
 }
 
 /* Улучшения для доступности */

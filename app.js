@@ -381,7 +381,10 @@ document.querySelector('#options-selection .next-button').addEventListener('clic
 document.addEventListener('DOMContentLoaded', function() {
     const confirmButton = document.querySelector('#order-preview .confirm-button');
     if (confirmButton) {
-        confirmButton.addEventListener('click', submitOrder);
+        confirmButton.addEventListener('click', function() {
+            console.log('Confirm button clicked');
+            submitOrder();
+        });
     }
 });
 
@@ -410,6 +413,7 @@ function handleContactInfoNext() {
 // Функция отправки заказа
 async function submitOrder() {
     try {
+        console.log('Submitting order...');
         if (!state.order.product || !state.order.size || !state.order.shape || !state.order.material || !state.order.color) {
             showError('Пожалуйста, заполните все обязательные поля');
             return;
@@ -444,6 +448,8 @@ async function submitOrder() {
             user: userData,
             timestamp: new Date().toISOString()
         };
+
+        console.log('Sending order data:', orderData);
 
         // Отправляем данные в Telegram
         await tg.sendData(JSON.stringify(orderData));
