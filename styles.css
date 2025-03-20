@@ -374,4 +374,86 @@ body {
     .btn {
         -webkit-tap-highlight-color: transparent;
     }
+}
+
+/* Кнопки навигации */
+.back-button,
+.next-button,
+.confirm-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin: 1rem 0;
+    gap: 0.5rem;
+}
+
+.back-button {
+    background-color: #f0f0f0;
+    color: var(--text-color);
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
+
+.next-button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.next-button:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.confirm-button {
+    background-color: var(--accent-color);
+    color: white;
+    width: 100%;
+}
+
+.confirm-button:hover {
+    background-color: var(--accent-color-dark);
+}
+
+/* Позиционирование кнопок */
+.section {
+    position: relative;
+    padding-bottom: 4rem;
+}
+
+.section button {
+    position: absolute;
+    bottom: 1rem;
+}
+
+.back-button {
+    left: 1rem;
+}
+
+.next-button,
+.confirm-button {
+    right: 1rem;
+}
+
+/* Анимации для кнопок */
+.back-button i,
+.next-button i,
+.confirm-button i {
+    transition: transform 0.2s ease;
+}
+
+.back-button:hover i {
+    transform: translateX(-3px);
+}
+
+.next-button:hover i,
+.confirm-button:hover i {
+    transform: translateX(3px);
 } 

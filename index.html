@@ -52,186 +52,206 @@
 
                 <!-- Выбор размера (для сумки) -->
                 <section id="size-selection" class="section hidden">
-                    <h2>Выберите размер</h2>
-                    <div class="size-grid">
+                    <h2>Выберите размер сумки</h2>
+                    <div class="grid">
                         <div class="size-card" data-size="S">
-                            <i class="fas fa-bag"></i>
-                            <h3>S</h3>
-                            <p>Микросумка</p>
+                            <i class="fas fa-ruler"></i>
+                            <h3>S (микросумка)</h3>
+                            <p>Компактный размер</p>
                         </div>
                         <div class="size-card" data-size="M">
                             <i class="fas fa-mobile-alt"></i>
-                            <h3>M</h3>
-                            <p>Влезает телефон и картхолдер</p>
+                            <h3>M (влезает телефон и картхолдер)</h3>
+                            <p>Средний размер</p>
                         </div>
                         <div class="size-card" data-size="L">
                             <i class="fas fa-shopping-bag"></i>
-                            <h3>L</h3>
-                            <p>На 5 см больше размера M</p>
+                            <h3>L (на 5 см больше размера M)</h3>
+                            <p>Большой размер</p>
                         </div>
                     </div>
+                    <button class="back-button" onclick="showSection('product-selection', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
                 </section>
 
                 <!-- Выбор формы (для сумки) -->
                 <section id="shape-selection" class="section hidden">
-                    <h2>Выберите форму</h2>
-                    <div class="shape-grid">
+                    <h2>Выберите форму сумки</h2>
+                    <div class="grid">
                         <div class="shape-card" data-shape="Круглая">
-                            <img src="images/krug.jpeg" alt="Круглая" loading="lazy">
+                            <img src="images/krug.jpeg" alt="Круглая форма" loading="lazy">
                             <h3>Круглая</h3>
+                            <p>Классическая форма</p>
                         </div>
                         <div class="shape-card" data-shape="Прямоугольная">
-                            <img src="images/pramougolnaya.jpeg" alt="Прямоугольная" loading="lazy">
+                            <img src="images/pramougolnaya.jpeg" alt="Прямоугольная форма" loading="lazy">
                             <h3>Прямоугольная</h3>
-                        </div>
-                        <div class="shape-card" data-shape="Квадратная">
-                            <img src="images/kvadrat.jpeg" alt="Квадратная" loading="lazy">
-                            <h3>Квадратная</h3>
-                        </div>
-                        <div class="shape-card" data-shape="Сердце">
-                            <img src="images/serdce.jpeg" alt="Сердце" loading="lazy">
-                            <h3>Сердце</h3>
-                        </div>
-                        <div class="shape-card" data-shape="Месяц">
-                            <img src="images/mesyac.jpeg" alt="Месяц" loading="lazy">
-                            <h3>Месяц</h3>
+                            <p>Практичная форма</p>
                         </div>
                         <div class="shape-card" data-shape="Трапеция">
                             <img src="images/trapeciya.jpeg" alt="Трапеция" loading="lazy">
                             <h3>Трапеция</h3>
+                            <p>Стильная форма</p>
+                        </div>
+                        <div class="shape-card" data-shape="Квадратная">
+                            <img src="images/kvadrat.jpeg" alt="Квадратная форма" loading="lazy">
+                            <h3>Квадратная</h3>
+                            <p>Современная форма</p>
+                        </div>
+                        <div class="shape-card" data-shape="Месяц">
+                            <img src="images/mesyac.jpeg" alt="Месяц" loading="lazy">
+                            <h3>Месяц</h3>
+                            <p>Необычная форма</p>
+                        </div>
+                        <div class="shape-card" data-shape="Сердце">
+                            <img src="images/serdce.jpeg" alt="Сердце" loading="lazy">
+                            <h3>Сердце</h3>
+                            <p>Романтичная форма</p>
                         </div>
                     </div>
+                    <button class="back-button" onclick="showSection('size-selection', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
                 </section>
 
                 <!-- Выбор материала -->
                 <section id="material-selection" class="section hidden">
-                    <h2>Выберите материал</h2>
-                    <div class="material-grid">
+                    <h2>Выберите материал бусин</h2>
+                    <div class="grid">
                         <div class="material-card" data-material="Акрил">
                             <img src="images/akril.jpeg" alt="Акрил" loading="lazy">
                             <h3>Акрил</h3>
-                            <p class="description">Прочный и долговечный материал</p>
+                            <p>Прочный и доступный</p>
                         </div>
                         <div class="material-card" data-material="Хрусталь">
                             <img src="images/hrust.jpeg" alt="Хрусталь" loading="lazy">
                             <h3>Хрусталь</h3>
-                            <p class="description">Элегантный блеск и прозрачность</p>
+                            <p>Блестящий и элегантный</p>
                         </div>
                         <div class="material-card" data-material="Swarovski">
                             <img src="images/swarovski.jpeg" alt="Swarovski" loading="lazy">
                             <h3>Swarovski</h3>
-                            <p class="description">Премиальные кристаллы</p>
+                            <p>Премиальное качество</p>
                         </div>
                     </div>
+                    <button class="back-button" onclick="showSection(state.order.product === 'Сумка' ? 'shape-selection' : 'product-selection', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
                 </section>
 
                 <!-- Выбор цвета -->
                 <section id="color-selection" class="section hidden">
                     <h2>Выберите цвет</h2>
-                    <div class="color-grid">
-                        <div class="color-card" data-color="Белый" style="background-color: white;" title="Белый"></div>
-                        <div class="color-card" data-color="Чёрный" style="background-color: black;" title="Чёрный"></div>
-                        <div class="color-card" data-color="Синий" style="background-color: blue;" title="Синий"></div>
-                        <div class="color-card" data-color="Зелёный" style="background-color: green;" title="Зелёный"></div>
+                    <div class="grid">
+                        <div class="color-card" data-color="Белый" style="background-color: #FFFFFF;"></div>
+                        <div class="color-card" data-color="Чёрный" style="background-color: #000000;"></div>
+                        <div class="color-card" data-color="Синий" style="background-color: #0000FF;"></div>
+                        <div class="color-card" data-color="Зелёный" style="background-color: #00FF00;"></div>
                     </div>
+                    <button class="back-button" onclick="showSection('material-selection', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
                 </section>
 
                 <!-- Дополнительные опции -->
                 <section id="options-selection" class="section hidden">
-                    <h2>Дополнительные опции</h2>
-                    <div class="options-grid">
+                    <h2>Выберите дополнительные опции</h2>
+                    <div class="grid">
                         <div class="option-card" data-option="Застёжка">
                             <i class="fas fa-lock"></i>
                             <h3>Застёжка</h3>
+                            <p>+500 ₽</p>
                         </div>
                         <div class="option-card" data-option="Подклад">
                             <i class="fas fa-layer-group"></i>
                             <h3>Подклад</h3>
+                            <p>+800 ₽</p>
                         </div>
                         <div class="option-card" data-option="Ручка-цепочка">
                             <i class="fas fa-link"></i>
                             <h3>Ручка-цепочка</h3>
+                            <p>+1000 ₽</p>
                         </div>
                     </div>
+                    <button class="back-button" onclick="showSection('color-selection', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button class="next-button" onclick="showSection('custom-order')">
+                        Далее <i class="fas fa-arrow-right"></i>
+                    </button>
                 </section>
 
                 <!-- Нестандартный заказ -->
                 <section id="custom-order" class="section hidden">
-                    <h2>Опишите ваш заказ</h2>
-                    <textarea id="custom-description" class="form-control" rows="4" placeholder="Опишите ваш заказ..."></textarea>
-                    <div class="photo-upload">
-                        <input type="file" id="photo-input" accept="image/*" multiple>
-                        <button class="btn" onclick="document.getElementById('photo-input').click()">
-                            <i class="fas fa-camera"></i> Добавить фото
-                        </button>
+                    <h2>Дополнительная информация</h2>
+                    <div class="form-group">
+                        <label for="custom-description">Опишите ваши пожелания (необязательно)</label>
+                        <textarea id="custom-description" rows="4" placeholder="Например: особые пожелания по дизайну или размерам"></textarea>
                     </div>
-                    <div id="photo-preview" class="photo-preview"></div>
+                    <div class="form-group">
+                        <label for="photo-input">Прикрепите фото-пример (необязательно)</label>
+                        <input type="file" id="photo-input" accept="image/*" multiple>
+                        <div id="photo-preview" class="photo-preview"></div>
+                    </div>
+                    <button class="back-button" onclick="showSection('options-selection', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button class="next-button" onclick="confirmOrder()">
+                        Подтвердить заказ <i class="fas fa-check"></i>
+                    </button>
                 </section>
 
                 <!-- Предпросмотр заказа -->
                 <section id="order-preview" class="section hidden">
                     <h2>Предпросмотр заказа</h2>
-                    <div id="preview-content">
-                        <div class="preview-item">
+                    <div id="preview-content" class="preview-content">
+                        <div id="preview-product-container" class="preview-item">
                             <i class="fas fa-shopping-bag"></i>
-                            <div class="details">
-                                <h3>Тип продукта</h3>
-                                <p id="preview-product"></p>
-                            </div>
+                            <h3>Продукт</h3>
+                            <p id="preview-product">Не выбрано</p>
                         </div>
-                        <div class="preview-item" id="preview-size-container">
+                        <div id="preview-size-container" class="preview-item">
                             <i class="fas fa-ruler"></i>
-                            <div class="details">
-                                <h3>Размер</h3>
-                                <p id="preview-size"></p>
-                            </div>
+                            <h3>Размер</h3>
+                            <p id="preview-size">Не выбрано</p>
                         </div>
-                        <div class="preview-item" id="preview-shape-container">
+                        <div id="preview-shape-container" class="preview-item">
                             <i class="fas fa-shapes"></i>
-                            <div class="details">
-                                <h3>Форма</h3>
-                                <p id="preview-shape"></p>
-                            </div>
+                            <h3>Форма</h3>
+                            <p id="preview-shape">Не выбрано</p>
                         </div>
-                        <div class="preview-item" id="preview-material-container">
-                            <i class="fas fa-paint-brush"></i>
-                            <div class="details">
-                                <h3>Материал</h3>
-                                <p id="preview-material"></p>
-                            </div>
+                        <div id="preview-material-container" class="preview-item">
+                            <i class="fas fa-gem"></i>
+                            <h3>Материал</h3>
+                            <p id="preview-material">Не выбрано</p>
                         </div>
-                        <div class="preview-item" id="preview-color-container">
+                        <div id="preview-color-container" class="preview-item">
                             <i class="fas fa-palette"></i>
-                            <div class="details">
-                                <h3>Цвет</h3>
-                                <p id="preview-color"></p>
-                            </div>
+                            <h3>Цвет</h3>
+                            <p id="preview-color">Не выбрано</p>
                         </div>
-                        <div class="preview-item" id="preview-options-container">
-                            <i class="fas fa-list"></i>
-                            <div class="details">
-                                <h3>Дополнительные опции</h3>
-                                <p id="preview-options"></p>
-                            </div>
+                        <div id="preview-options-container" class="preview-item">
+                            <i class="fas fa-plus-circle"></i>
+                            <h3>Дополнительные опции</h3>
+                            <p id="preview-options">Нет</p>
                         </div>
-                        <div class="preview-item" id="preview-custom-container">
+                        <div id="preview-custom-container" class="preview-item">
                             <i class="fas fa-comment"></i>
-                            <div class="details">
-                                <h3>Ваши пожелания</h3>
-                                <p id="preview-custom"></p>
-                            </div>
+                            <h3>Пожелания</h3>
+                            <p id="preview-custom">Нет</p>
                         </div>
-                        <div class="preview-photos" id="preview-photos"></div>
-                        <div class="preview-item">
-                            <i class="fas fa-calculator"></i>
-                            <div class="details">
-                                <h3>Итоговая стоимость</h3>
-                                <p class="price" id="preview-total"></p>
-                            </div>
+                        <div id="preview-photos" class="preview-photos"></div>
+                        <div class="preview-total">
+                            <h3>Итоговая стоимость:</h3>
+                            <p id="preview-total">0 ₽</p>
                         </div>
                     </div>
-                    <button class="btn" onclick="confirmOrder()">
-                        <i class="fas fa-check"></i> Подтвердить заказ
+                    <button class="back-button" onclick="showSection('custom-order', 'left')">
+                        <i class="fas fa-arrow-left"></i> Назад
+                    </button>
+                    <button class="confirm-button" onclick="confirmOrder()">
+                        Подтвердить заказ <i class="fas fa-check"></i>
                     </button>
                 </section>
             </main>
