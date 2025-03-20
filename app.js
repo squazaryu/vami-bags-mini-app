@@ -33,6 +33,8 @@ function showSection(sectionId, direction = 'right') {
     const currentSection = document.getElementById(state.currentSection);
     const nextSection = document.getElementById(sectionId);
     
+    if (!currentSection || !nextSection) return;
+    
     // Удаляем классы анимации
     currentSection.classList.remove('slide-left', 'slide-right');
     nextSection.classList.remove('slide-left', 'slide-right');
@@ -84,7 +86,10 @@ function updatePreview() {
     };
     
     Object.entries(containers).forEach(([id, show]) => {
-        document.getElementById(id).style.display = show ? 'flex' : 'none';
+        const container = document.getElementById(id);
+        if (container) {
+            container.style.display = show ? 'flex' : 'none';
+        }
     });
     
     // Обновляем итоговую стоимость
@@ -120,7 +125,10 @@ function calculateTotalPrice() {
     if (order.options.includes('Ручка-цепочка')) total += 1000;
     
     // Обновляем отображение
-    document.getElementById('preview-total').textContent = `${total} ₽`;
+    const totalElement = document.getElementById('preview-total');
+    if (totalElement) {
+        totalElement.textContent = `${total} ₽`;
+    }
     state.order.totalPrice = total;
 }
 
@@ -201,7 +209,6 @@ document.getElementById('custom-description').addEventListener('input', (e) => {
 // Подтверждение заказа
 function confirmOrder() {
     updatePreview();
-    showSection('order-preview');
     
     // Формируем данные для отправки
     const orderData = {
@@ -218,11 +225,6 @@ function confirmOrder() {
     // Отправляем данные в Telegram
     tg.sendData(JSON.stringify(orderData));
 }
-
-// Обработка ответа от бота
-tg.onEvent('mainButtonClicked', () => {
-    confirmOrder();
-});
 
 // Инициализация
 updateProgress(); 
