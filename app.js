@@ -266,12 +266,6 @@ async function confirmOrder() {
             throw new Error('Пожалуйста, опишите ваш заказ');
         }
         
-        // Сначала показываем предпросмотр
-        showSection('order-preview');
-        
-        // Обновляем предпросмотр
-        updatePreview();
-        
         // Формируем данные для отправки
         const orderData = {
             product: state.order.product,
@@ -291,10 +285,14 @@ async function confirmOrder() {
 
         // Отправляем данные в Telegram
         try {
+            // Отправляем данные в Telegram
             await tg.sendData(JSON.stringify(orderData));
             
-            // Показываем сообщение об успехе
-            showSuccessMessage('Заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+            // Генерируем номер заказа (временное решение)
+            const orderNumber = Math.floor(Math.random() * 10000);
+            
+            // Показываем сообщение об успехе с номером заказа
+            showSuccessMessage(`Заказ #${orderNumber} успешно отправлен! Мы свяжемся с вами в ближайшее время.`);
             
             // Очищаем состояние заказа
             state.order = {
