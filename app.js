@@ -128,7 +128,13 @@ function calculateTotalPrice() {
 document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('click', () => {
         state.order.product = card.dataset.product;
-        showSection('size-selection');
+        if (state.order.product === 'Сумка') {
+            showSection('size-selection');
+        } else if (state.order.product === 'Подстаканник') {
+            showSection('material-selection');
+        } else {
+            showSection('custom-order');
+        }
     });
 });
 
@@ -197,9 +203,26 @@ function confirmOrder() {
     updatePreview();
     showSection('order-preview');
     
+    // Формируем данные для отправки
+    const orderData = {
+        ...state.order,
+        user_id: tg.initDataUnsafe.user?.id,
+        username: tg.initDataUnsafe.user?.username,
+        first_name: tg.initDataUnsafe.user?.first_name,
+        last_name: tg.initDataUnsafe.user?.last_name,
+        language_code: tg.initDataUnsafe.user?.language_code,
+        start_param: tg.initDataUnsafe.start_param,
+        hash: tg.initDataUnsafe.hash
+    };
+    
     // Отправляем данные в Telegram
-    tg.sendData(JSON.stringify(state.order));
+    tg.sendData(JSON.stringify(orderData));
 }
+
+// Обработка ответа от бота
+tg.onEvent('mainButtonClicked', () => {
+    confirmOrder();
+});
 
 // Инициализация
 updateProgress(); 
