@@ -150,31 +150,105 @@ body {
     text-align: center;
 }
 
-/* Цветовые карточки */
+/* Стили для карточек цветов */
 .color-card {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto;
+    aspect-ratio: 1;
     border-radius: 50%;
-    border: 2px solid #ddd;
-    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
     position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto;
 }
 
-.color-card::after {
-    content: attr(data-color);
+.color-card::before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+}
+
+.color-card .color-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.color-card .color-name {
     position: absolute;
     bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.8rem;
-    color: var(--text-color);
     white-space: nowrap;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0;
+    transition: all 0.3s ease;
 }
 
-.color-card:hover {
-    transform: scale(1.1);
-    border-color: var(--primary-color);
+.color-card:hover .color-name {
+    opacity: 1;
+    bottom: -30px;
+}
+
+.color-card.selected .color-preview {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-color);
+}
+
+/* Стили для сетки цветов */
+#color-selection .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    justify-items: center;
+}
+
+/* Стили для карточки нестандартного заказа */
+.product-card[data-product="Нестандартный заказ"] {
+    grid-column: 1 / -1;
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.product-card[data-product="Нестандартный заказ"] i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.product-card[data-product="Нестандартный заказ"] h3 {
+    text-align: center;
+    margin: 0;
+}
+
+.product-card[data-product="Нестандартный заказ"] p {
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Обновляем стили для сетки продуктов */
+#product-selection .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    justify-items: center;
 }
 
 /* Кнопки */
