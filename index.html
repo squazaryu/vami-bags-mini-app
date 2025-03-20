@@ -253,17 +253,59 @@
                     </div>
                 </section>
 
-                <!-- Предпросмотр заказа -->
-                <section id="order-preview" class="section" style="display: none;">
-                    <h2>Предпросмотр заказа</h2>
-                    <div id="order-preview-content"></div>
-                    <div class="button-group">
-                        <button class="back-button" onclick="showSection('options-selection')">
-                            <i class="fas fa-arrow-left"></i> Назад
-                        </button>
-                        <button class="confirm-button" onclick="submitOrder()">
-                            Подтвердить заказ
-                        </button>
+                <!-- Секция предпросмотра заказа -->
+                <section id="order-preview" class="section hidden">
+                    <div class="preview-content">
+                        <h2>Проверьте ваш заказ</h2>
+                        <div class="preview-section">
+                            <h3>Информация о заказе</h3>
+                            <div class="preview-item">
+                                <span class="preview-label">Продукт:</span>
+                                <span class="preview-value" id="preview-product"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-label">Размер:</span>
+                                <span class="preview-value" id="preview-size"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-label">Форма:</span>
+                                <span class="preview-value" id="preview-shape"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-label">Материал:</span>
+                                <span class="preview-value" id="preview-material"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-label">Цвет:</span>
+                                <span class="preview-value" id="preview-color"></span>
+                            </div>
+                            <div class="preview-item">
+                                <span class="preview-label">Описание:</span>
+                                <span class="preview-value" id="preview-description"></span>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <h3>Фотографии</h3>
+                            <div class="preview-photos" id="preview-photos"></div>
+                        </div>
+
+                        <div class="button-group">
+                            <button class="button secondary" onclick="showSection('custom-description')">Назад</button>
+                            <button class="button primary" onclick="submitOrder()">Подтвердить заказ</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Секция успешного оформления -->
+                <section id="success" class="section hidden">
+                    <div class="success-content">
+                        <div class="success-icon">✓</div>
+                        <h2>Заказ успешно оформлен!</h2>
+                        <p id="success-message"></p>
+                        <div class="button-group">
+                            <button class="button primary" onclick="showSection('products')">Вернуться к каталогу</button>
+                        </div>
                     </div>
                 </section>
             </main>

@@ -310,36 +310,80 @@ document.getElementById('custom-description').addEventListener('input', (e) => {
 // Функция подтверждения заказа
 async function confirmOrder() {
     try {
-        setLoading(true);
-        
-        // Валидация данных
+        // Проверяем наличие всех необходимых данных
         if (!state.order.product) {
             throw new Error('Пожалуйста, выберите продукт');
         }
-        
-        if (state.order.product === 'Сумка') {
-            if (!state.order.size) throw new Error('Пожалуйста, выберите размер');
-            if (!state.order.shape) throw new Error('Пожалуйста, выберите форму');
+        if (!state.order.size) {
+            throw new Error('Пожалуйста, выберите размер');
         }
-        
-        if (!state.order.material) throw new Error('Пожалуйста, выберите материал');
-        if (!state.order.color) throw new Error('Пожалуйста, выберите цвет');
-        
-        if (state.order.product === 'Нестандартный заказ' && !state.order.customDescription) {
-            throw new Error('Пожалуйста, опишите ваш заказ');
+        if (!state.order.shape) {
+            throw new Error('Пожалуйста, выберите форму');
         }
+        if (!state.order.material) {
+            throw new Error('Пожалуйста, выберите материал');
+        }
+        if (!state.order.color) {
+            throw new Error('Пожалуйста, выберите цвет');
+        }
+        if (!state.order.customDescription) {
+            throw new Error('Пожалуйста, добавьте описание');
+        }
+        if (!state.order.photos || state.order.photos.length === 0) {
+            throw new Error('Пожалуйста, добавьте фото');
+        }
+
+        // Формируем данные заказа
+        const orderData = {
+            product: state.order.product,
+            size: state.order.size,
+            shape: state.order.shape,
+            material: state.order.material,
+            color: state.order.color,
+            customDescription: state.order.customDescription,
+            photos: state.order.photos,
+            user: {
+                id: tg.initDataUnsafe.user.id,
+                username: tg.initDataUnsafe.user.username,
+                first_name: tg.initDataUnsafe.user.first_name,
+                last_name: tg.initDataUnsafe.user.last_name,
+                language_code: tg.initDataUnsafe.user.language_code,
+                start_param: tg.initDataUnsafe.start_param
+            }
+        };
+
+        // Отправляем данные в Telegram
+        await tg.sendData(JSON.stringify(orderData));
+
+        // Генерируем временный номер заказа
+        const orderNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
         
-        // Сначала показываем предпросмотр
+        // Показываем экран предпросмотра
         showSection('order-preview');
-        
-        // Обновляем предпросмотр
         updatePreview();
-        
+
+        // Показываем сообщение об успехе
+        showMessage(`Заказ #${orderNumber} успешно оформлен! Мы свяжемся с вами в ближайшее время.`, 'success');
+
+        // Очищаем состояние заказа
+        state.order = {
+            product: null,
+            size: null,
+            shape: null,
+            material: null,
+            color: null,
+            customDescription: '',
+            photos: []
+        };
+
+        // Возвращаемся на главную через 3 секунды
+        setTimeout(() => {
+            showSection('products');
+        }, 3000);
+
     } catch (error) {
         console.error('Ошибка при подтверждении заказа:', error);
-        showErrorMessage(error.message);
-    } finally {
-        setLoading(false);
+        showMessage(error.message || 'Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте еще раз.', 'error');
     }
 }
 
@@ -423,49 +467,40 @@ function handleContactInfoNext() {
 // Функция отправки заказа
 async function submitOrder() {
     try {
-        console.log('Submitting order...');
-        if (!state.order.product || !state.order.size || !state.order.shape || !state.order.material || !state.order.color) {
-            showError('Пожалуйста, заполните все обязательные поля');
-            return;
+        // Проверяем наличие всех необходимых данных
+        if (!state.order.product || !state.order.size || !state.order.shape || 
+            !state.order.material || !state.order.color || !state.order.customDescription || 
+            !state.order.photos || state.order.photos.length === 0) {
+            throw new Error('Пожалуйста, заполните все поля заказа');
         }
 
-        // Собираем данные о пользователе
-        const userData = {
-            id: tg.initDataUnsafe.user.id,
-            first_name: tg.initDataUnsafe.user.first_name,
-            last_name: tg.initDataUnsafe.user.last_name,
-            username: tg.initDataUnsafe.user.username,
-            language_code: tg.initDataUnsafe.user.language_code,
-            platform: tg.platform,
-            colorScheme: tg.colorScheme,
-            isExpanded: tg.isExpanded,
-            viewportHeight: tg.viewportHeight,
-            viewportStableHeight: tg.viewportStableHeight,
-            contact_phone: state.order.contactInfo.phone,
-            contact_telegram: state.order.contactInfo.telegramUsername
-        };
-
+        // Формируем данные заказа
         const orderData = {
             product: state.order.product,
             size: state.order.size,
             shape: state.order.shape,
             material: state.order.material,
             color: state.order.color,
-            options: state.order.options || [],
             customDescription: state.order.customDescription,
             photos: state.order.photos,
-            totalPrice: calculateTotalPrice(),
-            user: userData,
-            timestamp: new Date().toISOString()
+            user: {
+                id: tg.initDataUnsafe.user.id,
+                username: tg.initDataUnsafe.user.username,
+                first_name: tg.initDataUnsafe.user.first_name,
+                last_name: tg.initDataUnsafe.user.last_name,
+                language_code: tg.initDataUnsafe.user.language_code,
+                start_param: tg.initDataUnsafe.start_param
+            }
         };
-
-        console.log('Sending order data:', orderData);
 
         // Отправляем данные в Telegram
         await tg.sendData(JSON.stringify(orderData));
 
+        // Генерируем временный номер заказа
+        const orderNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        
         // Показываем сообщение об успехе
-        showSuccessMessage('Заказ успешно отправлен!');
+        showMessage(`Заказ #${orderNumber} успешно отправлен! Мы свяжемся с вами в ближайшее время.`, 'success');
 
         // Очищаем состояние заказа
         state.order = {
@@ -474,24 +509,18 @@ async function submitOrder() {
             shape: null,
             material: null,
             color: null,
-            options: [],
             customDescription: '',
-            photos: [],
-            totalPrice: 0,
-            contactInfo: {
-                phone: '',
-                telegramUsername: ''
-            }
+            photos: []
         };
 
-        // Возвращаемся на главную страницу
+        // Возвращаемся на главную через 3 секунды
         setTimeout(() => {
-            showSection('product-selection');
-        }, 2000);
+            showSection('products');
+        }, 3000);
 
     } catch (error) {
-        console.error('Error submitting order:', error);
-        showError('Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.');
+        console.error('Ошибка при отправке заказа:', error);
+        showMessage(error.message || 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.', 'error');
     }
 }
 
