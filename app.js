@@ -4,167 +4,202 @@ tg.expand();
 
 // Состояние приложения
 let state = {
-    product: null,
-    size: null,
-    shape: null,
-    material: null,
-    color: null,
-    options: [],
-    customDescription: '',
-    photos: []
+    currentSection: 'product-selection',
+    order: {
+        product: null,
+        size: null,
+        shape: null,
+        material: null,
+        color: null,
+        options: [],
+        customDescription: '',
+        photos: [],
+        totalPrice: 0
+    }
 };
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    // Настройка темы Telegram
-    document.body.style.backgroundColor = tg.backgroundColor;
-    document.body.style.color = tg.textColor;
-
-    // Добавление обработчиков событий
-    setupEventListeners();
-});
-
-// Настройка обработчиков событий
-function setupEventListeners() {
-    // Обработчики выбора продукта
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const product = card.dataset.product;
-            state.product = product;
-            
-            // Скрываем все секции
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.add('hidden');
-            });
-
-            // Показываем следующую секцию в зависимости от выбранного продукта
-            if (product === 'Сумка') {
-                document.getElementById('size-selection').classList.remove('hidden');
-            } else if (product === 'Подстаканник') {
-                document.getElementById('material-selection').classList.remove('hidden');
-            } else {
-                document.getElementById('custom-order').classList.remove('hidden');
-            }
-        });
-    });
-
-    // Обработчики выбора размера
-    document.querySelectorAll('.size-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.size = card.dataset.size;
-            showNextSection('shape-selection');
-        });
-    });
-
-    // Обработчики выбора формы
-    document.querySelectorAll('.shape-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.shape = card.dataset.shape;
-            showNextSection('material-selection');
-        });
-    });
-
-    // Обработчики выбора материала
-    document.querySelectorAll('.material-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.material = card.dataset.material;
-            showNextSection('color-selection');
-        });
-    });
-
-    // Обработчики выбора цвета
-    document.querySelectorAll('.color-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.color = card.dataset.color;
-            showNextSection('options-selection');
-        });
-    });
-
-    // Обработчики выбора опций
-    document.querySelectorAll('.option-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const option = card.dataset.option;
-            if (state.options.includes(option)) {
-                state.options = state.options.filter(opt => opt !== option);
-                card.classList.remove('selected');
-            } else {
-                state.options.push(option);
-                card.classList.add('selected');
-            }
-        });
-    });
-
-    // Обработчик загрузки фото
-    document.getElementById('photo-input').addEventListener('change', handlePhotoUpload);
+// Обновление индикатора прогресса
+function updateProgress() {
+    const sections = ['product-selection', 'size-selection', 'shape-selection', 
+                     'material-selection', 'color-selection', 'options-selection', 
+                     'custom-order', 'order-preview'];
+    const currentIndex = sections.indexOf(state.currentSection);
+    const progress = (currentIndex / (sections.length - 1)) * 100;
+    document.getElementById('progress-bar').style.transform = `scaleX(${progress / 100})`;
 }
 
-// Показать следующую секцию
-function showNextSection(sectionId) {
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.add('hidden');
-    });
-    document.getElementById(sectionId).classList.remove('hidden');
-}
-
-// Обработка загрузки фото
-function handlePhotoUpload(event) {
-    const files = event.target.files;
-    const photoPreview = document.getElementById('photo-preview');
+// Анимация перехода между секциями
+function showSection(sectionId, direction = 'right') {
+    const currentSection = document.getElementById(state.currentSection);
+    const nextSection = document.getElementById(sectionId);
     
-    for (let file of files) {
-        if (file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                photoPreview.appendChild(img);
-                state.photos.push(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
+    // Удаляем классы анимации
+    currentSection.classList.remove('slide-left', 'slide-right');
+    nextSection.classList.remove('slide-left', 'slide-right');
+    
+    // Добавляем классы анимации
+    currentSection.classList.add(direction === 'right' ? 'slide-left' : 'slide-right');
+    nextSection.classList.add(direction === 'right' ? 'slide-right' : 'slide-left');
+    
+    // Скрываем текущую секцию и показываем следующую
+    setTimeout(() => {
+        currentSection.classList.add('hidden');
+        nextSection.classList.remove('hidden');
+        state.currentSection = sectionId;
+        updateProgress();
+    }, 500);
 }
 
 // Обновление предпросмотра заказа
-function updateOrderPreview() {
-    const previewContent = document.getElementById('preview-content');
-    let previewHtml = '';
-
-    if (state.product === 'Сумка') {
-        previewHtml = `
-            <h3>Ваш заказ:</h3>
-            <p>Продукт: ${state.product}</p>
-            <p>Размер: ${state.size}</p>
-            <p>Форма: ${state.shape}</p>
-            <p>Материал: ${state.material}</p>
-            <p>Цвет: ${state.color}</p>
-            <p>Дополнительные опции: ${state.options.join(', ') || 'Нет'}</p>
-        `;
-    } else if (state.product === 'Подстаканник') {
-        previewHtml = `
-            <h3>Ваш заказ:</h3>
-            <p>Продукт: ${state.product}</p>
-            <p>Материал: ${state.material}</p>
-            <p>Цвет: ${state.color}</p>
-        `;
-    } else {
-        previewHtml = `
-            <h3>Ваш заказ:</h3>
-            <p>Тип: Нестандартный заказ</p>
-            <p>Описание: ${state.customDescription}</p>
-            ${state.photos.length > 0 ? `<p>Количество фото: ${state.photos.length}</p>` : ''}
-        `;
-    }
-
-    previewContent.innerHTML = previewHtml;
-    document.getElementById('order-preview').classList.remove('hidden');
+function updatePreview() {
+    const order = state.order;
+    
+    // Обновляем основные поля
+    document.getElementById('preview-product').textContent = order.product || 'Не выбрано';
+    document.getElementById('preview-size').textContent = order.size || 'Не выбрано';
+    document.getElementById('preview-shape').textContent = order.shape || 'Не выбрано';
+    document.getElementById('preview-material').textContent = order.material || 'Не выбрано';
+    document.getElementById('preview-color').textContent = order.color || 'Не выбрано';
+    document.getElementById('preview-options').textContent = order.options.length > 0 ? order.options.join(', ') : 'Нет';
+    document.getElementById('preview-custom').textContent = order.customDescription || 'Нет';
+    
+    // Обновляем фотографии
+    const previewPhotos = document.getElementById('preview-photos');
+    previewPhotos.innerHTML = '';
+    order.photos.forEach(photo => {
+        const img = document.createElement('img');
+        img.src = photo;
+        img.alt = 'Фото заказа';
+        previewPhotos.appendChild(img);
+    });
+    
+    // Показываем/скрываем контейнеры в зависимости от типа продукта
+    const containers = {
+        'preview-size-container': order.product === 'Сумка',
+        'preview-shape-container': order.product === 'Сумка',
+        'preview-material-container': true,
+        'preview-color-container': true,
+        'preview-options-container': order.product === 'Сумка',
+        'preview-custom-container': order.product === 'Нестандартный заказ'
+    };
+    
+    Object.entries(containers).forEach(([id, show]) => {
+        document.getElementById(id).style.display = show ? 'flex' : 'none';
+    });
+    
+    // Обновляем итоговую стоимость
+    calculateTotalPrice();
 }
+
+// Расчет итоговой стоимости
+function calculateTotalPrice() {
+    let total = 0;
+    const order = state.order;
+    
+    // Базовые цены
+    const basePrices = {
+        'Сумка': {
+            'S': 2000,
+            'M': 2500,
+            'L': 3000
+        },
+        'Подстаканник': 1500,
+        'Нестандартный заказ': 3000
+    };
+    
+    // Добавляем базовую цену
+    if (order.product === 'Сумка' && order.size) {
+        total += basePrices['Сумка'][order.size];
+    } else {
+        total += basePrices[order.product];
+    }
+    
+    // Дополнительные опции
+    if (order.options.includes('Застёжка')) total += 500;
+    if (order.options.includes('Подклад')) total += 800;
+    if (order.options.includes('Ручка-цепочка')) total += 1000;
+    
+    // Обновляем отображение
+    document.getElementById('preview-total').textContent = `${total} ₽`;
+    state.order.totalPrice = total;
+}
+
+// Обработчики событий
+document.querySelectorAll('.product-card').forEach(card => {
+    card.addEventListener('click', () => {
+        state.order.product = card.dataset.product;
+        showSection('size-selection');
+    });
+});
+
+document.querySelectorAll('.size-card').forEach(card => {
+    card.addEventListener('click', () => {
+        state.order.size = card.dataset.size;
+        showSection('shape-selection');
+    });
+});
+
+document.querySelectorAll('.shape-card').forEach(card => {
+    card.addEventListener('click', () => {
+        state.order.shape = card.dataset.shape;
+        showSection('material-selection');
+    });
+});
+
+document.querySelectorAll('.material-card').forEach(card => {
+    card.addEventListener('click', () => {
+        state.order.material = card.dataset.material;
+        showSection('color-selection');
+    });
+});
+
+document.querySelectorAll('.color-card').forEach(card => {
+    card.addEventListener('click', () => {
+        state.order.color = card.dataset.color;
+        showSection('options-selection');
+    });
+});
+
+document.querySelectorAll('.option-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const option = card.dataset.option;
+        const index = state.order.options.indexOf(option);
+        if (index === -1) {
+            state.order.options.push(option);
+        } else {
+            state.order.options.splice(index, 1);
+        }
+        card.classList.toggle('selected');
+    });
+});
+
+// Обработка загрузки фотографий
+document.getElementById('photo-input').addEventListener('change', (e) => {
+    const files = e.target.files;
+    for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            state.order.photos.push(e.target.result);
+            updatePreview();
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Обработка текстового описания
+document.getElementById('custom-description').addEventListener('input', (e) => {
+    state.order.customDescription = e.target.value;
+    updatePreview();
+});
 
 // Подтверждение заказа
 function confirmOrder() {
-    // Отправка данных в Telegram
-    tg.sendData(JSON.stringify({
-        ...state,
-        customDescription: document.getElementById('custom-description')?.value || ''
-    }));
-} 
+    updatePreview();
+    showSection('order-preview');
+    
+    // Отправляем данные в Telegram
+    tg.sendData(JSON.stringify(state.order));
+}
+
+// Инициализация
+updateProgress(); 
