@@ -184,6 +184,7 @@ document.querySelectorAll('.option-card').forEach(card => {
             state.order.options.splice(index, 1);
         }
         card.classList.toggle('selected');
+        updatePreview();
     });
 });
 
@@ -208,6 +209,10 @@ document.getElementById('custom-description').addEventListener('input', (e) => {
 
 // Подтверждение заказа
 function confirmOrder() {
+    // Сначала показываем предпросмотр
+    showSection('order-preview');
+    
+    // Обновляем предпросмотр
     updatePreview();
     
     // Формируем данные для отправки
@@ -226,5 +231,13 @@ function confirmOrder() {
     tg.sendData(JSON.stringify(orderData));
 }
 
+// Обработчик кнопки "Далее" в секции опций
+function handleOptionsNext() {
+    showSection('custom-order');
+}
+
 // Инициализация
-updateProgress(); 
+updateProgress();
+
+// Добавляем обработчик для кнопки "Далее" в секции опций
+document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext); 
