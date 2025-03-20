@@ -548,13 +548,49 @@ body {
 /* Улучшения для тёмной темы */
 @media (prefers-color-scheme: dark) {
     :root {
-        --text-color: #E0E0E0;
+        --primary-color: #FF69B4;
+        --secondary-color: #FF1493;
+        --accent-color: #FFB6C1;
+        --text-color: #FFFFFF;
         --background-color: #1A1A1A;
         --card-background: #2D2D2D;
+        --border-color: #404040;
     }
     
     .header {
         background: linear-gradient(135deg, #FF1493, #FF69B4);
+    }
+
+    .product-card,
+    .shape-card,
+    .material-card,
+    .color-card,
+    .option-card {
+        background: var(--card-background);
+        border-color: var(--border-color);
+    }
+
+    .product-card h3,
+    .shape-card h3,
+    .material-card h3,
+    .option-card h3 {
+        color: var(--text-color);
+    }
+
+    .product-card .description,
+    .shape-card .description,
+    .material-card .description,
+    .option-card .description {
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+
+    .product-card:hover,
+    .shape-card:hover,
+    .material-card:hover,
+    .color-card:hover,
+    .option-card:hover {
+        background: #363636;
     }
 }
 
