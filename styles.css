@@ -161,61 +161,60 @@ body {
 /* Стили для карточек цветов */
 .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 1rem;
     padding: 1rem;
-    max-width: 600px;
+    max-width: 400px;
     margin: 0 auto;
-    justify-items: center;
 }
 
 .color-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.color-preview {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
     border: 2px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: var(--transition);
 }
 
-.color-card:hover {
-    transform: scale(1.1);
-    box-shadow: var(--shadow);
-}
-
-.color-card.selected {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(212, 176, 140, 0.3);
-}
-
-.color-card[data-color="Зеленый"] {
+.color-card[data-color="Зеленый"] .color-preview {
     background-color: #2E5A4C;
 }
 
-.color-card[data-color="Синий"] {
+.color-card[data-color="Синий"] .color-preview {
     background-color: #1B365C;
 }
 
-.color-card[data-color="Бежевый"] {
+.color-card[data-color="Бежевый"] .color-preview {
     background-color: #E6D5C7;
 }
 
-.color-card[data-color="Коричневый"] {
+.color-card[data-color="Коричневый"] .color-preview {
     background-color: #5C4033;
 }
 
-.color-card .color-name {
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.75rem;
+.color-name {
+    font-size: 0.85rem;
     color: var(--text-color);
-    white-space: nowrap;
+    text-align: center;
+}
+
+.color-card:hover .color-preview {
+    transform: scale(1.1);
+    border-color: var(--accent-color);
+}
+
+.color-card.selected .color-preview {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(212, 176, 140, 0.3);
 }
 
 /* Стили для сетки цветов */
@@ -270,6 +269,7 @@ body {
     padding: 1rem;
     max-width: 800px;
     margin: 0 auto;
+    margin-top: auto;
 }
 
 .back-button,
@@ -998,12 +998,37 @@ button.loading::after {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    min-height: 120px;
     position: relative;
     overflow: hidden;
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) - 2px);
+    margin-bottom: 0.5rem;
+}
+
+.product-card h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.product-card .description {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    text-align: center;
+    margin: 0;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-color: var(--accent-color);
 }
 
 .product-card.selected {
@@ -1011,21 +1036,822 @@ button.loading::after {
     border-color: var(--accent-color);
 }
 
-.product-card i {
-    font-size: 2rem;
+/* Стили для карточек цветов */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.color-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.color-card[data-color="Зеленый"] .color-preview {
+    background-color: #2E5A4C;
+}
+
+.color-card[data-color="Синий"] .color-preview {
+    background-color: #1B365C;
+}
+
+.color-card[data-color="Бежевый"] .color-preview {
+    background-color: #E6D5C7;
+}
+
+.color-card[data-color="Коричневый"] .color-preview {
+    background-color: #5C4033;
+}
+
+.color-name {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.color-card:hover .color-preview {
+    transform: scale(1.1);
+    border-color: var(--accent-color);
+}
+
+.color-card.selected .color-preview {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(212, 176, 140, 0.3);
+}
+
+/* Стили для кнопок */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: auto;
+}
+
+.back-button,
+.next-button {
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.back-button {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.next-button {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border: none;
+    color: white;
+}
+
+/* Поле ввода */
+.form-control {
+    font-size: 0.8rem;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.4rem 0.6rem;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: var(--focus-ring);
+}
+
+/* Загрузка фото */
+.photo-upload {
+    margin: 1rem;
+    text-align: center;
+}
+
+.photo-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Индикатор прогресса */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    z-index: 1001;
+}
+
+/* Анимации переходов */
+.section {
+    position: absolute;
+    width: 100%;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transform: translateX(0);
+    opacity: 1;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+.section.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.section.visible {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.section.slide-left {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.section.slide-right {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+/* Улучшенный предпросмотр заказа */
+#preview-content {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin: 1rem;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.preview-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    background: rgba(255, 105, 180, 0.05);
+}
+
+.preview-item i {
+    margin-right: 1rem;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.preview-item .details {
+    flex: 1;
+}
+
+.preview-item .price {
     color: var(--accent-color);
+    font-weight: 600;
+}
+
+.preview-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.preview-photos img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) - 4px);
+    box-shadow: var(--shadow);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .product-grid,
+    .shape-grid,
+    .material-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .section h2 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Состояния */
+.hidden {
+    display: none;
+}
+
+.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(255, 105, 180, 0.1);
+}
+
+/* Улучшения для iOS */
+@supports (-webkit-touch-callout: none) {
+    .header {
+        padding-top: calc(1rem + env(safe-area-inset-top));
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    }
+    
+    .btn {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .section {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+}
+
+/* Улучшения для доступности */
+:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+:focus:not(:focus-visible) {
+    box-shadow: none;
+}
+
+/* Улучшения для темной темы */
+@media (prefers-color-scheme: dark) {
+    /* Удаляем все стили */
+}
+
+/* Улучшения для тач-устройств */
+@media (hover: none) {
+    .product-card,
+    .shape-card,
+    .material-card,
+    .color-card,
+    .option-card {
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .btn,
+    .back-button,
+    .next-button,
+    .confirm-button {
+        padding: 1rem 2rem;
+    }
+}
+
+/* Улучшения для скринридеров */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Улучшения для анимаций */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Состояния загрузки */
+.loading {
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 4px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10000;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff4444;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    animation: slideDown 0.3s ease-out;
+    max-width: 90%;
+    text-align: center;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+    }
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
+/* Состояния загрузки изображений */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+}
+
+/* Улучшения для состояний загрузки в формах */
+.form-control:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Индикатор загрузки для кнопок */
+button.loading {
+    position: relative;
+    color: transparent;
+}
+
+button.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+}
+
+@keyframes buttonSpin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Сообщение об успехе */
+.success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    color: white;
+    padding: 1.5rem 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
+    max-width: 90%;
+    width: auto;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+/* Стили для предпросмотра заказа */
+.preview-content {
+    padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.preview-section {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.preview-section h3 {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    margin: 0 0 0.8rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.preview-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.preview-item:last-child {
+    margin-bottom: 0;
+}
+
+.preview-label {
+    color: #666;
+    font-weight: 500;
+}
+
+.preview-value {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.preview-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+.preview-photo {
+    position: relative;
+    padding-bottom: 100%;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.preview-photo img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.preview-photo:hover img {
+    transform: scale(1.05);
+}
+
+.preview-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Стили для формы контактных данных */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: var(--transition);
+    background-color: var(--card-background);
+    color: var(--text-color);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: var(--focus-ring);
+}
+
+.form-group input::placeholder {
+    color: #999;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .contact-form {
+        padding: 15px;
+    }
+    
+    .form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    .form-group label {
+        color: var(--text-color-dark);
+    }
+    
+    .form-group input {
+        background-color: var(--card-background-dark);
+        border-color: var(--border-color-dark);
+        color: var(--text-color-dark);
+    }
+    
+    .form-group input::placeholder {
+        color: #666;
+    }
+    
+    .form-group input:focus {
+        border-color: var(--primary-color-dark);
+        box-shadow: 0 0 0 2px rgba(193, 154, 107, 0.2);
+    }
+}
+
+/* Улучшения для производительности */
+.section {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+/* Стили для иконок */
+.product-card i,
+.shape-card i,
+.material-card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-color);
+    opacity: 1;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Hover эффекты */
+.product-card:hover,
+.shape-card:hover,
+.material-card:hover,
+.color-card:hover,
+.option-card:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-color: var(--accent-color);
+    background-color: var(--secondary-color);
+}
+
+/* Стили для опций */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.option-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.option-card.selected {
+    background-color: rgba(144, 238, 144, 0.1);
+    border-color: #90EE90;
+}
+
+/* Стили для страницы проверки заказа */
+.order-review {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.review-section {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.review-section h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    background: var(--background-color);
+}
+
+.review-label {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    flex: 0 0 30%;
+}
+
+.review-value {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    flex: 0 0 65%;
+    text-align: right;
+}
+
+.preview-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.preview-photos img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.preview-photos img:hover {
+    transform: scale(1.05);
+}
+
+.confirm-button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.confirm-button:hover {
+    background: var(--accent-color-dark);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: calc(var(--border-radius) - 2px);
     margin-bottom: 0.5rem;
 }
 
 .product-card h3 {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text-color);
     text-align: center;
 }
 
 .product-card .description {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: var(--text-color);
     opacity: 0.8;
     text-align: center;

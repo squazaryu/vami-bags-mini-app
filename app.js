@@ -261,86 +261,87 @@ function calculateTotalPrice() {
     }
 }
 
-// Обработчики событий для выбора продукта
-document.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('click', () => {
-        // Убираем выделение со всех карточек
-        document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-        // Добавляем выделение выбранной карточке
-        card.classList.add('selected');
-        
-        // Сохраняем выбор в состоянии
-        state.order.product = card.dataset.product;
-        
-        // Показываем следующую секцию в зависимости от выбора
-        setTimeout(() => {
-            if (state.order.product === 'Сумка') {
-                showSection('size-selection', 'right');
-            } else if (state.order.product === 'Подстаканник') {
-                showSection('material-selection', 'right');
+// Инициализация обработчиков событий для продуктов
+function initProductCards() {
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Снимаем выделение со всех карточек
+            productCards.forEach(c => c.classList.remove('selected'));
+            // Выделяем выбранную карточку
+            card.classList.add('selected');
+            // Сохраняем выбранный продукт
+            state.order.product = card.dataset.product;
+            // Показываем следующую секцию после небольшой задержки
+            setTimeout(() => {
+                if (state.order.product === 'Сумка') {
+                    showSection('size-selection', 'right');
+                } else if (state.order.product === 'Подстаканник') {
+                    showSection('material-selection', 'right');
+                } else {
+                    showSection('custom-order', 'right');
+                }
+            }, 200);
+        });
+    });
+}
+
+// Инициализация обработчиков событий для цветов
+function initColorCards() {
+    const colorCards = document.querySelectorAll('.color-card');
+    colorCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Снимаем выделение со всех карточек
+            colorCards.forEach(c => c.classList.remove('selected'));
+            // Выделяем выбранную карточку
+            card.classList.add('selected');
+            // Сохраняем выбранный цвет
+            state.order.color = card.dataset.color;
+        });
+    });
+}
+
+// Инициализация всех обработчиков событий
+function initializeEventHandlers() {
+    initProductCards();
+    initColorCards();
+    document.querySelectorAll('.size-card').forEach(card => {
+        card.addEventListener('click', () => {
+            state.order.size = card.dataset.size;
+            showSection('shape-selection');
+        });
+    });
+    document.querySelectorAll('.shape-card').forEach(card => {
+        card.addEventListener('click', () => {
+            state.order.shape = card.dataset.shape;
+            showSection('material-selection');
+        });
+    });
+    document.querySelectorAll('.material-card').forEach(card => {
+        card.addEventListener('click', () => {
+            state.order.material = card.dataset.material;
+            showSection('color-selection');
+        });
+    });
+    document.querySelectorAll('.option-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const option = card.dataset.option;
+            const index = state.order.options.indexOf(option);
+            if (index === -1) {
+                state.order.options.push(option);
             } else {
-                showSection('custom-order', 'right');
+                state.order.options.splice(index, 1);
             }
-        }, 200);
+            card.classList.toggle('selected');
+            updatePreview();
+        });
     });
-});
-
-document.querySelectorAll('.size-card').forEach(card => {
-    card.addEventListener('click', () => {
-        state.order.size = card.dataset.size;
-        showSection('shape-selection');
-    });
-});
-
-document.querySelectorAll('.shape-card').forEach(card => {
-    card.addEventListener('click', () => {
-        state.order.shape = card.dataset.shape;
-        showSection('material-selection');
-    });
-});
-
-document.querySelectorAll('.material-card').forEach(card => {
-    card.addEventListener('click', () => {
-        state.order.material = card.dataset.material;
-        showSection('color-selection');
-    });
-});
-
-// Обработчики событий для выбора цвета
-document.querySelectorAll('.color-card').forEach(card => {
-    card.addEventListener('click', () => {
-        // Убираем выделение со всех карточек
-        document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
-        // Добавляем выделение выбранной карточке
-        card.classList.add('selected');
-        
-        // Сохраняем выбор в состоянии
-        state.order.color = card.dataset.color;
-    });
-});
-
-document.querySelectorAll('.option-card').forEach(card => {
-    card.addEventListener('click', () => {
-        const option = card.dataset.option;
-        const index = state.order.options.indexOf(option);
-        if (index === -1) {
-            state.order.options.push(option);
-        } else {
-            state.order.options.splice(index, 1);
-        }
-        card.classList.toggle('selected');
+    document.getElementById('photo-input').addEventListener('change', handleImageUpload);
+    document.getElementById('custom-description').addEventListener('input', (e) => {
+        state.order.customDescription = e.target.value;
         updatePreview();
     });
-});
-
-// Обработка загрузки фотографий
-document.getElementById('photo-input').addEventListener('change', handleImageUpload);
-
-// Обработка текстового описания
-document.getElementById('custom-description').addEventListener('input', (e) => {
-    state.order.customDescription = e.target.value;
-    updatePreview();
-});
+}
 
 // Функция подтверждения заказа
 async function confirmOrder() {
