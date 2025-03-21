@@ -151,9 +151,14 @@
                             <p>Премиальное качество</p>
                         </div>
                     </div>
-                    <button class="back-button" onclick="showSection(state.order.product === 'Сумка' ? 'shape-selection' : 'product-selection', 'left')">
-                        <i class="fas fa-arrow-left"></i> Назад
-                    </button>
+                    <div class="button-group">
+                        <button class="back-button" onclick="showSection('material-selection', 'left')">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </button>
+                        <button class="next-button" onclick="showSection('options-selection', 'right')">
+                            Далее <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </section>
 
                 <!-- Выбор цвета -->
@@ -253,46 +258,59 @@
                     </div>
                 </section>
 
-                <!-- Секция предпросмотра заказа -->
-                <section id="order-preview" class="section hidden">
-                    <div class="preview-content">
-                        <h2>Проверьте ваш заказ</h2>
-                        <div class="preview-section">
-                            <h3>Информация о заказе</h3>
-                            <div class="preview-item">
-                                <span class="preview-label">Продукт:</span>
-                                <span class="preview-value" id="preview-product"></span>
+                <!-- Секция проверки заказа -->
+                <section id="order-review" class="section hidden">
+                    <h2>Проверьте ваш заказ</h2>
+                    <div class="order-review">
+                        <div class="review-section">
+                            <h3>Основная информация</h3>
+                            <div class="review-item">
+                                <span class="review-label">Продукт:</span>
+                                <span class="review-value" id="review-product"></span>
                             </div>
-                            <div class="preview-item">
-                                <span class="preview-label">Размер:</span>
-                                <span class="preview-value" id="preview-size"></span>
+                            <div class="review-item">
+                                <span class="review-label">Размер:</span>
+                                <span class="review-value" id="review-size"></span>
                             </div>
-                            <div class="preview-item">
-                                <span class="preview-label">Форма:</span>
-                                <span class="preview-value" id="preview-shape"></span>
+                            <div class="review-item">
+                                <span class="review-label">Форма:</span>
+                                <span class="review-value" id="review-shape"></span>
                             </div>
-                            <div class="preview-item">
-                                <span class="preview-label">Материал:</span>
-                                <span class="preview-value" id="preview-material"></span>
+                            <div class="review-item">
+                                <span class="review-label">Материал:</span>
+                                <span class="review-value" id="review-material"></span>
                             </div>
-                            <div class="preview-item">
-                                <span class="preview-label">Цвет:</span>
-                                <span class="preview-value" id="preview-color"></span>
-                            </div>
-                            <div class="preview-item">
-                                <span class="preview-label">Описание:</span>
-                                <span class="preview-value" id="preview-description"></span>
+                            <div class="review-item">
+                                <span class="review-label">Цвет:</span>
+                                <span class="review-value" id="review-color"></span>
                             </div>
                         </div>
 
-                        <div class="preview-section">
+                        <div class="review-section">
+                            <h3>Дополнительные опции</h3>
+                            <div id="review-options"></div>
+                        </div>
+
+                        <div class="review-section">
+                            <h3>Дополнительная информация</h3>
+                            <div class="review-item">
+                                <span class="review-label">Описание:</span>
+                                <span class="review-value" id="review-description"></span>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
                             <h3>Фотографии</h3>
-                            <div class="preview-photos" id="preview-photos"></div>
+                            <div class="preview-photos" id="review-photos"></div>
                         </div>
 
                         <div class="button-group">
-                            <button class="button secondary" onclick="showSection('custom-description')">Назад</button>
-                            <button class="button primary" onclick="submitOrder()">Подтвердить заказ</button>
+                            <button class="back-button" onclick="showSection('custom-description', 'left')">
+                                <i class="fas fa-arrow-left"></i> Назад
+                            </button>
+                            <button class="confirm-button" onclick="submitOrder()">
+                                Подтвердить заказ
+                            </button>
                         </div>
                     </div>
                 </section>

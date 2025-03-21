@@ -567,4 +567,96 @@ function handleContactInfoNext() {
     // Показываем предпросмотр заказа
     showSection('order-preview');
     updatePreview();
+}
+
+function updateReview() {
+    // Обновляем основную информацию
+    document.getElementById('review-product').textContent = state.order.product || 'Не выбрано';
+    document.getElementById('review-size').textContent = state.order.size || 'Не выбрано';
+    document.getElementById('review-shape').textContent = state.order.shape || 'Не выбрано';
+    document.getElementById('review-material').textContent = state.order.material || 'Не выбрано';
+    document.getElementById('review-color').textContent = state.order.color || 'Не выбрано';
+    document.getElementById('review-description').textContent = state.order.description || 'Не указано';
+
+    // Обновляем дополнительные опции
+    const optionsContainer = document.getElementById('review-options');
+    optionsContainer.innerHTML = '';
+    if (state.order.options && state.order.options.length > 0) {
+        state.order.options.forEach(option => {
+            const optionItem = document.createElement('div');
+            optionItem.className = 'review-item';
+            optionItem.innerHTML = `
+                <span class="review-label">${option.name}:</span>
+                <span class="review-value">${option.value}</span>
+            `;
+            optionsContainer.appendChild(optionItem);
+        });
+    } else {
+        optionsContainer.innerHTML = '<div class="review-item"><span class="review-value">Дополнительные опции не выбраны</span></div>';
+    }
+
+    // Обновляем фотографии
+    const photosContainer = document.getElementById('review-photos');
+    photosContainer.innerHTML = '';
+    if (state.order.photos && state.order.photos.length > 0) {
+        state.order.photos.forEach(photo => {
+            const img = document.createElement('img');
+            img.src = photo;
+            img.alt = 'Фото заказа';
+            img.onclick = () => window.Telegram.WebApp.showImage(photo);
+            photosContainer.appendChild(img);
+        });
+    } else {
+        photosContainer.innerHTML = '<div class="review-item"><span class="review-value">Фотографии не добавлены</span></div>';
+    }
+}
+
+function submitOrder() {
+    if (!validateOrder()) {
+        return;
+    }
+
+    const orderData = {
+        product: state.order.product,
+        size: state.order.size,
+        shape: state.order.shape,
+        material: state.order.material,
+        color: state.order.color,
+        options: state.order.options,
+        description: state.order.description,
+        photos: state.order.photos
+    };
+
+    window.Telegram.WebApp.sendData(JSON.stringify(orderData));
+    window.Telegram.WebApp.close();
+}
+
+function validateOrder() {
+    const requiredFields = {
+        product: 'Продукт',
+        size: 'Размер',
+        shape: 'Форма',
+        material: 'Материал',
+        color: 'Цвет'
+    };
+
+    for (const [field, label] of Object.entries(requiredFields)) {
+        if (!state.order[field]) {
+            window.Telegram.WebApp.showPopup({
+                title: 'Ошибка',
+                message: `Пожалуйста, выберите ${label.toLowerCase()}`
+            });
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// Обновляем функцию для перехода к проверке заказа
+function confirmDescription() {
+    const description = document.getElementById('custom-description').value.trim();
+    state.order.description = description;
+    showSection('order-review', 'right');
+    updateReview();
 } 
