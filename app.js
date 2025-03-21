@@ -87,39 +87,24 @@ function updateProgress() {
     document.getElementById('progress-bar').style.transform = `scaleX(${progress / 100})`;
 }
 
-// Анимация перехода между секциями
+// Функция для отображения секции
 function showSection(sectionId, direction = 'right') {
-    if (state.loading) return;
-    
     const currentSection = document.getElementById(state.currentSection);
     const nextSection = document.getElementById(sectionId);
     
     if (!currentSection || !nextSection) {
-        handleError(new Error('Section not found'));
+        console.error('Section not found:', sectionId);
         return;
     }
 
-    // Подготавливаем следующую секцию
-    nextSection.style.display = 'block';
-    nextSection.style.visibility = 'visible';
+    // Скрываем текущую секцию
+    currentSection.classList.add('hidden');
     
-    // Устанавливаем начальное положение
-    requestAnimationFrame(() => {
-        // Текущая секция
-        currentSection.style.transform = direction === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-        currentSection.style.opacity = '0';
-        
-        // Следующая секция
-        nextSection.style.transform = 'translateX(0)';
-        nextSection.style.opacity = '1';
-        
-        // После завершения анимации
-        setTimeout(() => {
-            currentSection.style.display = 'none';
-            state.currentSection = sectionId;
-            updateProgress();
-        }, 300);
-    });
+    // Показываем следующую секцию
+    nextSection.classList.remove('hidden');
+    
+    // Обновляем состояние
+    state.currentSection = sectionId;
 }
 
 // Обновление предпросмотра заказа
@@ -261,7 +246,7 @@ function calculateTotalPrice() {
     }
 }
 
-// Инициализация обработчиков событий для продуктов
+// Обработчики событий для продуктов
 function initProductCards() {
     const productCards = document.querySelectorAll('.product-card');
     productCards.forEach(card => {
@@ -272,21 +257,70 @@ function initProductCards() {
             card.classList.add('selected');
             // Сохраняем выбранный продукт
             state.order.product = card.dataset.product;
-            // Показываем следующую секцию после небольшой задержки
-            setTimeout(() => {
-                if (state.order.product === 'Сумка') {
-                    showSection('size-selection', 'right');
-                } else if (state.order.product === 'Подстаканник') {
-                    showSection('material-selection', 'right');
-                } else {
-                    showSection('custom-order', 'right');
-                }
-            }, 200);
+            // Показываем следующую секцию
+            if (state.order.product === 'Сумка') {
+                showSection('size-selection');
+            } else if (state.order.product === 'Подстаканник') {
+                showSection('material-selection');
+            } else {
+                showSection('custom-order');
+            }
         });
     });
 }
 
-// Инициализация обработчиков событий для цветов
+// Обработчики событий для размеров
+function initSizeCards() {
+    const sizeCards = document.querySelectorAll('.size-card');
+    sizeCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Снимаем выделение со всех карточек
+            sizeCards.forEach(c => c.classList.remove('selected'));
+            // Выделяем выбранную карточку
+            card.classList.add('selected');
+            // Сохраняем выбранный размер
+            state.order.size = card.dataset.size;
+            // Показываем следующую секцию
+            showSection('shape-selection');
+        });
+    });
+}
+
+// Обработчики событий для форм
+function initShapeCards() {
+    const shapeCards = document.querySelectorAll('.shape-card');
+    shapeCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Снимаем выделение со всех карточек
+            shapeCards.forEach(c => c.classList.remove('selected'));
+            // Выделяем выбранную карточку
+            card.classList.add('selected');
+            // Сохраняем выбранную форму
+            state.order.shape = card.dataset.shape;
+            // Показываем следующую секцию
+            showSection('material-selection');
+        });
+    });
+}
+
+// Обработчики событий для материалов
+function initMaterialCards() {
+    const materialCards = document.querySelectorAll('.material-card');
+    materialCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Снимаем выделение со всех карточек
+            materialCards.forEach(c => c.classList.remove('selected'));
+            // Выделяем выбранную карточку
+            card.classList.add('selected');
+            // Сохраняем выбранный материал
+            state.order.material = card.dataset.material;
+            // Показываем следующую секцию
+            showSection('color-selection');
+        });
+    });
+}
+
+// Обработчики событий для цветов
 function initColorCards() {
     const colorCards = document.querySelectorAll('.color-card');
     colorCards.forEach(card => {
@@ -297,6 +331,84 @@ function initColorCards() {
             card.classList.add('selected');
             // Сохраняем выбранный цвет
             state.order.color = card.dataset.color;
+            // Показываем следующую секцию
+            showSection('options-selection');
+        });
+    });
+}
+
+// Обработчики событий для опций
+function initOptionCards() {
+    const optionCards = document.querySelectorAll('.option-card');
+    optionCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const option = card.dataset.option;
+            card.classList.toggle('selected');
+            
+            if (card.classList.contains('selected')) {
+                if (!state.order.options.includes(option)) {
+                    state.order.options.push(option);
+                }
+            } else {
+                state.order.options = state.order.options.filter(opt => opt !== option);
+            }
+        });
+    });
+}
+
+// Обработчик для кнопок навигации
+function initNavigationButtons() {
+    // Обработчики для кнопок "Назад"
+    document.querySelectorAll('.back-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const currentSection = state.currentSection;
+            let previousSection;
+            
+            switch (currentSection) {
+                case 'size-selection':
+                    previousSection = 'product-selection';
+                    break;
+                case 'shape-selection':
+                    previousSection = 'size-selection';
+                    break;
+                case 'material-selection':
+                    previousSection = state.order.product === 'Сумка' ? 'shape-selection' : 'product-selection';
+                    break;
+                case 'color-selection':
+                    previousSection = 'material-selection';
+                    break;
+                case 'options-selection':
+                    previousSection = 'color-selection';
+                    break;
+                case 'custom-order':
+                    previousSection = 'options-selection';
+                    break;
+                default:
+                    previousSection = 'product-selection';
+            }
+            
+            showSection(previousSection, 'left');
+        });
+    });
+
+    // Обработчики для кнопок "Далее"
+    document.querySelectorAll('.next-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const currentSection = state.currentSection;
+            let nextSection;
+            
+            switch (currentSection) {
+                case 'options-selection':
+                    nextSection = 'custom-order';
+                    break;
+                case 'custom-order':
+                    submitOrder();
+                    return;
+                default:
+                    return;
+            }
+            
+            showSection(nextSection);
         });
     });
 }
@@ -304,44 +416,18 @@ function initColorCards() {
 // Инициализация всех обработчиков событий
 function initializeEventHandlers() {
     initProductCards();
+    initSizeCards();
+    initShapeCards();
+    initMaterialCards();
     initColorCards();
-    document.querySelectorAll('.size-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.order.size = card.dataset.size;
-            showSection('shape-selection');
-        });
-    });
-    document.querySelectorAll('.shape-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.order.shape = card.dataset.shape;
-            showSection('material-selection');
-        });
-    });
-    document.querySelectorAll('.material-card').forEach(card => {
-        card.addEventListener('click', () => {
-            state.order.material = card.dataset.material;
-            showSection('color-selection');
-        });
-    });
-    document.querySelectorAll('.option-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const option = card.dataset.option;
-            const index = state.order.options.indexOf(option);
-            if (index === -1) {
-                state.order.options.push(option);
-            } else {
-                state.order.options.splice(index, 1);
-            }
-            card.classList.toggle('selected');
-            updatePreview();
-        });
-    });
-    document.getElementById('photo-input').addEventListener('change', handleImageUpload);
-    document.getElementById('custom-description').addEventListener('input', (e) => {
-        state.order.customDescription = e.target.value;
-        updatePreview();
-    });
+    initOptionCards();
+    initNavigationButtons();
 }
+
+// Инициализация приложения
+document.addEventListener('DOMContentLoaded', () => {
+    initializeEventHandlers();
+});
 
 // Функция подтверждения заказа
 async function confirmOrder() {
@@ -477,94 +563,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-// Обработчик кнопки "Далее" в секции контактных данных
-function handleContactInfoNext() {
-    const phone = document.getElementById('phone').value;
-    const telegramUsername = document.getElementById('telegram-username').value;
-
-    // Валидация данных
-    if (!phone || !telegramUsername) {
-        showError('Пожалуйста, заполните все поля');
-        return;
-    }
-
-    // Сохраняем контактные данные
-    state.order.contactInfo = {
-        phone: phone,
-        telegramUsername: telegramUsername
-    };
-
-    // Показываем предпросмотр заказа
-    showSection('order-preview');
-    updatePreview();
-}
-
-// Функция отправки заказа
-async function submitOrder() {
-    try {
-        // Проверяем наличие всех необходимых данных
-        if (!state.order.product || !state.order.size || !state.order.shape || 
-            !state.order.material || !state.order.color || !state.order.customDescription || 
-            !state.order.photos || state.order.photos.length === 0) {
-            throw new Error('Пожалуйста, заполните все поля заказа');
-        }
-
-        // Формируем данные заказа
-        const orderData = {
-            product: state.order.product,
-            size: state.order.size,
-            shape: state.order.shape,
-            material: state.order.material,
-            color: state.order.color,
-            customDescription: state.order.customDescription,
-            photos: state.order.photos,
-            user: {
-                id: tg.initDataUnsafe.user.id,
-                username: tg.initDataUnsafe.user.username,
-                first_name: tg.initDataUnsafe.user.first_name,
-                last_name: tg.initDataUnsafe.user.last_name,
-                language_code: tg.initDataUnsafe.user.language_code,
-                start_param: tg.initDataUnsafe.start_param
-            }
-        };
-
-        // Отправляем данные в Telegram
-        await tg.sendData(JSON.stringify(orderData));
-
-        // Генерируем временный номер заказа
-        const orderNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        
-        // Показываем сообщение об успехе
-        showMessage(`Заказ #${orderNumber} успешно отправлен! Мы свяжемся с вами в ближайшее время.`, 'success');
-
-        // Очищаем состояние заказа
-        state.order = {
-            product: null,
-            size: null,
-            shape: null,
-            material: null,
-            color: null,
-            customDescription: '',
-            photos: []
-        };
-
-        // Возвращаемся на главную через 3 секунды
-        setTimeout(() => {
-            showSection('products');
-        }, 3000);
-
-    } catch (error) {
-        console.error('Ошибка при отправке заказа:', error);
-        showMessage(error.message || 'Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.', 'error');
-    }
-}
-
-// Инициализация
-updateProgress();
-
-// Добавляем обработчик для кнопки "Далее" в секции опций
-document.querySelector('#options-selection .next-button').addEventListener('click', handleOptionsNext);
 
 // Обработчик кнопки "Далее" в секции контактных данных
 function handleContactInfoNext() {
