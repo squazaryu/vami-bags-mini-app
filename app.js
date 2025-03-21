@@ -337,7 +337,32 @@ function initOptionCards() {
     });
 }
 
+// Инициализация обработчиков событий
+document.addEventListener('DOMContentLoaded', function() {
+    // Инициализация обработчиков для продуктов
+    initProductCards();
+    
+    // Инициализация обработчиков для кнопок навигации
+    initNavigationButtons();
+});
+
 // Обработчики событий для кнопок навигации
+function initNavigationButtons() {
+    document.querySelectorAll('.navigation').forEach(nav => {
+        const backButton = nav.querySelector('.button.secondary');
+        const nextButton = nav.querySelector('.button.primary');
+        
+        if (backButton) {
+            backButton.addEventListener('click', handleBackNavigation);
+        }
+        
+        if (nextButton) {
+            nextButton.addEventListener('click', handleNextNavigation);
+        }
+    });
+}
+
+// Обработка нажатия кнопки "Назад"
 function handleBackNavigation() {
     const currentSection = document.querySelector('.section:not(.hidden)').id;
     
@@ -374,27 +399,71 @@ function handleBackNavigation() {
     }
 }
 
+// Обработка нажатия кнопки "Далее"
 function handleNextNavigation() {
     const currentSection = document.querySelector('.section:not(.hidden)').id;
     
     switch (currentSection) {
+        case 'product-selection':
+            if (!state.selectedProduct) {
+                showError('Пожалуйста, выберите продукт');
+                return;
+            }
+            if (state.selectedProduct === 'Сумка') {
+                showSection('size-selection');
+            } else if (state.selectedProduct === 'Подстаканник') {
+                showSection('material-selection');
+            } else {
+                showSection('custom-order');
+            }
+            break;
+            
         case 'size-selection':
-            if (state.selectedSize) showSection('shape-selection');
+            if (!state.selectedSize) {
+                showError('Пожалуйста, выберите размер');
+                return;
+            }
+            showSection('shape-selection');
             break;
+            
         case 'shape-selection':
-            if (state.selectedShape) showSection('material-selection');
+            if (!state.selectedShape) {
+                showError('Пожалуйста, выберите форму');
+                return;
+            }
+            showSection('material-selection');
             break;
+            
         case 'material-selection':
-            if (state.selectedMaterial) showSection('color-selection');
+            if (!state.selectedMaterial) {
+                showError('Пожалуйста, выберите материал');
+                return;
+            }
+            showSection('color-selection');
             break;
+            
         case 'color-selection':
-            if (state.selectedColor) showSection('options-selection');
+            if (!state.selectedColor) {
+                showError('Пожалуйста, выберите цвет');
+                return;
+            }
+            showSection('options-selection');
             break;
+            
         case 'options-selection':
-            showPreview();
+            showSection('preview');
+            updatePreview();
             break;
+            
         case 'custom-order':
-            if (state.customDescription) showPreview();
+            const description = document.getElementById('custom-description').value;
+            if (!description) {
+                showError('Пожалуйста, опишите ваш заказ');
+                return;
+            }
+            state.customDescription = description;
+            showSection('preview');
+            updatePreview();
             break;
     }
 }
@@ -446,34 +515,6 @@ function showPreview() {
     previewContent.innerHTML = html;
     showSection('preview');
 }
-
-// Инициализация всех обработчиков событий
-function initializeEventHandlers() {
-    initSizeCards();
-    initShapeCards();
-    initMaterialCards();
-    initColorCards();
-    initOptionCards();
-    initNavigationButtons();
-}
-
-// Инициализация приложения
-document.addEventListener('DOMContentLoaded', () => {
-    // Обработчики для продуктов
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const product = card.dataset.product;
-            // Снимаем выделение со всех карточек
-            document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
-            // Выделяем выбранную карточку
-            card.classList.add('selected');
-            // Обрабатываем выбор продукта
-            handleProductSelection(product);
-        });
-    });
-
-    initializeEventHandlers();
-});
 
 // Функция подтверждения заказа
 async function confirmOrder() {
