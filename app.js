@@ -459,6 +459,19 @@ function initializeEventHandlers() {
 
 // Инициализация приложения
 document.addEventListener('DOMContentLoaded', () => {
+    // Обработчики для продуктов
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const product = card.dataset.product;
+            // Снимаем выделение со всех карточек
+            document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+            // Выделяем выбранную карточку
+            card.classList.add('selected');
+            // Обрабатываем выбор продукта
+            handleProductSelection(product);
+        });
+    });
+
     initializeEventHandlers();
 });
 
