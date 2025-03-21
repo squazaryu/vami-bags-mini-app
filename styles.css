@@ -1032,6 +1032,7 @@ button.loading::after {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .section {
@@ -1040,6 +1041,7 @@ button.loading::after {
     gap: 20px;
     padding: 20px;
     min-height: calc(100vh - 40px);
+    overflow-x: hidden;
 }
 
 .section.hidden {
@@ -1066,6 +1068,7 @@ button.loading::after {
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .product-card:hover {
@@ -1079,7 +1082,7 @@ button.loading::after {
 }
 
 .product-card img {
-    width: 64px;
+    width: 120px;
     height: 64px;
     object-fit: cover;
     border-radius: 8px;
@@ -1103,7 +1106,7 @@ button.loading::after {
 
 .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
     max-width: 400px;
     margin: 0 auto;
@@ -1112,10 +1115,16 @@ button.loading::after {
 
 .color-card {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .color-preview {
@@ -1126,17 +1135,43 @@ button.loading::after {
     transition: all 0.3s ease;
 }
 
+.color-card[data-color="Зеленый"] .color-preview {
+    background-color: #2E5A4C;
+}
+
+.color-card[data-color="Синий"] .color-preview {
+    background-color: #1B365C;
+}
+
+.color-card[data-color="Бежевый"] .color-preview {
+    background-color: #E6D5C7;
+}
+
+.color-card[data-color="Коричневый"] .color-preview {
+    background-color: #5C4033;
+}
+
+.color-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.color-card.selected {
+    border-color: #2196F3;
+    background-color: #E3F2FD;
+}
+
 .color-card.selected .color-preview {
     border-color: #2196F3;
     transform: scale(1.1);
 }
 
+/* Убираем надписи под цветами */
 .color-name {
-    font-size: 0.9rem;
-    color: #666;
-    text-align: center;
+    display: none;
 }
 
+/* Стили для кнопок навигации */
 .navigation {
     position: fixed;
     bottom: 0;
@@ -1178,77 +1213,47 @@ button.loading::after {
     transform: translateY(0);
 }
 
-.back-button,
-.next-button {
-    min-width: 120px;
-    padding: 0.8rem 1.5rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.back-button {
-    background-color: var(--secondary-color);
-    border: 1px solid var(--border-color);
-    color: var(--text-color);
-}
-
-.next-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    border: none;
-    color: white;
-}
-
-.back-button:hover,
-.next-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-}
-
-.back-button:active,
-.next-button:active {
-    transform: translateY(0);
-}
-
-/* Заголовки секций */
-.section h2 {
-    text-align: center;
-    margin: 1rem 0;
-    font-size: 1.2rem;
-    color: var(--text-color);
-    padding: 0 1rem;
-}
-
 /* Адаптивность */
 @media (max-width: 768px) {
     .container {
-        padding: 0.5rem;
+        padding: 16px;
     }
     
-    .grid {
-        padding: 0.5rem;
+    .section {
+        padding: 16px;
     }
     
     .product-card {
-        padding: 0.8rem;
+        padding: 12px;
     }
     
     .product-card img {
-        height: 200px;
+        width: 100px;
+        height: 64px;
     }
     
-    .button-group {
-        padding: 0.8rem;
+    .color-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 12px;
     }
     
-    .back-button,
-    .next-button {
-        min-width: 100px;
-        padding: 0.7rem 1.2rem;
+    .color-card {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .color-preview {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .navigation {
+        padding: 12px;
+    }
+    
+    .button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 } 
