@@ -3,346 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VaMi Bags - Оформление заказа</title>
-    
-    <!-- Предзагрузка критических ресурсов -->
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="app.js" as="script">
-    
-    <!-- Иконки -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    
-    <!-- Мета-теги для SEO и социальных сетей -->
-    <meta name="description" content="VaMi Bags - элегантные сумки и подстаканники ручной работы">
-    <meta name="theme-color" content="#FF69B4">
-    <meta property="og:title" content="VaMi Bags - Оформление заказа">
-    <meta property="og:description" content="Элегантные сумки и подстаканники ручной работы">
-    <meta property="og:image" content="images/og-image.jpg">
+    <title>VaMi Bags</title>
     
     <!-- Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     
     <!-- Стили -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Асинхронная загрузка некритичных ресурсов -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Индикатор прогресса -->
-    <div class="progress-bar" id="progress-bar"></div>
-
     <div class="container">
-        <div id="app">
-            <!-- Шапка приложения -->
-            <header class="header">
-                <h1><i class="fas fa-shopping-bag"></i> VaMi Bags</h1>
-            </header>
-
-            <!-- Основной контент -->
-            <main>
-                <!-- Выбор продукта -->
-                <section id="product-selection" class="section">
-                    <h2>Выберите продукт</h2>
-                    <div class="grid">
-                        <div class="product-card" data-product="Сумка">
-                            <img src="images/bag.jpeg" alt="Сумка" loading="lazy">
-                            <div class="product-info">
-                                <h3>Сумка</h3>
-                                <p>Стильная и практичная сумка ручной работы</p>
-                            </div>
-                        </div>
-                        <div class="product-card" data-product="Подстаканник">
-                            <img src="images/cup-holder.jpeg" alt="Подстаканник" loading="lazy">
-                            <div class="product-info">
-                                <h3>Подстаканник</h3>
-                                <p>Элегантный подстаканник из бусин</p>
-                            </div>
-                        </div>
-                        <div class="product-card" data-product="Нестандартный заказ">
-                            <img src="images/custom.jpeg" alt="Нестандартный заказ" loading="lazy">
-                            <div class="product-info">
-                                <h3>Нестандартный заказ</h3>
-                                <p>Закажите уникальный дизайн</p>
-                            </div>
-                        </div>
+        <!-- Выбор продукта -->
+        <section id="product-selection" class="section">
+            <h2>Выберите продукт</h2>
+            <div class="grid">
+                <div class="product-card" data-product="Сумка">
+                    <img src="images/bag.jpeg" alt="Сумка" loading="lazy">
+                    <div class="product-info">
+                        <h3>Сумка</h3>
+                        <p>Стильная и практичная сумка ручной работы</p>
                     </div>
-                </section>
-
-                <!-- Выбор размера (для сумки) -->
-                <section id="size-selection" class="section hidden">
-                    <h2>Выберите размер сумки</h2>
-                    <div class="grid">
-                        <div class="product-card" data-size="S">
-                            <i class="fas fa-ruler"></i>
-                            <div class="product-info">
-                                <h3>S (микросумка)</h3>
-                                <p>Компактный размер</p>
-                            </div>
-                        </div>
-                        <div class="product-card" data-size="M">
-                            <i class="fas fa-mobile-alt"></i>
-                            <div class="product-info">
-                                <h3>M (влезает телефон и картхолдер)</h3>
-                                <p>Средний размер</p>
-                            </div>
-                        </div>
-                        <div class="product-card" data-size="L">
-                            <i class="fas fa-shopping-bag"></i>
-                            <div class="product-info">
-                                <h3>L (на 5 см больше размера M)</h3>
-                                <p>Большой размер</p>
-                            </div>
-                        </div>
+                </div>
+                <div class="product-card" data-product="Подстаканник">
+                    <img src="images/cup-holder.jpeg" alt="Подстаканник" loading="lazy">
+                    <div class="product-info">
+                        <h3>Подстаканник</h3>
+                        <p>Элегантный подстаканник из бусин</p>
                     </div>
-                    <div class="navigation">
-                        <button class="button secondary" onclick="showSection('product-selection', 'left')">
-                            <i class="fas fa-arrow-left"></i> Назад
-                        </button>
+                </div>
+                <div class="product-card" data-product="Нестандартный заказ">
+                    <img src="images/custom.jpeg" alt="Нестандартный заказ" loading="lazy">
+                    <div class="product-info">
+                        <h3>Нестандартный заказ</h3>
+                        <p>Закажите уникальный дизайн</p>
                     </div>
-                </section>
+                </div>
+            </div>
+        </section>
 
-                <!-- Выбор формы (для сумки) -->
-                <section id="shape-selection" class="section hidden">
-                    <h2>Выберите форму сумки</h2>
-                    <div class="grid">
-                        <div class="shape-card" data-shape="Круглая">
-                            <img src="images/krug.jpeg" alt="Круглая форма" loading="lazy">
-                            <h3>Круглая</h3>
-                            <p>Классическая форма</p>
-                        </div>
-                        <div class="shape-card" data-shape="Прямоугольная">
-                            <img src="images/pramougolnaya.jpeg" alt="Прямоугольная форма" loading="lazy">
-                            <h3>Прямоугольная</h3>
-                            <p>Практичная форма</p>
-                        </div>
-                        <div class="shape-card" data-shape="Трапеция">
-                            <img src="images/trapeciya.jpeg" alt="Трапеция" loading="lazy">
-                            <h3>Трапеция</h3>
-                            <p>Стильная форма</p>
-                        </div>
-                        <div class="shape-card" data-shape="Квадратная">
-                            <img src="images/kvadrat.jpeg" alt="Квадратная форма" loading="lazy">
-                            <h3>Квадратная</h3>
-                            <p>Современная форма</p>
-                        </div>
-                        <div class="shape-card" data-shape="Месяц">
-                            <img src="images/mesyac.jpeg" alt="Месяц" loading="lazy">
-                            <h3>Месяц</h3>
-                            <p>Необычная форма</p>
-                        </div>
-                        <div class="shape-card" data-shape="Сердце">
-                            <img src="images/serdce.jpeg" alt="Сердце" loading="lazy">
-                            <h3>Сердце</h3>
-                            <p>Романтичная форма</p>
-                        </div>
+        <!-- Выбор размера -->
+        <section id="size-selection" class="section hidden">
+            <h2>Выберите размер</h2>
+            <div class="grid">
+                <div class="product-card" data-size="S">
+                    <i class="fas fa-ruler"></i>
+                    <div class="product-info">
+                        <h3>S (микросумка)</h3>
+                        <p>Компактный размер</p>
                     </div>
-                    <button class="back-button" onclick="showSection('size-selection', 'left')">
-                        <i class="fas fa-arrow-left"></i> Назад
-                    </button>
-                </section>
-
-                <!-- Выбор материала -->
-                <section id="material-selection" class="section hidden">
-                    <h2>Выберите материал бусин</h2>
-                    <div class="grid">
-                        <div class="material-card" data-material="Акрил">
-                            <img src="images/akril.jpeg" alt="Акрил" loading="lazy">
-                            <h3>Акрил</h3>
-                            <p>Прочный и доступный</p>
-                        </div>
-                        <div class="material-card" data-material="Хрусталь">
-                            <img src="images/hrust.jpeg" alt="Хрусталь" loading="lazy">
-                            <h3>Хрусталь</h3>
-                            <p>Блестящий и элегантный</p>
-                        </div>
-                        <div class="material-card" data-material="Swarovski">
-                            <img src="images/swarovski.jpeg" alt="Swarovski" loading="lazy">
-                            <h3>Swarovski</h3>
-                            <p>Премиальное качество</p>
-                        </div>
+                </div>
+                <div class="product-card" data-size="M">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div class="product-info">
+                        <h3>M (телефон + картхолдер)</h3>
+                        <p>Средний размер</p>
                     </div>
-                    <div class="button-group">
-                        <button class="back-button" onclick="showSection('material-selection', 'left')">
-                            <i class="fas fa-arrow-left"></i> Назад
-                        </button>
-                        <button class="next-button" onclick="showSection('color-selection', 'right')">
-                            Далее <i class="fas fa-arrow-right"></i>
-                        </button>
+                </div>
+                <div class="product-card" data-size="L">
+                    <i class="fas fa-shopping-bag"></i>
+                    <div class="product-info">
+                        <h3>L (+5 см к M)</h3>
+                        <p>Большой размер</p>
                     </div>
-                </section>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="button secondary" onclick="showSection('product-selection', 'left')">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button class="button primary" onclick="showSection('shape-selection', 'right')">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
 
-                <!-- Выбор цвета -->
-                <section id="color-selection" class="section hidden">
-                    <h2>Выберите цвет</h2>
-                    <div class="color-grid">
-                        <div class="color-card" data-color="Зеленый">
-                            <div class="color-preview"></div>
-                        </div>
-                        <div class="color-card" data-color="Синий">
-                            <div class="color-preview"></div>
-                        </div>
-                        <div class="color-card" data-color="Бежевый">
-                            <div class="color-preview"></div>
-                        </div>
-                        <div class="color-card" data-color="Коричневый">
-                            <div class="color-preview"></div>
-                        </div>
+        <!-- Выбор формы -->
+        <section id="shape-selection" class="section hidden">
+            <h2>Выберите форму</h2>
+            <div class="grid">
+                <div class="product-card" data-shape="Круглая">
+                    <img src="images/krug.jpeg" alt="Круглая форма" loading="lazy">
+                    <div class="product-info">
+                        <h3>Круглая</h3>
+                        <p>Классическая форма</p>
                     </div>
-                    <div class="navigation">
-                        <button class="button secondary" onclick="showSection('material-selection', 'left')">
-                            <i class="fas fa-arrow-left"></i> Назад
-                        </button>
-                        <button class="button primary" onclick="showSection('options-selection', 'right')">
-                            Далее <i class="fas fa-arrow-right"></i>
-                        </button>
+                </div>
+                <div class="product-card" data-shape="Прямоугольная">
+                    <img src="images/pramougolnaya.jpeg" alt="Прямоугольная форма" loading="lazy">
+                    <div class="product-info">
+                        <h3>Прямоугольная</h3>
+                        <p>Практичная форма</p>
                     </div>
-                </section>
-
-                <!-- Дополнительные опции -->
-                <section id="options-selection" class="section hidden">
-                    <h2>Выберите дополнительные опции</h2>
-                    <div class="grid">
-                        <div class="option-card" data-option="Застёжка">
-                            <i class="fas fa-lock"></i>
-                            <h3>Застёжка</h3>
-                        </div>
-                        <div class="option-card" data-option="Подклад">
-                            <i class="fas fa-layer-group"></i>
-                            <h3>Подклад</h3>
-                        </div>
-                        <div class="option-card" data-option="Ручка-цепочка">
-                            <i class="fas fa-link"></i>
-                            <h3>Ручка-цепочка</h3>
-                        </div>
+                </div>
+                <div class="product-card" data-shape="Трапеция">
+                    <img src="images/trapeciya.jpeg" alt="Трапеция" loading="lazy">
+                    <div class="product-info">
+                        <h3>Трапеция</h3>
+                        <p>Стильная форма</p>
                     </div>
-                    <button class="back-button" onclick="showSection('color-selection', 'left')">
-                        <i class="fas fa-arrow-left"></i> Назад
-                    </button>
-                    <button class="next-button" onclick="showSection('custom-order')">
-                        Далее <i class="fas fa-arrow-right"></i>
-                    </button>
-                </section>
-
-                <!-- Нестандартный заказ -->
-                <section id="custom-order" class="section hidden">
-                    <h2>Дополнительная информация</h2>
-                    <div class="form-group">
-                        <label for="custom-description">Опишите ваши пожелания (необязательно)</label>
-                        <textarea id="custom-description" rows="4" placeholder="Например: особые пожелания по дизайну или размерам"></textarea>
+                </div>
+                <div class="product-card" data-shape="Квадратная">
+                    <img src="images/kvadrat.jpeg" alt="Квадратная форма" loading="lazy">
+                    <div class="product-info">
+                        <h3>Квадратная</h3>
+                        <p>Современная форма</p>
                     </div>
-                    <div class="form-group">
-                        <label for="photo-input">Прикрепите фото-пример (необязательно)</label>
-                        <input type="file" id="photo-input" accept="image/*" multiple>
-                        <div id="photo-preview" class="photo-preview"></div>
+                </div>
+                <div class="product-card" data-shape="Месяц">
+                    <img src="images/mesyac.jpeg" alt="Месяц" loading="lazy">
+                    <div class="product-info">
+                        <h3>Месяц</h3>
+                        <p>Необычная форма</p>
                     </div>
-                    <button class="back-button" onclick="showSection('options-selection', 'left')">
-                        <i class="fas fa-arrow-left"></i> Назад
-                    </button>
-                    <button class="next-button" onclick="confirmOrder()">
-                        Подтвердить заказ <i class="fas fa-check"></i>
-                    </button>
-                </section>
-
-                <!-- Секция контактных данных -->
-                <section id="contact-info" class="section" style="display: none;">
-                    <h2>Контактные данные</h2>
-                    <div class="contact-form">
-                        <div class="form-group">
-                            <label for="phone">Номер телефона</label>
-                            <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telegram-username">Ваш Telegram</label>
-                            <input type="text" id="telegram-username" placeholder="@username" required>
-                        </div>
-                        <div class="button-group">
-                            <button class="back-button" onclick="showSection('custom-order')">
-                                <i class="fas fa-arrow-left"></i> Назад
-                            </button>
-                            <button class="next-button" onclick="handleContactInfoNext()">
-                                Далее <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
+                </div>
+                <div class="product-card" data-shape="Сердце">
+                    <img src="images/serdce.jpeg" alt="Сердце" loading="lazy">
+                    <div class="product-info">
+                        <h3>Сердце</h3>
+                        <p>Романтичная форма</p>
                     </div>
-                </section>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="button secondary" onclick="showSection('size-selection', 'left')">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button class="button primary" onclick="showSection('material-selection', 'right')">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
 
-                <!-- Секция проверки заказа -->
-                <section id="order-review" class="section hidden">
-                    <h2>Проверьте ваш заказ</h2>
-                    <div class="order-review">
-                        <div class="review-section">
-                            <h3>Основная информация</h3>
-                            <div class="review-item">
-                                <span class="review-label">Продукт:</span>
-                                <span class="review-value" id="review-product"></span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">Размер:</span>
-                                <span class="review-value" id="review-size"></span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">Форма:</span>
-                                <span class="review-value" id="review-shape"></span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">Материал:</span>
-                                <span class="review-value" id="review-material"></span>
-                            </div>
-                            <div class="review-item">
-                                <span class="review-label">Цвет:</span>
-                                <span class="review-value" id="review-color"></span>
-                            </div>
-                        </div>
+        <!-- Выбор цвета -->
+        <section id="color-selection" class="section hidden">
+            <h2>Выберите цвет</h2>
+            <div class="color-grid">
+                <div class="color-card" data-color="Зеленый">
+                    <div class="color-preview"></div>
+                </div>
+                <div class="color-card" data-color="Синий">
+                    <div class="color-preview"></div>
+                </div>
+                <div class="color-card" data-color="Бежевый">
+                    <div class="color-preview"></div>
+                </div>
+                <div class="color-card" data-color="Коричневый">
+                    <div class="color-preview"></div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="button secondary" onclick="showSection('material-selection', 'left')">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button class="button primary" onclick="showSection('options-selection', 'right')">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
 
-                        <div class="review-section">
-                            <h3>Дополнительные опции</h3>
-                            <div id="review-options"></div>
-                        </div>
+        <!-- Дополнительные опции -->
+        <section id="options-selection" class="section hidden">
+            <h2>Дополнительные опции</h2>
+            <div class="grid">
+                <div class="option-card" data-option="Застёжка">
+                    <i class="fas fa-lock"></i>
+                    <h3>Застёжка</h3>
+                </div>
+                <div class="option-card" data-option="Подклад">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Подклад</h3>
+                </div>
+                <div class="option-card" data-option="Ручка-цепочка">
+                    <i class="fas fa-link"></i>
+                    <h3>Ручка-цепочка</h3>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="button secondary" onclick="showSection('color-selection', 'left')">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button class="button primary" onclick="showSection('custom-order', 'right')">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
 
-                        <div class="review-section">
-                            <h3>Дополнительная информация</h3>
-                            <div class="review-item">
-                                <span class="review-label">Описание:</span>
-                                <span class="review-value" id="review-description"></span>
-                            </div>
-                        </div>
-
-                        <div class="review-section">
-                            <h3>Фотографии</h3>
-                            <div class="preview-photos" id="review-photos"></div>
-                        </div>
-
-                        <div class="button-group">
-                            <button class="back-button" onclick="showSection('custom-description', 'left')">
-                                <i class="fas fa-arrow-left"></i> Назад
-                            </button>
-                            <button class="confirm-button" onclick="submitOrder()">
-                                Подтвердить заказ
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Секция успешного оформления -->
-                <section id="success" class="section hidden">
-                    <div class="success-content">
-                        <div class="success-icon">✓</div>
-                        <h2>Заказ успешно оформлен!</h2>
-                        <p id="success-message"></p>
-                        <div class="button-group">
-                            <button class="button primary" onclick="showSection('products')">Вернуться к каталогу</button>
-                        </div>
-                    </div>
-                </section>
-            </main>
-        </div>
+        <!-- Форма заказа -->
+        <section id="custom-order" class="section hidden">
+            <h2>Дополнительная информация</h2>
+            <div class="form-group">
+                <label for="custom-description">Опишите ваши пожелания</label>
+                <textarea id="custom-description" rows="4" placeholder="Например: особые пожелания по дизайну или размерам"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="photo-input">Прикрепите фото-пример</label>
+                <input type="file" id="photo-input" accept="image/*" multiple>
+                <div id="photo-preview" class="photo-preview"></div>
+            </div>
+            <div class="navigation">
+                <button class="button secondary" onclick="showSection('options-selection', 'left')">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button class="button primary" onclick="submitOrder()">
+                    Заказать <i class="fas fa-check"></i>
+                </button>
+            </div>
+        </section>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html> 
