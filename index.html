@@ -49,19 +49,19 @@
                     <h2>Выберите продукт</h2>
                     <div class="product-grid">
                         <div class="product-card" data-product="Сумка">
-                            <img src="images/bag.jpeg" alt="Сумка" loading="lazy">
+                            <i class="fas fa-shopping-bag"></i>
                             <h3>Сумка</h3>
-                            <p class="description">Элегантные сумки ручной работы</p>
+                            <p class="description">Стильная и практичная сумка ручной работы</p>
                         </div>
                         <div class="product-card" data-product="Подстаканник">
-                            <img src="images/cup-holder.jpeg" alt="Подстаканник" loading="lazy">
+                            <i class="fas fa-glass-whiskey"></i>
                             <h3>Подстаканник</h3>
-                            <p class="description">Стильные подстаканники для автомобиля</p>
+                            <p class="description">Элегантный кожаный подстаканник</p>
                         </div>
                         <div class="product-card" data-product="Нестандартный заказ">
-                            <img src="images/custom.jpeg" alt="Нестандартный заказ" loading="lazy">
+                            <i class="fas fa-magic"></i>
                             <h3>Нестандартный заказ</h3>
-                            <p class="description">Индивидуальный дизайн по вашим пожеланиям</p>
+                            <p class="description">Создайте свой уникальный дизайн</p>
                         </div>
                     </div>
                 </section>
@@ -155,7 +155,7 @@
                         <button class="back-button" onclick="showSection('material-selection', 'left')">
                             <i class="fas fa-arrow-left"></i> Назад
                         </button>
-                        <button class="next-button" onclick="showSection('options-selection', 'right')">
+                        <button class="next-button" onclick="showSection('color-selection', 'right')">
                             Далее <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -164,30 +164,28 @@
                 <!-- Выбор цвета -->
                 <section id="color-selection" class="section hidden">
                     <h2>Выберите цвет</h2>
-                    <div class="grid">
-                        <div class="color-card" data-color="Белый">
-                            <div class="color-preview" style="background-color: #FFFFFF;"></div>
-                            <span class="color-name">Белый</span>
-                        </div>
-                        <div class="color-card" data-color="Чёрный">
-                            <div class="color-preview" style="background-color: #000000;"></div>
-                            <span class="color-name">Чёрный</span>
+                    <div class="color-grid">
+                        <div class="color-card" data-color="Зеленый">
+                            <span class="color-name">Зеленый</span>
                         </div>
                         <div class="color-card" data-color="Синий">
-                            <div class="color-preview" style="background-color: #0000FF;"></div>
                             <span class="color-name">Синий</span>
                         </div>
-                        <div class="color-card" data-color="Зелёный">
-                            <div class="color-preview" style="background-color: #00FF00;"></div>
-                            <span class="color-name">Зелёный</span>
+                        <div class="color-card" data-color="Бежевый">
+                            <span class="color-name">Бежевый</span>
+                        </div>
+                        <div class="color-card" data-color="Коричневый">
+                            <span class="color-name">Коричневый</span>
                         </div>
                     </div>
-                    <button class="back-button" onclick="showSection('material-selection', 'left')">
-                        <i class="fas fa-arrow-left"></i> Назад
-                    </button>
-                    <button class="next-button" onclick="handleOptionsNext()">
-                        Далее <i class="fas fa-arrow-right"></i>
-                    </button>
+                    <div class="button-group">
+                        <button class="back-button" onclick="showSection('material-selection', 'left')">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </button>
+                        <button class="next-button" onclick="showSection('options-selection', 'right')">
+                            Далее <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </section>
 
                 <!-- Дополнительные опции -->

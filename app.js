@@ -261,17 +261,27 @@ function calculateTotalPrice() {
     }
 }
 
-// Обработчики событий
+// Обработчики событий для выбора продукта
 document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('click', () => {
+        // Убираем выделение со всех карточек
+        document.querySelectorAll('.product-card').forEach(c => c.classList.remove('selected'));
+        // Добавляем выделение выбранной карточке
+        card.classList.add('selected');
+        
+        // Сохраняем выбор в состоянии
         state.order.product = card.dataset.product;
-        if (state.order.product === 'Сумка') {
-            showSection('size-selection');
-        } else if (state.order.product === 'Подстаканник') {
-            showSection('material-selection');
-        } else {
-            showSection('custom-order');
-        }
+        
+        // Показываем следующую секцию в зависимости от выбора
+        setTimeout(() => {
+            if (state.order.product === 'Сумка') {
+                showSection('size-selection', 'right');
+            } else if (state.order.product === 'Подстаканник') {
+                showSection('material-selection', 'right');
+            } else {
+                showSection('custom-order', 'right');
+            }
+        }, 200);
     });
 });
 
@@ -296,10 +306,16 @@ document.querySelectorAll('.material-card').forEach(card => {
     });
 });
 
+// Обработчики событий для выбора цвета
 document.querySelectorAll('.color-card').forEach(card => {
     card.addEventListener('click', () => {
+        // Убираем выделение со всех карточек
+        document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
+        // Добавляем выделение выбранной карточке
+        card.classList.add('selected');
+        
+        // Сохраняем выбор в состоянии
         state.order.color = card.dataset.color;
-        showSection('options-selection');
     });
 });
 

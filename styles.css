@@ -161,20 +161,25 @@ body {
 /* Стили для карточек цветов */
 .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 1rem;
     padding: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
     justify-items: center;
 }
 
 .color-card {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     cursor: pointer;
     transition: var(--transition);
     position: relative;
     border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .color-card:hover {
@@ -193,6 +198,24 @@ body {
 
 .color-card[data-color="Синий"] {
     background-color: #1B365C;
+}
+
+.color-card[data-color="Бежевый"] {
+    background-color: #E6D5C7;
+}
+
+.color-card[data-color="Коричневый"] {
+    background-color: #5C4033;
+}
+
+.color-card .color-name {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--text-color);
+    white-space: nowrap;
 }
 
 /* Стили для сетки цветов */
@@ -953,4 +976,58 @@ button.loading::after {
 
 .confirm-button:hover {
     background: var(--accent-color-dark);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.8rem;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.product-card.selected {
+    background-color: rgba(212, 176, 140, 0.1);
+    border-color: var(--accent-color);
+}
+
+.product-card i {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+}
+
+.product-card h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.product-card .description {
+    font-size: 0.75rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    text-align: center;
+    margin: 0;
 } 
