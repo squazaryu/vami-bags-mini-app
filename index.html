@@ -135,6 +135,42 @@
             </div>
         </section>
 
+        <!-- Выбор материала -->
+        <section id="material-selection" class="section hidden">
+            <h2>Выберите материал</h2>
+            <div class="grid">
+                <div class="product-card" data-material="Акрил">
+                    <img src="images/akril.jpeg" alt="Акрил" loading="lazy">
+                    <div class="product-info">
+                        <h3>Акрил</h3>
+                        <p>Прочный и доступный</p>
+                    </div>
+                </div>
+                <div class="product-card" data-material="Хрусталь">
+                    <img src="images/hrust.jpeg" alt="Хрусталь" loading="lazy">
+                    <div class="product-info">
+                        <h3>Хрусталь</h3>
+                        <p>Блестящий и элегантный</p>
+                    </div>
+                </div>
+                <div class="product-card" data-material="Swarovski">
+                    <img src="images/swarovski.jpeg" alt="Swarovski" loading="lazy">
+                    <div class="product-info">
+                        <h3>Swarovski</h3>
+                        <p>Премиальное качество</p>
+                    </div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button class="button secondary" onclick="showSection('shape-selection', 'left')">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+                <button class="button primary" onclick="showSection('color-selection', 'right')">
+                    Далее <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
         <!-- Выбор цвета -->
         <section id="color-selection" class="section hidden">
             <h2>Выберите цвет</h2>
