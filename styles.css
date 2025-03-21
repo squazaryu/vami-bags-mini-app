@@ -71,7 +71,6 @@ body {
     padding: 0.5rem;
     text-align: center;
     box-shadow: var(--shadow);
-    transition: var(--transition);
     cursor: pointer;
     border: 1px solid var(--border-color);
     display: flex;
@@ -79,17 +78,11 @@ body {
     align-items: center;
     justify-content: flex-start;
     min-height: 140px;
-}
-
-.product-card:hover,
-.shape-card:hover,
-.material-card:hover,
-.color-card:hover,
-.option-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-color: var(--accent-color);
-    background-color: var(--secondary-color);
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .product-card img,
@@ -100,6 +93,10 @@ body {
     object-fit: cover;
     border-radius: calc(var(--border-radius) - 4px);
     margin-bottom: 0.5rem;
+    opacity: 1;
+    will-change: opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .product-card h3,
@@ -343,38 +340,34 @@ body {
 
 /* Анимации переходов */
 .section {
-    animation: fadeIn 0.5s ease-out;
-    position: relative;
-    overflow: hidden;
-    opacity: 0;
+    position: absolute;
+    width: 100%;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
     transform: translateX(0);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+.section.hidden {
+    display: none;
+    opacity: 0;
 }
 
 .section.visible {
+    display: block;
     opacity: 1;
     transform: translateX(0);
 }
 
 .section.slide-left {
+    transform: translateX(-100%);
     opacity: 0;
-    transform: translateX(100%);
 }
 
 .section.slide-right {
+    transform: translateX(100%);
     opacity: 0;
-    transform: translateX(-100%);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* Улучшенный предпросмотр заказа */
@@ -833,64 +826,29 @@ button.loading::after {
     transform: translateZ(0);
 }
 
-/* Карточки продуктов */
-.product-card {
-    background: var(--card-background);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: 0.8rem;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 120px;
-    position: relative;
-    overflow: hidden;
-}
-
-.product-card img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    border-radius: 4px;
-    background-color: var(--background-color);
-    padding: 0.5rem;
-    display: block;
+/* Стили для иконок */
+.product-card i,
+.shape-card i,
+.material-card i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-color);
     opacity: 1;
-    transition: opacity 0.3s ease;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-.product-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
+/* Hover эффекты */
+.product-card:hover,
+.shape-card:hover,
+.material-card:hover,
+.color-card:hover,
+.option-card:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-color: var(--accent-color);
-}
-
-.product-card h3 {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--text-color);
-    text-align: center;
-}
-
-.product-card .description {
-    font-size: 0.75rem;
-    color: var(--text-color);
-    opacity: 0.8;
-    text-align: center;
-    margin-top: 0.2rem;
-}
-
-/* Темная тема */
-[data-theme="dark"] .product-card {
-    background: var(--card-background);
-    border-color: var(--border-color);
-}
-
-[data-theme="dark"] .product-card img {
-    background-color: var(--card-background);
+    background-color: var(--secondary-color);
 }
 
 /* Стили для опций */

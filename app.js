@@ -11,9 +11,15 @@ try {
 document.addEventListener('DOMContentLoaded', function() {
     const images = document.querySelectorAll('img[loading="lazy"]');
     images.forEach(img => {
-        img.onload = function() {
+        if (img.complete) {
             img.style.opacity = '1';
-        };
+        } else {
+            img.onload = function() {
+                requestAnimationFrame(() => {
+                    img.style.opacity = '1';
+                });
+            };
+        }
         img.onerror = function() {
             console.error('Error loading image:', img.src);
             img.src = 'images/placeholder.jpeg';
@@ -92,28 +98,24 @@ function showSection(sectionId, direction = 'right') {
         handleError(new Error('Section not found'));
         return;
     }
+
+    // Подготавливаем следующую секцию
+    nextSection.style.display = 'block';
+    nextSection.style.visibility = 'visible';
     
-    // Удаляем классы анимации
-    currentSection.classList.remove('slide-left', 'slide-right', 'visible');
-    nextSection.classList.remove('slide-left', 'slide-right', 'visible');
-    
-    // Добавляем классы анимации
-    currentSection.classList.add(direction === 'right' ? 'slide-left' : 'slide-right');
-    nextSection.classList.add(direction === 'right' ? 'slide-right' : 'slide-left');
-    
-    // Показываем следующую секцию
-    nextSection.classList.remove('hidden');
-    
-    // Запускаем анимацию
+    // Устанавливаем начальное положение
     requestAnimationFrame(() => {
-        currentSection.classList.add(direction === 'right' ? 'slide-left' : 'slide-right');
-        nextSection.classList.add(direction === 'right' ? 'slide-right' : 'slide-left');
+        // Текущая секция
+        currentSection.style.transform = direction === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
+        currentSection.style.opacity = '0';
+        
+        // Следующая секция
+        nextSection.style.transform = 'translateX(0)';
+        nextSection.style.opacity = '1';
         
         // После завершения анимации
         setTimeout(() => {
-            currentSection.classList.add('hidden');
-            nextSection.classList.remove('slide-left', 'slide-right');
-            nextSection.classList.add('visible');
+            currentSection.style.display = 'none';
             state.currentSection = sectionId;
             updateProgress();
         }, 300);
