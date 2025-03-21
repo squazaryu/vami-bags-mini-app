@@ -31,25 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Состояние приложения
-let state = {
-    currentSection: 'product-selection',
-    order: {
-        product: null,
-        size: null,
-        shape: null,
-        material: null,
-        color: null,
-        options: [],
-        customDescription: '',
-        photos: [],
-        totalPrice: 0,
-        contactInfo: {
-            phone: '',
-            telegramUsername: ''
-        }
-    },
-    loading: false,
-    error: null
+const state = {
+    selectedProduct: null,
+    selectedSize: null,
+    selectedShape: null,
+    selectedMaterial: null,
+    selectedColor: null,
+    selectedOptions: [],
+    customDescription: '',
+    photos: []
 };
 
 // Обработка ошибок
@@ -88,23 +78,11 @@ function updateProgress() {
 }
 
 // Функция для отображения секции
-function showSection(sectionId, direction = 'right') {
-    const currentSection = document.getElementById(state.currentSection);
-    const nextSection = document.getElementById(sectionId);
-    
-    if (!currentSection || !nextSection) {
-        console.error('Section not found:', sectionId);
-        return;
-    }
-
-    // Скрываем текущую секцию
-    currentSection.classList.add('hidden');
-    
-    // Показываем следующую секцию
-    nextSection.classList.remove('hidden');
-    
-    // Обновляем состояние
-    state.currentSection = sectionId;
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('hidden');
+    });
+    document.getElementById(sectionId).classList.remove('hidden');
 }
 
 // Обновление предпросмотра заказа
@@ -120,55 +98,55 @@ function updatePreview() {
             <h3>Информация о заказе</h3>
             <div class="preview-item">
                 <span class="preview-label">Продукт:</span>
-                <span class="preview-value">${state.order.product}</span>
+                <span class="preview-value">${state.selectedProduct}</span>
             </div>`;
 
-    if (state.order.product === 'Сумка') {
+    if (state.selectedProduct === 'Сумка') {
         previewHTML += `
             <div class="preview-item">
                 <span class="preview-label">Размер:</span>
-                <span class="preview-value">${state.order.size}</span>
+                <span class="preview-value">${state.selectedSize}</span>
             </div>
             <div class="preview-item">
                 <span class="preview-label">Форма:</span>
-                <span class="preview-value">${state.order.shape}</span>
+                <span class="preview-value">${state.selectedShape}</span>
             </div>`;
     }
 
     previewHTML += `
             <div class="preview-item">
                 <span class="preview-label">Материал:</span>
-                <span class="preview-value">${state.order.material}</span>
+                <span class="preview-value">${state.selectedMaterial}</span>
             </div>
             <div class="preview-item">
                 <span class="preview-label">Цвет:</span>
-                <span class="preview-value">${state.order.color}</span>
+                <span class="preview-value">${state.selectedColor}</span>
             </div>`;
 
-    if (state.order.product === 'Сумка' && state.order.options.length > 0) {
+    if (state.selectedProduct === 'Сумка' && state.selectedOptions.length > 0) {
         previewHTML += `
             <div class="preview-item">
                 <span class="preview-label">Дополнительные опции:</span>
-                <span class="preview-value">${state.order.options.join(', ')}</span>
+                <span class="preview-value">${state.selectedOptions.join(', ')}</span>
             </div>`;
     }
 
-    if (state.order.product === 'Нестандартный заказ') {
+    if (state.selectedProduct === 'Нестандартный заказ') {
         previewHTML += `
             <div class="preview-item">
                 <span class="preview-label">Описание:</span>
-                <span class="preview-value">${state.order.customDescription}</span>
+                <span class="preview-value">${state.customDescription}</span>
             </div>`;
     }
 
     // Фотографии
-    if (state.order.photos.length > 0) {
+    if (state.photos.length > 0) {
         previewHTML += `
             <div class="preview-section">
                 <h3>Фотографии</h3>
                 <div class="preview-photos">`;
         
-        state.order.photos.forEach(photo => {
+        state.photos.forEach(photo => {
             previewHTML += `
                 <div class="preview-photo">
                     <img src="${photo}" alt="Фото заказа">
@@ -184,11 +162,11 @@ function updatePreview() {
             <h3>Контактные данные</h3>
             <div class="preview-item">
                 <span class="preview-label">Телефон:</span>
-                <span class="preview-value">${state.order.contactInfo.phone}</span>
+                <span class="preview-value">${state.contactInfo.phone}</span>
             </div>
             <div class="preview-item">
                 <span class="preview-label">Telegram:</span>
-                <span class="preview-value">${state.order.contactInfo.telegramUsername}</span>
+                <span class="preview-value">${state.contactInfo.telegramUsername}</span>
             </div>
         </div>`;
 
@@ -198,7 +176,7 @@ function updatePreview() {
             <h3>Итоговая стоимость</h3>
             <div class="preview-total">
                 <span class="preview-label">Сумма к оплате:</span>
-                <span class="preview-value">${state.order.totalPrice} ₽</span>
+                <span class="preview-value">${state.totalPrice} ₽</span>
             </div>
         </div>`;
 
@@ -247,26 +225,30 @@ function calculateTotalPrice() {
 }
 
 // Обработчики событий для продуктов
-function initProductCards() {
-    const productCards = document.querySelectorAll('.product-card');
-    productCards.forEach(card => {
-        card.addEventListener('click', () => {
-            // Снимаем выделение со всех карточек
-            productCards.forEach(c => c.classList.remove('selected'));
-            // Выделяем выбранную карточку
-            card.classList.add('selected');
-            // Сохраняем выбранный продукт
-            state.order.product = card.dataset.product;
-            // Показываем следующую секцию
-            if (state.order.product === 'Сумка') {
-                showSection('size-selection');
-            } else if (state.order.product === 'Подстаканник') {
-                showSection('material-selection');
-            } else {
-                showSection('custom-order');
-            }
-        });
-    });
+function handleProductSelection(product) {
+    state.selectedProduct = product;
+    
+    // Очищаем предыдущие выборы
+    state.selectedSize = null;
+    state.selectedShape = null;
+    state.selectedMaterial = null;
+    state.selectedColor = null;
+    state.selectedOptions = [];
+    state.customDescription = '';
+    state.photos = [];
+    
+    // Определяем следующую секцию в зависимости от выбранного продукта
+    switch (product) {
+        case 'Сумка':
+            showSection('size-selection');
+            break;
+        case 'Подстаканник':
+            showSection('material-selection');
+            break;
+        case 'Нестандартный заказ':
+            showSection('custom-order');
+            break;
+    }
 }
 
 // Обработчики событий для размеров
@@ -279,7 +261,7 @@ function initSizeCards() {
             // Выделяем выбранную карточку
             card.classList.add('selected');
             // Сохраняем выбранный размер
-            state.order.size = card.dataset.size;
+            state.selectedSize = card.dataset.size;
             // Показываем следующую секцию
             showSection('shape-selection');
         });
@@ -296,7 +278,7 @@ function initShapeCards() {
             // Выделяем выбранную карточку
             card.classList.add('selected');
             // Сохраняем выбранную форму
-            state.order.shape = card.dataset.shape;
+            state.selectedShape = card.dataset.shape;
             // Показываем следующую секцию
             showSection('material-selection');
         });
@@ -313,7 +295,7 @@ function initMaterialCards() {
             // Выделяем выбранную карточку
             card.classList.add('selected');
             // Сохраняем выбранный материал
-            state.order.material = card.dataset.material;
+            state.selectedMaterial = card.dataset.material;
             // Показываем следующую секцию
             showSection('color-selection');
         });
@@ -330,7 +312,7 @@ function initColorCards() {
             // Выделяем выбранную карточку
             card.classList.add('selected');
             // Сохраняем выбранный цвет
-            state.order.color = card.dataset.color;
+            state.selectedColor = card.dataset.color;
             // Показываем следующую секцию
             showSection('options-selection');
         });
@@ -342,80 +324,131 @@ function initOptionCards() {
     const optionCards = document.querySelectorAll('.option-card');
     optionCards.forEach(card => {
         card.addEventListener('click', () => {
-            const option = card.dataset.option;
             card.classList.toggle('selected');
-            
+            const option = card.dataset.option;
             if (card.classList.contains('selected')) {
-                if (!state.order.options.includes(option)) {
-                    state.order.options.push(option);
+                if (!state.selectedOptions.includes(option)) {
+                    state.selectedOptions.push(option);
                 }
             } else {
-                state.order.options = state.order.options.filter(opt => opt !== option);
+                state.selectedOptions = state.selectedOptions.filter(o => o !== option);
             }
         });
     });
 }
 
-// Обработчик для кнопок навигации
-function initNavigationButtons() {
-    // Обработчики для кнопок "Назад"
-    document.querySelectorAll('.back-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const currentSection = state.currentSection;
-            let previousSection;
-            
-            switch (currentSection) {
-                case 'size-selection':
-                    previousSection = 'product-selection';
-                    break;
-                case 'shape-selection':
-                    previousSection = 'size-selection';
-                    break;
-                case 'material-selection':
-                    previousSection = state.order.product === 'Сумка' ? 'shape-selection' : 'product-selection';
-                    break;
-                case 'color-selection':
-                    previousSection = 'material-selection';
-                    break;
-                case 'options-selection':
-                    previousSection = 'color-selection';
-                    break;
-                case 'custom-order':
-                    previousSection = 'options-selection';
-                    break;
-                default:
-                    previousSection = 'product-selection';
+// Обработчики событий для кнопок навигации
+function handleBackNavigation() {
+    const currentSection = document.querySelector('.section:not(.hidden)').id;
+    
+    switch (currentSection) {
+        case 'size-selection':
+            showSection('product-selection');
+            break;
+        case 'shape-selection':
+            showSection('size-selection');
+            break;
+        case 'material-selection':
+            if (state.selectedProduct === 'Сумка') {
+                showSection('shape-selection');
+            } else {
+                showSection('product-selection');
             }
-            
-            showSection(previousSection, 'left');
-        });
-    });
+            break;
+        case 'color-selection':
+            showSection('material-selection');
+            break;
+        case 'options-selection':
+            showSection('color-selection');
+            break;
+        case 'custom-order':
+            showSection('product-selection');
+            break;
+        case 'preview':
+            if (state.selectedProduct === 'Нестандартный заказ') {
+                showSection('custom-order');
+            } else {
+                showSection('options-selection');
+            }
+            break;
+    }
+}
 
-    // Обработчики для кнопок "Далее"
-    document.querySelectorAll('.next-button').forEach(button => {
-        button.addEventListener('click', () => {
-            const currentSection = state.currentSection;
-            let nextSection;
-            
-            switch (currentSection) {
-                case 'options-selection':
-                    nextSection = 'custom-order';
-                    break;
-                case 'custom-order':
-                    submitOrder();
-                    return;
-                default:
-                    return;
-            }
-            
-            showSection(nextSection);
-        });
-    });
+function handleNextNavigation() {
+    const currentSection = document.querySelector('.section:not(.hidden)').id;
+    
+    switch (currentSection) {
+        case 'size-selection':
+            if (state.selectedSize) showSection('shape-selection');
+            break;
+        case 'shape-selection':
+            if (state.selectedShape) showSection('material-selection');
+            break;
+        case 'material-selection':
+            if (state.selectedMaterial) showSection('color-selection');
+            break;
+        case 'color-selection':
+            if (state.selectedColor) showSection('options-selection');
+            break;
+        case 'options-selection':
+            showPreview();
+            break;
+        case 'custom-order':
+            if (state.customDescription) showPreview();
+            break;
+    }
+}
+
+function handleCustomOrder() {
+    const description = document.getElementById('custom-description').value;
+    const photos = document.getElementById('custom-photos').files;
+    
+    if (description.trim()) {
+        state.customDescription = description;
+        if (photos.length > 0) {
+            // Обработка фотографий
+            Array.from(photos).forEach(photo => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    state.photos.push(e.target.result);
+                };
+                reader.readAsDataURL(photo);
+            });
+        }
+        showPreview();
+    }
+}
+
+function showPreview() {
+    const previewContent = document.getElementById('preview-content');
+    let html = '';
+    
+    if (state.selectedProduct === 'Нестандартный заказ') {
+        html = `
+            <h3>Нестандартный заказ</h3>
+            <p>Описание: ${state.customDescription}</p>
+            ${state.photos.length ? '<h4>Приложенные фото:</h4>' : ''}
+            <div class="preview-photos">
+                ${state.photos.map(photo => `<img src="${photo}" alt="Фото заказа">`).join('')}
+            </div>
+        `;
+    } else {
+        html = `
+            <h3>${state.selectedProduct}</h3>
+            ${state.selectedSize ? `<p>Размер: ${state.selectedSize}</p>` : ''}
+            ${state.selectedShape ? `<p>Форма: ${state.selectedShape}</p>` : ''}
+            <p>Материал: ${state.selectedMaterial}</p>
+            <p>Цвет: ${state.selectedColor}</p>
+            ${state.selectedOptions.length ? `<p>Опции: ${state.selectedOptions.join(', ')}</p>` : ''}
+        `;
+    }
+    
+    previewContent.innerHTML = html;
+    showSection('preview');
 }
 
 // Инициализация всех обработчиков событий
 function initializeEventHandlers() {
-    initProductCards();
     initSizeCards();
     initShapeCards();
     initMaterialCards();
@@ -433,37 +466,37 @@ document.addEventListener('DOMContentLoaded', () => {
 async function confirmOrder() {
     try {
         // Проверяем наличие всех необходимых данных
-        if (!state.order.product) {
+        if (!state.selectedProduct) {
             throw new Error('Пожалуйста, выберите продукт');
         }
-        if (!state.order.size) {
+        if (!state.selectedSize) {
             throw new Error('Пожалуйста, выберите размер');
         }
-        if (!state.order.shape) {
+        if (!state.selectedShape) {
             throw new Error('Пожалуйста, выберите форму');
         }
-        if (!state.order.material) {
+        if (!state.selectedMaterial) {
             throw new Error('Пожалуйста, выберите материал');
         }
-        if (!state.order.color) {
+        if (!state.selectedColor) {
             throw new Error('Пожалуйста, выберите цвет');
         }
-        if (!state.order.customDescription) {
+        if (!state.customDescription) {
             throw new Error('Пожалуйста, добавьте описание');
         }
-        if (!state.order.photos || state.order.photos.length === 0) {
+        if (!state.photos || state.photos.length === 0) {
             throw new Error('Пожалуйста, добавьте фото');
         }
 
         // Формируем данные заказа
         const orderData = {
-            product: state.order.product,
-            size: state.order.size,
-            shape: state.order.shape,
-            material: state.order.material,
-            color: state.order.color,
-            customDescription: state.order.customDescription,
-            photos: state.order.photos,
+            product: state.selectedProduct,
+            size: state.selectedSize,
+            shape: state.selectedShape,
+            material: state.selectedMaterial,
+            color: state.selectedColor,
+            customDescription: state.customDescription,
+            photos: state.photos,
             user: {
                 id: tg.initDataUnsafe.user.id,
                 username: tg.initDataUnsafe.user.username,
@@ -488,15 +521,13 @@ async function confirmOrder() {
         showMessage(`Заказ #${orderNumber} успешно оформлен! Мы свяжемся с вами в ближайшее время.`, 'success');
 
         // Очищаем состояние заказа
-        state.order = {
-            product: null,
-            size: null,
-            shape: null,
-            material: null,
-            color: null,
-            customDescription: '',
-            photos: []
-        };
+        state.selectedProduct = null;
+        state.selectedSize = null;
+        state.selectedShape = null;
+        state.selectedMaterial = null;
+        state.selectedColor = null;
+        state.customDescription = '';
+        state.photos = [];
 
         // Возвращаемся на главную через 3 секунды
         setTimeout(() => {
@@ -539,7 +570,7 @@ function handleImageUpload(event) {
     
     Promise.all(promises)
         .then(results => {
-            state.order.photos = results;
+            state.photos = results;
             updatePreview();
         })
         .catch(error => {
@@ -576,7 +607,7 @@ function handleContactInfoNext() {
     }
 
     // Сохраняем контактные данные
-    state.order.contactInfo = {
+    state.contactInfo = {
         phone: phone,
         telegramUsername: telegramUsername
     };
@@ -588,18 +619,18 @@ function handleContactInfoNext() {
 
 function updateReview() {
     // Обновляем основную информацию
-    document.getElementById('review-product').textContent = state.order.product || 'Не выбрано';
-    document.getElementById('review-size').textContent = state.order.size || 'Не выбрано';
-    document.getElementById('review-shape').textContent = state.order.shape || 'Не выбрано';
-    document.getElementById('review-material').textContent = state.order.material || 'Не выбрано';
-    document.getElementById('review-color').textContent = state.order.color || 'Не выбрано';
-    document.getElementById('review-description').textContent = state.order.description || 'Не указано';
+    document.getElementById('review-product').textContent = state.selectedProduct || 'Не выбрано';
+    document.getElementById('review-size').textContent = state.selectedSize || 'Не выбрано';
+    document.getElementById('review-shape').textContent = state.selectedShape || 'Не выбрано';
+    document.getElementById('review-material').textContent = state.selectedMaterial || 'Не выбрано';
+    document.getElementById('review-color').textContent = state.selectedColor || 'Не выбрано';
+    document.getElementById('review-description').textContent = state.customDescription || 'Не указано';
 
     // Обновляем дополнительные опции
     const optionsContainer = document.getElementById('review-options');
     optionsContainer.innerHTML = '';
-    if (state.order.options && state.order.options.length > 0) {
-        state.order.options.forEach(option => {
+    if (state.selectedOptions && state.selectedOptions.length > 0) {
+        state.selectedOptions.forEach(option => {
             const optionItem = document.createElement('div');
             optionItem.className = 'review-item';
             optionItem.innerHTML = `
@@ -615,8 +646,8 @@ function updateReview() {
     // Обновляем фотографии
     const photosContainer = document.getElementById('review-photos');
     photosContainer.innerHTML = '';
-    if (state.order.photos && state.order.photos.length > 0) {
-        state.order.photos.forEach(photo => {
+    if (state.photos && state.photos.length > 0) {
+        state.photos.forEach(photo => {
             const img = document.createElement('img');
             img.src = photo;
             img.alt = 'Фото заказа';
@@ -634,14 +665,14 @@ function submitOrder() {
     }
 
     const orderData = {
-        product: state.order.product,
-        size: state.order.size,
-        shape: state.order.shape,
-        material: state.order.material,
-        color: state.order.color,
-        options: state.order.options,
-        description: state.order.description,
-        photos: state.order.photos
+        product: state.selectedProduct,
+        size: state.selectedSize,
+        shape: state.selectedShape,
+        material: state.selectedMaterial,
+        color: state.selectedColor,
+        options: state.selectedOptions,
+        description: state.customDescription,
+        photos: state.photos
     };
 
     window.Telegram.WebApp.sendData(JSON.stringify(orderData));
@@ -658,7 +689,7 @@ function validateOrder() {
     };
 
     for (const [field, label] of Object.entries(requiredFields)) {
-        if (!state.order[field]) {
+        if (!state[field]) {
             window.Telegram.WebApp.showPopup({
                 title: 'Ошибка',
                 message: `Пожалуйста, выберите ${label.toLowerCase()}`
@@ -673,7 +704,7 @@ function validateOrder() {
 // Обновляем функцию для перехода к проверке заказа
 function confirmDescription() {
     const description = document.getElementById('custom-description').value.trim();
-    state.order.description = description;
+    state.customDescription = description;
     showSection('order-review', 'right');
     updateReview();
 } 
