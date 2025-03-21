@@ -2,7 +2,8 @@
 :root {
     --primary-color: #E6D5C7;
     --secondary-color: #F5E6D3;
-    --accent-color: #D4B08C;
+    --accent-color: #2196F3;
+    --accent-color-hover: #1976D2;
     --text-color: #4A4A4A;
     --background-color: #FDF6E9;
     --card-background: #FFFFFF;
@@ -92,7 +93,7 @@ body {
 
 .product-card.selected {
     border-color: var(--accent-color);
-    background-color: var(--secondary-color);
+    background-color: #E3F2FD;
 }
 
 /* Цветовые карточки */
@@ -131,7 +132,7 @@ body {
 
 .color-card.selected {
     border-color: var(--accent-color);
-    background-color: var(--secondary-color);
+    background-color: #E3F2FD;
 }
 
 .color-card.selected .color-preview {
@@ -174,6 +175,10 @@ body {
     color: white;
 }
 
+.button.primary:hover {
+    background: var(--accent-color-hover);
+}
+
 .button.secondary {
     background: var(--secondary-color);
     color: var(--text-color);
@@ -210,7 +215,7 @@ body {
 
 .option-card.selected {
     border-color: var(--accent-color);
-    background-color: var(--secondary-color);
+    background-color: #E3F2FD;
 }
 
 /* Форма заказа */
@@ -1186,7 +1191,7 @@ button.loading::after {
 }
 
 .confirm-button:hover {
-    background: var(--accent-color-dark);
+    background: var(--accent-color-hover);
 }
 
 .product-grid {
@@ -1329,6 +1334,10 @@ button.loading::after {
 .button.primary {
     background: #2196F3;
     color: #fff;
+}
+
+.button.primary:hover {
+    background: #1976D2;
 }
 
 .button.secondary {
