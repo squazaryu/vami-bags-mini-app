@@ -50,18 +50,24 @@
                     <div class="grid">
                         <div class="product-card" data-product="Сумка">
                             <img src="images/bag.jpeg" alt="Сумка" loading="lazy">
-                            <h3>Сумка</h3>
-                            <p class="description">Стильная и практичная сумка ручной работы</p>
+                            <div class="product-info">
+                                <h3>Сумка</h3>
+                                <p>Стильная и практичная сумка ручной работы</p>
+                            </div>
                         </div>
                         <div class="product-card" data-product="Подстаканник">
                             <img src="images/cup-holder.jpeg" alt="Подстаканник" loading="lazy">
-                            <h3>Подстаканник</h3>
-                            <p class="description">Элегантный кожаный подстаканник</p>
+                            <div class="product-info">
+                                <h3>Подстаканник</h3>
+                                <p>Элегантный подстаканник из бусин</p>
+                            </div>
                         </div>
                         <div class="product-card" data-product="Нестандартный заказ">
                             <img src="images/custom.jpeg" alt="Нестандартный заказ" loading="lazy">
-                            <h3>Нестандартный заказ</h3>
-                            <p class="description">Создайте свой уникальный дизайн</p>
+                            <div class="product-info">
+                                <h3>Нестандартный заказ</h3>
+                                <p>Закажите уникальный дизайн</p>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -70,25 +76,33 @@
                 <section id="size-selection" class="section hidden">
                     <h2>Выберите размер сумки</h2>
                     <div class="grid">
-                        <div class="size-card" data-size="S">
+                        <div class="product-card" data-size="S">
                             <i class="fas fa-ruler"></i>
-                            <h3>S (микросумка)</h3>
-                            <p>Компактный размер</p>
+                            <div class="product-info">
+                                <h3>S (микросумка)</h3>
+                                <p>Компактный размер</p>
+                            </div>
                         </div>
-                        <div class="size-card" data-size="M">
+                        <div class="product-card" data-size="M">
                             <i class="fas fa-mobile-alt"></i>
-                            <h3>M (влезает телефон и картхолдер)</h3>
-                            <p>Средний размер</p>
+                            <div class="product-info">
+                                <h3>M (влезает телефон и картхолдер)</h3>
+                                <p>Средний размер</p>
+                            </div>
                         </div>
-                        <div class="size-card" data-size="L">
+                        <div class="product-card" data-size="L">
                             <i class="fas fa-shopping-bag"></i>
-                            <h3>L (на 5 см больше размера M)</h3>
-                            <p>Большой размер</p>
+                            <div class="product-info">
+                                <h3>L (на 5 см больше размера M)</h3>
+                                <p>Большой размер</p>
+                            </div>
                         </div>
                     </div>
-                    <button class="back-button" onclick="showSection('product-selection', 'left')">
-                        <i class="fas fa-arrow-left"></i> Назад
-                    </button>
+                    <div class="navigation">
+                        <button class="button secondary" onclick="showSection('product-selection', 'left')">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </button>
+                    </div>
                 </section>
 
                 <!-- Выбор формы (для сумки) -->
@@ -167,26 +181,22 @@
                     <div class="color-grid">
                         <div class="color-card" data-color="Зеленый">
                             <div class="color-preview"></div>
-                            <span class="color-name">Зеленый</span>
                         </div>
                         <div class="color-card" data-color="Синий">
                             <div class="color-preview"></div>
-                            <span class="color-name">Синий</span>
                         </div>
                         <div class="color-card" data-color="Бежевый">
                             <div class="color-preview"></div>
-                            <span class="color-name">Бежевый</span>
                         </div>
                         <div class="color-card" data-color="Коричневый">
                             <div class="color-preview"></div>
-                            <span class="color-name">Коричневый</span>
                         </div>
                     </div>
-                    <div class="button-group">
-                        <button class="back-button" onclick="showSection('material-selection', 'left')">
+                    <div class="navigation">
+                        <button class="button secondary" onclick="showSection('material-selection', 'left')">
                             <i class="fas fa-arrow-left"></i> Назад
                         </button>
-                        <button class="next-button" onclick="showSection('options-selection', 'right')">
+                        <button class="button primary" onclick="showSection('options-selection', 'right')">
                             Далее <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
