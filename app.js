@@ -7,6 +7,23 @@ try {
     handleError(new Error('Ошибка инициализации приложения'));
 }
 
+// Инициализация изображений
+document.addEventListener('DOMContentLoaded', function() {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+        img.onload = function() {
+            img.style.opacity = '1';
+        };
+        img.onerror = function() {
+            console.error('Error loading image:', img.src);
+            img.src = 'images/placeholder.jpeg';
+        };
+        // Предзагрузка изображений
+        const tempImage = new Image();
+        tempImage.src = img.src;
+    });
+});
+
 // Состояние приложения
 let state = {
     currentSection: 'product-selection',
