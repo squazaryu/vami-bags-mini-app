@@ -1,16 +1,13 @@
 {
   "files": {
-    "main.css": "/vami-bags-mini-app/static/css/main.b0913e53.css",
-    "main.js": "/vami-bags-mini-app/static/js/main.2bf4fce9.js",
-    "static/js/453.710ee8bd.chunk.js": "/vami-bags-mini-app/static/js/453.710ee8bd.chunk.js",
+    "main.css": "/vami-bags-mini-app/static/css/main.8761ba1e.css",
+    "main.js": "/vami-bags-mini-app/static/js/main.6cbb351b.js",
     "index.html": "/vami-bags-mini-app/index.html",
-    "static/media/index.cjs": "/vami-bags-mini-app/static/media/index.42119833dddefe38a9fa.cjs",
-    "main.b0913e53.css.map": "/vami-bags-mini-app/static/css/main.b0913e53.css.map",
-    "main.2bf4fce9.js.map": "/vami-bags-mini-app/static/js/main.2bf4fce9.js.map",
-    "453.710ee8bd.chunk.js.map": "/vami-bags-mini-app/static/js/453.710ee8bd.chunk.js.map"
+    "main.8761ba1e.css.map": "/vami-bags-mini-app/static/css/main.8761ba1e.css.map",
+    "main.6cbb351b.js.map": "/vami-bags-mini-app/static/js/main.6cbb351b.js.map"
   },
   "entrypoints": [
-    "static/css/main.b0913e53.css",
-    "static/js/main.2bf4fce9.js"
+    "static/css/main.8761ba1e.css",
+    "static/js/main.6cbb351b.js"
   ]
 }
