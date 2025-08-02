@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { ConfigProvider } from 'antd';
+import React from 'react';
+import OrderForm from './components/OrderForm';
 import './App.css';
 
 declare global {
@@ -87,29 +87,10 @@ declare global {
 }
 
 function App() {
-  useEffect(() => {
-    // Initialize Telegram Web App
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-    }
-  }, []);
-
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#1890ff',
-        },
-      }}
-    >
-      <div className="App">
-        <header className="App-header">
-          <h1>Vami Bags Mini App</h1>
-          <p>Welcome to the custom bag ordering app!</p>
-        </header>
-      </div>
-    </ConfigProvider>
+    <div className="App">
+      <OrderForm />
+    </div>
   );
 }
 
