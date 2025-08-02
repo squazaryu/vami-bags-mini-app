@@ -1,0 +1,196 @@
+.options-step {
+  padding: 16px;
+}
+
+.step-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.options-content {
+  margin-bottom: 24px;
+}
+
+.option-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.option-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.option-info {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.option-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tg-theme-text-color, #000000);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.option-info .ant-typography {
+  font-size: 14px;
+  color: var(--tg-theme-hint-color, #666666);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.quantity-input {
+  width: 120px;
+}
+
+.quantity-input .ant-input-number-input {
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.notes-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid var(--tg-theme-hint-color, #d9d9d9);
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  background: var(--tg-theme-bg-color, #ffffff);
+  color: var(--tg-theme-text-color, #000000);
+  transition: all 0.3s ease;
+}
+
+.notes-textarea:focus {
+  outline: none;
+  border-color: var(--tg-theme-button-color, #1890ff);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.notes-textarea::placeholder {
+  color: var(--tg-theme-hint-color, #999999);
+}
+
+/* Улучшенные стили для чекбоксов */
+.ant-checkbox-wrapper {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--tg-theme-button-color, #1890ff);
+  border-color: var(--tg-theme-button-color, #1890ff);
+}
+
+/* Стили для InputNumber */
+.ant-input-number {
+  border-color: var(--tg-theme-hint-color, #d9d9d9);
+}
+
+.ant-input-number:focus,
+.ant-input-number-focused {
+  border-color: var(--tg-theme-button-color, #1890ff);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.ant-input-number-input {
+  color: var(--tg-theme-text-color, #000);
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 16px;
+}
+
+.back-button {
+  background-color: transparent;
+  color: var(--tg-theme-text-color, #666);
+  border: 1px solid var(--tg-theme-hint-color, #ccc);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: var(--tg-theme-hint-color, #f5f5f5);
+}
+
+.next-button {
+  background-color: var(--tg-theme-button-color, #1890ff);
+  color: var(--tg-theme-button-text-color, #fff);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: var(--tg-theme-button-color, #40a9ff);
+  transform: translateY(-1px);
+}
+
+.next-button:active {
+  transform: translateY(0);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .options-step {
+    padding: 12px;
+  }
+  
+  .option-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .option-info {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+  
+  .quantity-input {
+    width: 100%;
+  }
+  
+  .option-info h4 {
+    font-size: 15px;
+  }
+  
+  .option-info .ant-typography {
+    font-size: 13px;
+  }
+  
+  .step-actions {
+    flex-direction: column;
+  }
+  
+  .back-button,
+  .next-button {
+    width: 100%;
+    padding: 16px 24px;
+  }
+} 

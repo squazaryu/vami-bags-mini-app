@@ -252,17 +252,6 @@ body {
   object-fit: cover;
   border-radius: 16px;
   transition: all 0.3s ease;
-  opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
-}
-
-.product-image.loaded {
-  opacity: 1;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 .product-image:hover {
@@ -332,33 +321,12 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.card-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.card-button:hover::before {
-  left: 100%;
 }
 
 .card-button:hover {
   background: var(--accent-blue);
   border-color: var(--accent-blue);
   transform: scale(1.05);
-}
-
-.card-button:active {
-  transform: scale(0.95);
 }
 
 /* Section Headers */
@@ -415,12 +383,6 @@ body {
   margin: 0 auto 12px;
   border: 3px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.color-card:hover .color-circle {
-  transform: scale(1.1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .color-name {
@@ -452,23 +414,6 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.nav-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s;
-}
-
-.nav-button:hover::before {
-  left: 100%;
 }
 
 .nav-button:hover {
@@ -597,27 +542,4 @@ html {
 ::selection {
   background: var(--accent-blue);
   color: var(--text-primary);
-}
-
-/* Performance optimizations */
-* {
-  will-change: auto;
-}
-
-.glass-card {
-  will-change: transform;
-}
-
-.card-button,
-.nav-button {
-  will-change: transform, background-color;
-}
-
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
 } 

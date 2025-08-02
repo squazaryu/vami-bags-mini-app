@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { PRODUCT_TYPES, SHAPES, MATERIALS, SIZES, COLORS } from './utils/data';
 import './App.css';
 
@@ -106,31 +106,6 @@ const App: React.FC = () => {
   });
 
   const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
-  const [visibleImages, setVisibleImages] = useState<{[key: string]: boolean}>({});
-  const imageRefs = useRef<{[key: string]: HTMLImageElement | null}>({});
-
-  // Intersection Observer for lazy loading
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const imgId = entry.target.getAttribute('data-img-id');
-            if (imgId) {
-              setVisibleImages(prev => ({ ...prev, [imgId]: true }));
-            }
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    Object.values(imageRefs.current).forEach((img) => {
-      if (img) observer.observe(img);
-    });
-
-    return () => observer.disconnect();
-  }, [currentStep]);
 
   const steps = [
     { id: 'product', title: 'Тип продукта', icon: '👜' },
@@ -197,7 +172,6 @@ const App: React.FC = () => {
       
       {PRODUCT_TYPES.map((product) => {
         const hasImageError = imageErrors[product.id];
-        const isVisible = visibleImages[product.id];
         
         return (
           <div key={product.id} className="glass-card">
@@ -209,14 +183,11 @@ const App: React.FC = () => {
                   </div>
                 ) : (
                   <img
-                    ref={(el) => { imageRefs.current[product.id] = el; }}
-                    data-img-id={product.id}
-                    src={isVisible ? product.image : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
+                    src={product.image}
                     alt={product.displayName}
                     className="product-image"
                     onError={() => handleImageError(product.id)}
                     onLoad={() => handleImageLoad(product.id)}
-                    loading="lazy"
                   />
                 )}
               </div>
@@ -249,7 +220,6 @@ const App: React.FC = () => {
       
       {SHAPES.map((shape) => {
         const hasImageError = imageErrors[shape.id];
-        const isVisible = visibleImages[shape.id];
         
         return (
           <div key={shape.id} className="glass-card">
@@ -261,14 +231,11 @@ const App: React.FC = () => {
                   </div>
                 ) : (
                   <img
-                    ref={(el) => { imageRefs.current[shape.id] = el; }}
-                    data-img-id={shape.id}
-                    src={isVisible ? shape.image : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
+                    src={shape.image}
                     alt={shape.displayName}
                     className="product-image"
                     onError={() => handleImageError(shape.id)}
                     onLoad={() => handleImageLoad(shape.id)}
-                    loading="lazy"
                   />
                 )}
               </div>
@@ -301,7 +268,6 @@ const App: React.FC = () => {
       
       {MATERIALS.map((material) => {
         const hasImageError = imageErrors[material.id];
-        const isVisible = visibleImages[material.id];
         
         return (
           <div key={material.id} className="glass-card">
@@ -313,14 +279,11 @@ const App: React.FC = () => {
                   </div>
                 ) : (
                   <img
-                    ref={(el) => { imageRefs.current[material.id] = el; }}
-                    data-img-id={material.id}
-                    src={isVisible ? material.image : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'}
+                    src={material.image}
                     alt={material.displayName}
                     className="product-image"
                     onError={() => handleImageError(material.id)}
                     onLoad={() => handleImageLoad(material.id)}
-                    loading="lazy"
                   />
                 )}
               </div>

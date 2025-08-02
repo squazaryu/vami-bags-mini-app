@@ -1,0 +1,137 @@
+.material-step {
+  padding: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.step-header h3 {
+  margin-bottom: 8px;
+  color: var(--tg-theme-text-color, #000);
+}
+
+.material-grid {
+  margin-bottom: 24px;
+}
+
+.material-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  height: 100%;
+}
+
+.material-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.material-card.selected {
+  border-color: var(--tg-theme-button-color, #1890ff);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.material-image-container {
+  height: 200px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+}
+
+.material-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.material-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.price-tag {
+  font-weight: 500;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 16px;
+}
+
+.back-button {
+  background-color: transparent;
+  color: var(--tg-theme-text-color, #666);
+  border: 1px solid var(--tg-theme-hint-color, #ccc);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: var(--tg-theme-hint-color, #f5f5f5);
+}
+
+.next-button {
+  background-color: var(--tg-theme-button-color, #1890ff);
+  color: var(--tg-theme-button-text-color, #fff);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.next-button:hover {
+  background-color: var(--tg-theme-button-color, #40a9ff);
+  transform: translateY(-1px);
+}
+
+.next-button:active {
+  transform: translateY(0);
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .material-step {
+    padding: 12px;
+  }
+  
+  .material-image-container {
+    height: 150px;
+  }
+  
+  .material-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .step-actions {
+    flex-direction: column;
+  }
+  
+  .back-button,
+  .next-button {
+    width: 100%;
+    padding: 16px 24px;
+  }
+} 
