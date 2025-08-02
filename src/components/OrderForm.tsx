@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ConfigProvider } from 'antd';
-import { OrderForm as OrderFormType, ProductType, Shape, Material, Size } from '../types';
+import { OrderForm as OrderFormType, ProductType, Shape, Material, Size, Color } from '../types';
 import ProductTypeStep from './ProductTypeStep';
 import ShapeStep from './ShapeStep';
 import MaterialStep from './MaterialStep';
 import SizeStep from './SizeStep';
+import ColorStep from './ColorStep';
+import OptionsStep from './OptionsStep';
 import './OrderForm.css';
 
 const OrderForm: React.FC = () => {
@@ -44,6 +46,18 @@ const OrderForm: React.FC = () => {
 
   const handleSizeSelect = (size: Size) => {
     setOrderData(prev => ({ ...prev, size }));
+  };
+
+  const handleColorSelect = (color: Color) => {
+    setOrderData(prev => ({ ...prev, color }));
+  };
+
+  const handleQuantityChange = (quantity: number) => {
+    setOrderData(prev => ({ ...prev, quantity }));
+  };
+
+  const handleNotesChange = (notes: string) => {
+    setOrderData(prev => ({ ...prev, additionalNotes: notes }));
   };
 
   const handleNext = () => {
@@ -87,6 +101,26 @@ const OrderForm: React.FC = () => {
           <SizeStep
             selectedSize={orderData.size}
             onSizeSelect={handleSizeSelect}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 4:
+        return (
+          <ColorStep
+            selectedColor={orderData.color}
+            onColorSelect={handleColorSelect}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 5:
+        return (
+          <OptionsStep
+            quantity={orderData.quantity}
+            additionalNotes={orderData.additionalNotes}
+            onQuantityChange={handleQuantityChange}
+            onNotesChange={handleNotesChange}
             onNext={handleNext}
             onBack={handleBack}
           />
