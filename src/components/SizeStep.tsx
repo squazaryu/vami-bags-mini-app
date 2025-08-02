@@ -1,10 +1,8 @@
 import React from 'react';
-import Card from 'antd/lib/card';
-import Typography from 'antd/lib/typography';
-import Button from 'antd/lib/button';
+import { Card, Typography, Button } from 'antd';
 import styled from 'styled-components';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 interface SizeStepProps {
   onSelect: (value: string) => void;
@@ -103,21 +101,7 @@ const BackButton = styled(Button)`
   }
 `;
 
-const CloseButton = styled(Button)`
-  min-width: 100px;
-  background-color: #F2F2F7;
-  font-weight: 500;
-  height: 36px;
-  border-radius: 10px;
-  box-shadow: none;
-  border: 1px solid #E5E5EA;
-  color: #000000;
-  
-  &:hover {
-    border-color: #FF3B30;
-    color: #FF3B30;
-  }
-`;
+
 
 const sizes = [
   {

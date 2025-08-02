@@ -122,11 +122,6 @@ const MaterialDescription = styled(Text)`
   }
 `;
 
-const ActionButton = styled(Button)`
-  margin-top: 20px;
-  min-width: 120px;
-`;
-
 const BackButton = styled(Button)`
   min-width: 100px;
   background-color: #F2F2F7;
@@ -140,22 +135,6 @@ const BackButton = styled(Button)`
   &:hover {
     border-color: #007AFF;
     color: #007AFF;
-  }
-`;
-
-const CloseButton = styled(Button)`
-  min-width: 100px;
-  background-color: #F2F2F7;
-  font-weight: 500;
-  height: 36px;
-  border-radius: 10px;
-  box-shadow: none;
-  border: 1px solid #E5E5EA;
-  color: #000000;
-  
-  &:hover {
-    border-color: #FF3B30;
-    color: #FF3B30;
   }
 `;
 

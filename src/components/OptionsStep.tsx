@@ -76,21 +76,7 @@ const BackButton = styled(Button)`
   }
 `;
 
-const CloseButton = styled(Button)`
-  min-width: 100px;
-  background-color: #F2F2F7;
-  font-weight: 500;
-  height: 36px;
-  border-radius: 10px;
-  box-shadow: none;
-  border: 1px solid #E5E5EA;
-  color: #000000;
-  
-  &:hover {
-    border-color: #FF3B30;
-    color: #FF3B30;
-  }
-`;
+
 
 const SubmitButton = styled(Button)`
   min-width: 100px;

@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect } from 'react';
-import Typography from 'antd/lib/typography';
 import styled from 'styled-components';
 import { ProductType } from '../types';
 import SizeStep from './SizeStep';
