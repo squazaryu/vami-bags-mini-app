@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ConfigProvider } from 'antd';
-import { OrderForm as OrderFormType, ProductType, Shape } from '../types';
+import { OrderForm as OrderFormType, ProductType, Shape, Material, Size } from '../types';
 import ProductTypeStep from './ProductTypeStep';
 import ShapeStep from './ShapeStep';
+import MaterialStep from './MaterialStep';
+import SizeStep from './SizeStep';
 import './OrderForm.css';
 
 const OrderForm: React.FC = () => {
@@ -36,6 +38,14 @@ const OrderForm: React.FC = () => {
     setOrderData(prev => ({ ...prev, shape }));
   };
 
+  const handleMaterialSelect = (material: Material) => {
+    setOrderData(prev => ({ ...prev, material }));
+  };
+
+  const handleSizeSelect = (size: Size) => {
+    setOrderData(prev => ({ ...prev, size }));
+  };
+
   const handleNext = () => {
     setCurrentStep(prev => prev + 1);
   };
@@ -59,6 +69,24 @@ const OrderForm: React.FC = () => {
           <ShapeStep
             selectedShape={orderData.shape}
             onShapeSelect={handleShapeSelect}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 2:
+        return (
+          <MaterialStep
+            selectedMaterial={orderData.material}
+            onMaterialSelect={handleMaterialSelect}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 3:
+        return (
+          <SizeStep
+            selectedSize={orderData.size}
+            onSizeSelect={handleSizeSelect}
             onNext={handleNext}
             onBack={handleBack}
           />
