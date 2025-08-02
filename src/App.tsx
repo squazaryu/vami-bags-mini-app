@@ -39,6 +39,7 @@ declare global {
         ready: () => void;
         expand: () => void;
         close: () => void;
+        showAlert: (message: string) => void;
         MainButton: {
           text: string;
           color: string;

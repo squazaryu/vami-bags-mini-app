@@ -7,6 +7,8 @@ import MaterialStep from './MaterialStep';
 import SizeStep from './SizeStep';
 import ColorStep from './ColorStep';
 import OptionsStep from './OptionsStep';
+import PreviewStep from './PreviewStep';
+import OrderFormStep from './OrderFormStep';
 import './OrderForm.css';
 
 const OrderForm: React.FC = () => {
@@ -58,6 +60,17 @@ const OrderForm: React.FC = () => {
 
   const handleNotesChange = (notes: string) => {
     setOrderData(prev => ({ ...prev, additionalNotes: notes }));
+  };
+
+  const handleOrderSubmit = (formData: any) => {
+    // Здесь будет отправка данных в бот
+    console.log('Final order data:', formData);
+    
+    // Показываем сообщение об успехе
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.showAlert('Заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+      window.Telegram.WebApp.close();
+    }
   };
 
   const handleNext = () => {
@@ -123,6 +136,22 @@ const OrderForm: React.FC = () => {
             onNotesChange={handleNotesChange}
             onNext={handleNext}
             onBack={handleBack}
+          />
+        );
+      case 6:
+        return (
+          <PreviewStep
+            orderData={orderData}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 7:
+        return (
+          <OrderFormStep
+            orderData={orderData}
+            onBack={handleBack}
+            onSubmit={handleOrderSubmit}
           />
         );
       default:
