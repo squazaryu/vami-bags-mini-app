@@ -40,6 +40,7 @@ declare global {
         expand: () => void;
         close: () => void;
         showAlert: (message: string) => void;
+        sendData: (data: string) => void;
         MainButton: {
           text: string;
           color: string;

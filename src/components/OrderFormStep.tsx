@@ -23,15 +23,28 @@ const OrderFormStep: React.FC<OrderFormStepProps> = ({
   const handleSubmit = async (values: any) => {
     setLoading(true);
     try {
-      // Здесь будет отправка данных в бот
-      console.log('Order data:', { ...orderData, ...values });
+      const finalOrderData = { ...orderData, ...values };
       
-      // Имитация отправки
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      message.success('Заказ успешно отправлен!');
-      onSubmit({ ...orderData, ...values });
+      // Отправляем данные в Telegram бот
+      if (window.Telegram?.WebApp) {
+        const data = JSON.stringify(finalOrderData);
+        window.Telegram.WebApp.sendData(data);
+        
+        // Показываем сообщение об успехе
+        window.Telegram.WebApp.showAlert('Заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+        
+        // Закрываем веб-приложение
+        setTimeout(() => {
+          window.Telegram.WebApp.close();
+        }, 2000);
+      } else {
+        // Fallback для тестирования вне Telegram
+        console.log('Order data:', finalOrderData);
+        message.success('Заказ успешно отправлен!');
+        onSubmit(finalOrderData);
+      }
     } catch (error) {
+      console.error('Error submitting order:', error);
       message.error('Ошибка при отправке заказа. Попробуйте еще раз.');
     } finally {
       setLoading(false);
