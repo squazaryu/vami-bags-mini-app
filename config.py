@@ -8,7 +8,7 @@ load_dotenv()
 BOT_TOKEN = os.getenv('TELEGRAM_TOKEN', '7408506728:AAGK9d5kddSnMQDwgIYOiEK-6nPFFwgYP-M')
 
 # URL мини-приложения
-WEBAPP_URL = os.getenv('WEBAPP_URL', 'https://squazaryu.github.io/sumki-mini-app/')
+WEBAPP_URL = os.getenv('WEBAPP_URL', 'https://squazaryu.github.io/vami-bags-mini-app/')
 
 # ID администраторов (список строк)
 # Сначала пробуем загрузить из переменных окружения, если нет - используем жестко заданное значение
