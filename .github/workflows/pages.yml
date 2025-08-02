@@ -1,0 +1,13 @@
+name: Setup GitHub Pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: none 
