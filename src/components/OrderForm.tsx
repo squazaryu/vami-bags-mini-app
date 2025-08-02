@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ConfigProvider } from 'antd';
 import { OrderForm as OrderFormType, ProductType, Shape, Material, Size, Color } from '../types';
 import ProductTypeStep from './ProductTypeStep';
@@ -9,10 +9,13 @@ import ColorStep from './ColorStep';
 import OptionsStep from './OptionsStep';
 import PreviewStep from './PreviewStep';
 import OrderFormStep from './OrderFormStep';
+import ProgressBar from './ProgressBar';
 import './OrderForm.css';
 
 const OrderForm: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [animationDirection, setAnimationDirection] = useState<'right' | 'left'>('right');
+  const stepContentRef = useRef<HTMLDivElement>(null);
   const [orderData, setOrderData] = useState<OrderFormType>({
     productType: null,
     shape: null,
@@ -74,10 +77,12 @@ const OrderForm: React.FC = () => {
   };
 
   const handleNext = () => {
+    setAnimationDirection('right');
     setCurrentStep(prev => prev + 1);
   };
 
   const handleBack = () => {
+    setAnimationDirection('left');
     setCurrentStep(prev => prev - 1);
   };
 
@@ -201,11 +206,15 @@ const OrderForm: React.FC = () => {
               <span className="step-label">Заказ</span>
             </div>
           </div>
+          <ProgressBar currentStep={currentStep} totalSteps={7} />
         </div>
 
-        <div className="step-content">
-          {renderCurrentStep()}
-        </div>
+                        <div 
+                  ref={stepContentRef}
+                  className={`step-content ${animationDirection === 'right' ? 'slide-right' : 'slide-left'}`}
+                >
+                  {renderCurrentStep()}
+                </div>
       </div>
     </ConfigProvider>
   );

@@ -22,7 +22,7 @@ const ShapeStep: React.FC<ShapeStepProps> = ({
   return (
     <div className="shape-step">
       <div className="step-header">
-        <Title level={3}>Выберите форму</Title>
+        <Title level={3}>📐 Выберите форму</Title>
         <Text type="secondary">Выберите форму вашего продукта</Text>
       </div>
 

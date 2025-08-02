@@ -48,7 +48,7 @@ const PreviewStep: React.FC<PreviewStepProps> = ({
   return (
     <div className="preview-step">
       <div className="step-header">
-        <Title level={3}>Предварительный просмотр заказа</Title>
+        <Title level={3}>👀 Предварительный просмотр заказа</Title>
         <Text type="secondary">Проверьте детали вашего заказа</Text>
       </div>
 

@@ -34,7 +34,7 @@ const OptionsStep: React.FC<OptionsStepProps> = ({
   return (
     <div className="options-step">
       <div className="step-header">
-        <Title level={3}>Дополнительные опции</Title>
+        <Title level={3}>⚙️ Дополнительные опции</Title>
         <Text type="secondary">Настройте дополнительные параметры заказа</Text>
       </div>
 

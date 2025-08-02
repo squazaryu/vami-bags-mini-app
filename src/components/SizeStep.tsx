@@ -34,7 +34,7 @@ const SizeStep: React.FC<SizeStepProps> = ({
   return (
     <div className="size-step">
       <div className="step-header">
-        <Title level={3}>Выберите размер</Title>
+        <Title level={3}>📏 Выберите размер</Title>
         <Text type="secondary">Выберите размер вашего продукта</Text>
       </div>
 

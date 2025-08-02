@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Typography, Row, Col } from 'antd';
+
 import { ProductType } from '../types';
 import { PRODUCT_TYPES } from '../utils/data';
 import './ProductTypeStep.css';
@@ -20,7 +21,7 @@ const ProductTypeStep: React.FC<ProductTypeStepProps> = ({
   return (
     <div className="product-type-step">
       <div className="step-header">
-        <Title level={3}>Выберите тип продукта</Title>
+        <Title level={3}>🎨 Выберите тип продукта</Title>
         <Text type="secondary">Выберите, что вы хотите заказать</Text>
       </div>
 

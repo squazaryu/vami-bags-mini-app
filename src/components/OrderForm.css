@@ -1,149 +1,360 @@
 .order-form {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  background: var(--tg-theme-bg-color, #fff);
   min-height: 100vh;
-  background-color: var(--tg-theme-bg-color, #fff);
-  color: var(--tg-theme-text-color, #000);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .progress-indicator {
+  position: sticky;
+  top: 0;
+  background: var(--tg-theme-bg-color, #fff);
   padding: 16px;
-  background-color: var(--tg-theme-secondary-bg-color, #f8f9fa);
   border-bottom: 1px solid var(--tg-theme-hint-color, #e9ecef);
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .step-indicators {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  overflow-x: auto;
-  padding: 0 8px;
+  position: relative;
+}
+
+.step-indicators::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--tg-theme-hint-color, #e9ecef);
+  transform: translateY(-50%);
+  z-index: 1;
 }
 
 .step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 60px;
-  opacity: 0.5;
+  position: relative;
+  z-index: 2;
   transition: all 0.3s ease;
-}
-
-.step.active {
-  opacity: 1;
 }
 
 .step-number {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: var(--tg-theme-hint-color, #ccc);
-  color: var(--tg-theme-text-color, #000);
+  background: var(--tg-theme-hint-color, #e9ecef);
+  color: var(--tg-theme-text-color, #666);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14px;
   margin-bottom: 4px;
   transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .step.active .step-number {
-  background-color: var(--tg-theme-button-color, #1890ff);
+  background: var(--tg-theme-button-color, #1890ff);
   color: var(--tg-theme-button-text-color, #fff);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
+}
+
+.step.completed .step-number {
+  background: var(--tg-theme-button-color, #1890ff);
+  color: var(--tg-theme-button-text-color, #fff);
+  transform: scale(1.05);
 }
 
 .step-label {
-  font-size: 12px;
-  text-align: center;
+  font-size: 10px;
   color: var(--tg-theme-hint-color, #666);
-  white-space: nowrap;
+  text-align: center;
+  max-width: 60px;
+  line-height: 1.2;
+  transition: all 0.3s ease;
 }
 
 .step.active .step-label {
   color: var(--tg-theme-text-color, #000);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .step-content {
-  flex: 1;
-  padding: 16px 0;
+  padding: 16px;
+  min-height: calc(100vh - 120px);
+  animation: fadeInUp 0.3s ease-out;
 }
 
-.step-placeholder {
-  text-align: center;
-  padding: 40px 16px;
-  max-width: 800px;
-  margin: 0 auto;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.step-placeholder h3 {
-  margin-bottom: 16px;
-  color: var(--tg-theme-text-color, #000);
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.step-placeholder p {
-  margin-bottom: 24px;
-  color: var(--tg-theme-hint-color, #666);
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.step-placeholder button {
-  background-color: var(--tg-theme-button-color, #1890ff);
-  color: var(--tg-theme-button-text-color, #fff);
-  border: none;
+.step-content.slide-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.step-content.slide-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* Улучшенные стили для кнопок */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.back-button,
+.next-button {
   padding: 12px 24px;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-button {
+  background-color: transparent;
+  color: var(--tg-theme-text-color, #666);
+  border: 1px solid var(--tg-theme-hint-color, #ccc);
+}
+
+.back-button:hover {
+  background-color: var(--tg-theme-hint-color, #f5f5f5);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:active {
+  transform: translateY(0);
+}
+
+.next-button {
+  background-color: var(--tg-theme-button-color, #1890ff);
+  color: var(--tg-theme-button-text-color, #fff);
+}
+
+.next-button:hover {
+  background-color: var(--tg-theme-button-color, #40a9ff);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+}
+
+.next-button:active {
+  transform: translateY(0);
+}
+
+.next-button:disabled {
+  background-color: var(--tg-theme-hint-color, #d9d9d9);
+  color: var(--tg-theme-hint-color, #bfbfbf);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Эффект ripple для кнопок */
+.back-button::before,
+.next-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.back-button:active::before,
+.next-button:active::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* Улучшенные стили для карточек */
+.ant-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid var(--tg-theme-hint-color, #e9ecef);
+}
+
+.ant-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Улучшенные стили для инпутов */
+.ant-input,
+.ant-input-number,
+.ant-select-selector {
+  border-radius: 8px;
+  border-color: var(--tg-theme-hint-color, #d9d9d9);
   transition: all 0.3s ease;
 }
 
-.step-placeholder button:hover {
-  background-color: var(--tg-theme-button-color, #40a9ff);
-  transform: translateY(-1px);
+.ant-input:focus,
+.ant-input-number:focus,
+.ant-select-focused .ant-select-selector {
+  border-color: var(--tg-theme-button-color, #1890ff);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
+  .order-form {
+    padding: 0;
+  }
+  
+  .progress-indicator {
+    padding: 12px;
+  }
+  
   .step-indicators {
-    padding: 0 4px;
-  }
-  
-  .step {
-    min-width: 50px;
-  }
-  
-  .step-number {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
+    gap: 8px;
   }
   
   .step-label {
-    font-size: 10px;
+    font-size: 9px;
+    max-width: 50px;
   }
   
   .step-content {
-    padding: 12px 0;
+    padding: 12px;
+    min-height: calc(100vh - 100px);
+  }
+  
+  .step-actions {
+    flex-direction: column;
+    padding: 0 12px;
+  }
+  
+  .back-button,
+  .next-button {
+    width: 100%;
+    padding: 16px 24px;
   }
 }
 
-/* Скроллбар для индикатора прогресса */
-.step-indicators::-webkit-scrollbar {
-  height: 4px;
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+  .order-form {
+    background: var(--tg-theme-bg-color, #1a1a1a);
+  }
+  
+  .progress-indicator {
+    background: var(--tg-theme-bg-color, #1a1a1a);
+    border-bottom-color: var(--tg-theme-hint-color, #333);
+  }
+  
+  .step-indicators::before {
+    background: var(--tg-theme-hint-color, #333);
+  }
+  
+  .step-number {
+    background: var(--tg-theme-hint-color, #333);
+    color: var(--tg-theme-text-color, #ccc);
+  }
+  
+  .step-label {
+    color: var(--tg-theme-hint-color, #999);
+  }
 }
 
-.step-indicators::-webkit-scrollbar-track {
-  background: var(--tg-theme-hint-color, #f1f1f1);
-  border-radius: 2px;
+/* Анимации для загрузки */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--tg-theme-hint-color, #f3f3f3);
+  border-top: 2px solid var(--tg-theme-button-color, #1890ff);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
-.step-indicators::-webkit-scrollbar-thumb {
-  background: var(--tg-theme-button-color, #1890ff);
-  border-radius: 2px;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.step-indicators::-webkit-scrollbar-thumb:hover {
-  background: var(--tg-theme-button-color, #40a9ff);
+/* Улучшенные стили для заголовков */
+.ant-typography h1,
+.ant-typography h2,
+.ant-typography h3,
+.ant-typography h4 {
+  color: var(--tg-theme-text-color, #000);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.ant-typography h3 {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+/* Улучшенные стили для текста */
+.ant-typography {
+  color: var(--tg-theme-text-color, #000);
+  line-height: 1.6;
+}
+
+/* Улучшенные стили для тегов */
+.ant-tag {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 4px 8px;
+  transition: all 0.3s ease;
+}
+
+.ant-tag:hover {
+  transform: scale(1.05);
 } 

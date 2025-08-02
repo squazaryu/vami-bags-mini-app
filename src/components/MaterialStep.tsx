@@ -30,7 +30,7 @@ const MaterialStep: React.FC<MaterialStepProps> = ({
   return (
     <div className="material-step">
       <div className="step-header">
-        <Title level={3}>Выберите материал</Title>
+        <Title level={3}>💎 Выберите материал</Title>
         <Text type="secondary">Выберите материал для вашего продукта</Text>
       </div>
 

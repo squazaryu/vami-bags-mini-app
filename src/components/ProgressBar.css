@@ -1,0 +1,71 @@
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+  border-radius: 8px;
+  margin: 8px 16px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--tg-theme-hint-color, #e9ecef);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tg-theme-button-color, #1890ff), var(--tg-theme-button-color, #40a9ff));
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.progress-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tg-theme-text-color, #000);
+  min-width: 32px;
+  text-align: center;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .progress-bar-container {
+    padding: 6px 12px;
+    margin: 6px 12px;
+  }
+  
+  .progress-bar {
+    height: 4px;
+  }
+  
+  .progress-text {
+    font-size: 11px;
+    min-width: 28px;
+  }
+} 

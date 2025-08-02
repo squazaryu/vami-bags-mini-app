@@ -22,7 +22,7 @@ const ColorStep: React.FC<ColorStepProps> = ({
   return (
     <div className="color-step">
       <div className="step-header">
-        <Title level={3}>Выберите цвет</Title>
+        <Title level={3}>🎨 Выберите цвет</Title>
         <Text type="secondary">Выберите цвет вашего продукта</Text>
       </div>
 

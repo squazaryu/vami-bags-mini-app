@@ -54,7 +54,7 @@ const OrderFormStep: React.FC<OrderFormStepProps> = ({
   return (
     <div className="order-form-step">
       <div className="step-header">
-        <Title level={3}>Контактные данные</Title>
+        <Title level={3}>📝 Контактные данные</Title>
         <Text type="secondary">Укажите ваши контактные данные для оформления заказа</Text>
       </div>
 
