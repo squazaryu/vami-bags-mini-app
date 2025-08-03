@@ -30,12 +30,14 @@
 /* Steps Bar */
 .steps-bar {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
   position: relative;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 4px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 0 4px;
 }
 
 .step-item {
@@ -43,9 +45,10 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  flex: 1;
-  max-width: 100px;
-  padding: 8px 4px;
+  flex: 1 1 0;
+  min-width: 60px;
+  max-width: none;
+  padding: 8px 2px;
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -199,35 +202,62 @@
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
   .interactive-progress-container {
-    padding: 16px;
-    margin: 12px 16px;
+    padding: 12px;
+    margin: 8px 12px;
   }
   
   .steps-bar {
-    gap: 4px;
+    gap: 2px;
     margin-bottom: 12px;
+    padding: 0 2px;
   }
   
   .step-item {
-    flex: 1;
-    min-width: 60px;
+    flex: 1 1 0;
+    min-width: 50px;
+    padding: 6px 1px;
   }
   
   .step-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-    margin-bottom: 6px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    margin-bottom: 4px;
   }
   
   .step-title {
-    font-size: 9px;
-    max-width: 60px;
-    line-height: 1.1;
+    font-size: 8px;
+    max-width: 50px;
+    line-height: 1.0;
+    word-break: break-word;
   }
   
   .liquid-progress-bar {
-    height: 10px;
-    margin-top: 16px;
+    height: 8px;
+    margin-top: 12px;
+  }
+}
+
+/* Дополнительные стили для очень узких экранов */
+@media (max-width: 480px) {
+  .steps-bar {
+    gap: 1px;
+  }
+  
+  .step-item {
+    min-width: 45px;
+    padding: 4px 1px;
+  }
+  
+  .step-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+  
+  .step-title {
+    font-size: 7px;
+    max-width: 45px;
   }
 } 
