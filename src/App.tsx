@@ -105,7 +105,10 @@ const App: React.FC = () => {
     giftWrap: false,
     notes: '',
     customerName: '',
-    customerPhone: ''
+    customerPhone: '',
+    customerUsername: '',
+    customerAddress: '',
+    additionalNotes: ''
   });
 
   const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
@@ -161,11 +164,12 @@ const App: React.FC = () => {
       setOrderData(prevData => ({
         ...prevData,
         customerName: user.first_name + (user.last_name ? ` ${user.last_name}` : ''),
-        customerPhone: prevData.customerPhone
+        customerPhone: prevData.customerPhone, // Номер телефона может быть недоступен из initData
+        customerUsername: user.username ? `@${user.username}` : ''
       }));
       
       if (window.Telegram?.WebApp?.showAlert) {
-        window.Telegram.WebApp.showAlert('Имя заполнено из профиля Telegram!');
+        window.Telegram.WebApp.showAlert('Данные заполнены из профиля Telegram!');
       }
       return;
     }
@@ -184,10 +188,14 @@ const App: React.FC = () => {
           
           if (event && event.detail) {
             const contact = event.detail;
+            // Попробуем также получить username из initData
+            const username = window.Telegram?.WebApp?.initDataUnsafe?.user?.username;
+            
             setOrderData(prevData => ({
               ...prevData,
               customerName: contact.first_name + (contact.last_name ? ` ${contact.last_name}` : ''),
-              customerPhone: contact.phone_number || prevData.customerPhone
+              customerPhone: contact.phone_number || prevData.customerPhone,
+              customerUsername: username ? `@${username}` : prevData.customerUsername
             }));
 
             if (window.Telegram?.WebApp?.showAlert) {
@@ -770,6 +778,13 @@ const App: React.FC = () => {
               onChange={(e) => setOrderData({ ...orderData, customerPhone: e.target.value })}
               className="form-input"
             />
+            <input
+              type="text"
+              placeholder="Ваш логин в Telegram"
+              value={orderData.customerUsername}
+              onChange={(e) => setOrderData({ ...orderData, customerUsername: e.target.value })}
+              className="form-input"
+            />
             <textarea
               placeholder="Подробно опишите ваше изделие: размеры, цвета, особенности, пожелания..."
               value={orderData.notes}
@@ -840,6 +855,13 @@ const App: React.FC = () => {
               placeholder="Ваш телефон"
               value={orderData.customerPhone}
               onChange={(e) => setOrderData({ ...orderData, customerPhone: e.target.value })}
+              className="form-input"
+            />
+            <input
+              type="text"
+              placeholder="Ваш логин в Telegram"
+              value={orderData.customerUsername}
+              onChange={(e) => setOrderData({ ...orderData, customerUsername: e.target.value })}
               className="form-input"
             />
             <textarea
@@ -923,6 +945,13 @@ const App: React.FC = () => {
             placeholder="Ваш телефон"
             value={orderData.customerPhone}
             onChange={(e) => setOrderData({ ...orderData, customerPhone: e.target.value })}
+            className="form-input"
+          />
+          <input
+            type="text"
+            placeholder="Ваш логин в Telegram"
+            value={orderData.customerUsername}
+            onChange={(e) => setOrderData({ ...orderData, customerUsername: e.target.value })}
             className="form-input"
           />
           <textarea

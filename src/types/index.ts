@@ -49,6 +49,7 @@ export interface OrderForm {
   notes: string;
   customerName: string;
   customerPhone: string;
+  customerUsername: string;
   customerAddress: string;
   additionalNotes: string;
 }
