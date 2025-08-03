@@ -68,7 +68,7 @@ declare global {
         closeScanQrPopup: () => void;
         readTextFromClipboard: (callback: (data: string) => void) => void;
         requestWriteAccess: (callback: (access: boolean) => void) => void;
-        requestContact: (callback?: (contact: { phone_number: string; first_name: string; last_name?: string; user_id?: number }) => void) => void;
+        requestContact: () => void;
         onEvent: (eventType: string, callback: (data: any) => void) => void;
         offEvent: (eventType: string, callback: (data: any) => void) => void;
         invokeCustomMethod: (method: string, params?: any, callback?: (result: any) => void) => void;
@@ -149,47 +149,73 @@ const App: React.FC = () => {
 
   // Функция для запроса контактных данных из Telegram
   const requestTelegramContact = () => {
+    console.log('Начинаем запрос контакта из Telegram...');
+    console.log('Telegram WebApp доступен:', !!window.Telegram?.WebApp);
+    console.log('requestContact доступен:', !!window.Telegram?.WebApp?.requestContact);
+    
+    // Попробуем сначала получить данные из initDataUnsafe
+    if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+      const user = window.Telegram.WebApp.initDataUnsafe.user;
+      console.log('Пользователь из initData:', user);
+      
+      setOrderData(prevData => ({
+        ...prevData,
+        customerName: user.first_name + (user.last_name ? ` ${user.last_name}` : ''),
+        customerPhone: prevData.customerPhone
+      }));
+      
+      if (window.Telegram?.WebApp?.showAlert) {
+        window.Telegram.WebApp.showAlert('Имя заполнено из профиля Telegram!');
+      }
+      return;
+    }
+    
+    // Если initDataUnsafe недоступен, попробуем requestContact
     if (window.Telegram?.WebApp?.requestContact) {
-      console.log('Запрашиваем контакт из Telegram...');
+      console.log('Запрашиваем контакт через requestContact...');
       
-      // Запрашиваем контакт с callback функцией
-      window.Telegram.WebApp.requestContact((contact) => {
-        console.log('Получен контакт:', contact);
+      try {
+        // В новых версиях Telegram Web App может не требовать callback
+        window.Telegram.WebApp.requestContact();
         
-        if (contact) {
-          // Заполняем поля данными из Telegram
-          setOrderData(prevData => ({
-            ...prevData,
-            customerName: contact.first_name + (contact.last_name ? ` ${contact.last_name}` : ''),
-            customerPhone: contact.phone_number || prevData.customerPhone
-          }));
+        // Добавляем обработчик события для получения контакта
+        const handleContactReceived = (event: any) => {
+          console.log('Получен контакт через событие:', event);
+          
+          if (event && event.detail) {
+            const contact = event.detail;
+            setOrderData(prevData => ({
+              ...prevData,
+              customerName: contact.first_name + (contact.last_name ? ` ${contact.last_name}` : ''),
+              customerPhone: contact.phone_number || prevData.customerPhone
+            }));
 
-          // Показываем уведомление об успехе
-          if (window.Telegram?.WebApp?.showAlert) {
-            window.Telegram.WebApp.showAlert('Контактные данные успешно заполнены!');
+            if (window.Telegram?.WebApp?.showAlert) {
+              window.Telegram.WebApp.showAlert('Контактные данные успешно заполнены!');
+            }
           }
-        }
-      });
-    } else {
-      console.log('Функция requestContact недоступна');
-      
-      // Попробуем получить данные пользователя из initData
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
-        const user = window.Telegram.WebApp.initDataUnsafe.user;
-        setOrderData(prevData => ({
-          ...prevData,
-          customerName: user.first_name + (user.last_name ? ` ${user.last_name}` : ''),
-          customerPhone: prevData.customerPhone
-        }));
+        };
+        
+        // Слушаем события
+        window.addEventListener('telegram-contact-received', handleContactReceived);
+        
+        // Удаляем обработчик через 10 секунд для избежания утечек памяти
+        setTimeout(() => {
+          window.removeEventListener('telegram-contact-received', handleContactReceived);
+        }, 10000);
+        
+      } catch (error) {
+        console.error('Ошибка при запросе контакта:', error);
         
         if (window.Telegram?.WebApp?.showAlert) {
-          window.Telegram.WebApp.showAlert('Имя заполнено из профиля Telegram!');
+          window.Telegram.WebApp.showAlert('Ошибка получения контакта. Заполните данные вручную.');
         }
-      } else {
-        // Fallback для случая, когда функция недоступна
-        if (window.Telegram?.WebApp?.showAlert) {
-          window.Telegram.WebApp.showAlert('Функция недоступна. Пожалуйста, заполните данные вручную.');
-        }
+      }
+    } else {
+      console.log('requestContact недоступен, fallback');
+      
+      if (window.Telegram?.WebApp?.showAlert) {
+        window.Telegram.WebApp.showAlert('Функция недоступна. Пожалуйста, заполните данные вручную.');
       }
     }
   };
