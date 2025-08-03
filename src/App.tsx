@@ -215,8 +215,6 @@ const App: React.FC = () => {
     return steps;
   };
 
-  const currentSteps = getStepsForProduct();
-
   // Создаем интерактивные шаги для нового прогресс-бара
   const createInteractiveSteps = () => {
     // Создаем массив шагов в зависимости от типа продукта
