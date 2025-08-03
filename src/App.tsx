@@ -68,7 +68,9 @@ declare global {
         closeScanQrPopup: () => void;
         readTextFromClipboard: (callback: (data: string) => void) => void;
         requestWriteAccess: (callback: (access: boolean) => void) => void;
-        requestContact: (callback: (contact: { phone_number: string; first_name: string; last_name?: string; user_id?: number }) => void) => void;
+        requestContact: (callback?: (contact: { phone_number: string; first_name: string; last_name?: string; user_id?: number }) => void) => void;
+        onEvent: (eventType: string, callback: (data: any) => void) => void;
+        offEvent: (eventType: string, callback: (data: any) => void) => void;
         invokeCustomMethod: (method: string, params?: any, callback?: (result: any) => void) => void;
         isVersionAtLeast: (version: string) => boolean;
         platform: string;
@@ -149,26 +151,45 @@ const App: React.FC = () => {
   const requestTelegramContact = () => {
     if (window.Telegram?.WebApp?.requestContact) {
       console.log('Запрашиваем контакт из Telegram...');
+      
+      // Запрашиваем контакт с callback функцией
       window.Telegram.WebApp.requestContact((contact) => {
         console.log('Получен контакт:', contact);
         
-        // Заполняем поля данными из Telegram
-        setOrderData(prevData => ({
-          ...prevData,
-          customerName: contact.first_name + (contact.last_name ? ` ${contact.last_name}` : ''),
-          customerPhone: contact.phone_number || prevData.customerPhone
-        }));
+        if (contact) {
+          // Заполняем поля данными из Telegram
+          setOrderData(prevData => ({
+            ...prevData,
+            customerName: contact.first_name + (contact.last_name ? ` ${contact.last_name}` : ''),
+            customerPhone: contact.phone_number || prevData.customerPhone
+          }));
 
-        // Показываем уведомление об успехе
-        if (window.Telegram?.WebApp?.showAlert) {
-          window.Telegram.WebApp.showAlert('Контактные данные успешно заполнены!');
+          // Показываем уведомление об успехе
+          if (window.Telegram?.WebApp?.showAlert) {
+            window.Telegram.WebApp.showAlert('Контактные данные успешно заполнены!');
+          }
         }
       });
     } else {
       console.log('Функция requestContact недоступна');
-      // Fallback для случая, когда функция недоступна
-      if (window.Telegram?.WebApp?.showAlert) {
-        window.Telegram.WebApp.showAlert('Функция недоступна. Пожалуйста, заполните данные вручную.');
+      
+      // Попробуем получить данные пользователя из initData
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        setOrderData(prevData => ({
+          ...prevData,
+          customerName: user.first_name + (user.last_name ? ` ${user.last_name}` : ''),
+          customerPhone: prevData.customerPhone
+        }));
+        
+        if (window.Telegram?.WebApp?.showAlert) {
+          window.Telegram.WebApp.showAlert('Имя заполнено из профиля Telegram!');
+        }
+      } else {
+        // Fallback для случая, когда функция недоступна
+        if (window.Telegram?.WebApp?.showAlert) {
+          window.Telegram.WebApp.showAlert('Функция недоступна. Пожалуйста, заполните данные вручную.');
+        }
       }
     }
   };
