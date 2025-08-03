@@ -191,8 +191,8 @@ interface OrderForm {
 ## 📞 Поддержка
 
 По всем вопросам обращайтесь:
-- Telegram: @admin
-- Email: info@vamibags.ru
+- Telegram: @tumowuh
+- Email: none
 
 ## 📄 Лицензия
 
