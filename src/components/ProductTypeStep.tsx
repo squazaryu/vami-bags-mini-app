@@ -33,7 +33,7 @@ const ProductTypeStep: React.FC<ProductTypeStepProps> = ({
         return '👜';
       case 'coaster':
         return '☕';
-      case 'earrings':
+      case 'individual':
         return '💎';
       default:
         return '📦';

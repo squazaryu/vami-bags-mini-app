@@ -13,14 +13,14 @@ export const PRODUCT_TYPES: ProductType[] = [
     name: 'coaster',
     displayName: 'Подстаканник',
     image: process.env.PUBLIC_URL + '/images/products/podstakannik.JPEG',
-    description: 'Элегантный подстаканник для вашего стола'
+    description: 'Элегантный подстаканник из бусин'
   },
   {
-    id: 'earrings',
-    name: 'earrings',
-    displayName: 'Серьги',
+    id: 'individual',
+    name: 'individual',
+    displayName: 'Индивидуальный',
     image: process.env.PUBLIC_URL + '/images/products/nestandartnii.JPEG',
-    description: 'Уникальные серьги ручной работы'
+    description: 'Индивидуальные изделия ручной работы'
   }
 ];
 
