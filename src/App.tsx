@@ -184,37 +184,6 @@ const App: React.FC = () => {
     { id: 'contact', title: 'Контакты', icon: '📝' }
   ];
 
-  // Определяем шаги для текущего типа заказа
-  const getStepsForProduct = () => {
-    if (orderData.productType?.id === 'individual') {
-      return [
-        { id: 'product', title: 'Продукт', icon: '👜' },
-        { id: 'description', title: 'Описание', icon: '📝' }
-      ];
-    }
-    if (orderData.productType?.id === 'coaster') {
-      return [
-        { id: 'product', title: 'Продукт', icon: '👜' },
-        { id: 'material', title: 'Материал', icon: '💎' },
-        { id: 'color', title: 'Цвет', icon: '🎨' },
-        { id: 'options', title: 'Опции', icon: '⚙️' },
-        { id: 'contact', title: 'Контакты', icon: '📝' }
-      ];
-    }
-    if (orderData.productType?.id === 'bag') {
-      return [
-        { id: 'product', title: 'Продукт', icon: '👜' },
-        { id: 'shape', title: 'Форма', icon: '⭕' },
-        { id: 'material', title: 'Материал', icon: '💎' },
-        { id: 'size', title: 'Размер', icon: '📏' },
-        { id: 'color', title: 'Цвет', icon: '🎨' },
-        { id: 'options', title: 'Опции', icon: '⚙️' },
-        { id: 'contact', title: 'Контакты', icon: '📝' }
-      ];
-    }
-    return steps;
-  };
-
   // Создаем интерактивные шаги для нового прогресс-бара
   const createInteractiveSteps = () => {
     // Создаем массив шагов в зависимости от типа продукта
