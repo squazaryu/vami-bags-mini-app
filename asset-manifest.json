@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/vami-bags-mini-app/static/css/main.5b39362e.css",
-    "main.js": "/vami-bags-mini-app/static/js/main.6809ba45.js",
+    "main.css": "/vami-bags-mini-app/static/css/main.23020916.css",
+    "main.js": "/vami-bags-mini-app/static/js/main.11cf5469.js",
     "index.html": "/vami-bags-mini-app/index.html",
-    "main.5b39362e.css.map": "/vami-bags-mini-app/static/css/main.5b39362e.css.map",
-    "main.6809ba45.js.map": "/vami-bags-mini-app/static/js/main.6809ba45.js.map"
+    "main.23020916.css.map": "/vami-bags-mini-app/static/css/main.23020916.css.map",
+    "main.11cf5469.js.map": "/vami-bags-mini-app/static/js/main.11cf5469.js.map"
   },
   "entrypoints": [
-    "static/css/main.5b39362e.css",
-    "static/js/main.6809ba45.js"
+    "static/css/main.23020916.css",
+    "static/js/main.11cf5469.js"
   ]
 }
