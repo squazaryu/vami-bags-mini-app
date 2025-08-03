@@ -91,6 +91,9 @@ interface OrderData {
   notes: string;
   customerName: string;
   customerPhone: string;
+  customerUsername: string;
+  customerAddress: string;
+  additionalNotes: string;
 }
 
 const App: React.FC = () => {
